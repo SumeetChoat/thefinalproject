@@ -4,6 +4,7 @@ CREATE TABLE students (
     student_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     username VARCHAR NOT NULL,
     password VARCHAR NOT NULL,
+    email VARCHAR NOT NULL,
     token VARCHAR(36)
 );
 
@@ -11,7 +12,8 @@ CREATE TABLE teachers (
     teacher_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     username VARCHAR NOT NULL,
     password VARCHAR NOT NULL,
-    email VARCHAR NOT NULL
+    email VARCHAR NOT NULL,
+    token VARCHAR (36)
 );
 
 CREATE TABLE student_teacher (
