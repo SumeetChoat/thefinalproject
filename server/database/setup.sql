@@ -5,7 +5,8 @@ CREATE TABLE students (
     username VARCHAR NOT NULL,
     password VARCHAR NOT NULL,
     email VARCHAR NOT NULL,
-    token VARCHAR(36)
+    token VARCHAR(36),
+    points INT
 );
 
 CREATE TABLE teachers (
