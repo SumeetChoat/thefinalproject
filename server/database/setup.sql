@@ -1,12 +1,13 @@
-DROP TABLE IF EXISTS students, teachers, assignments;
+DROP TABLE IF EXISTS students, teachers, assignments, student_teacher;
 
 CREATE TABLE students (
     student_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    username VARCHAR NOT NULL,
+    username VARCHAR NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
     email VARCHAR NOT NULL,
     token VARCHAR(36),
     points INT
+
 );
 
 CREATE TABLE teachers (
