@@ -35,13 +35,7 @@ function StaveComponent({ note }) {
         duration: "4",
       });
     });
-    // const noteArr = [
-    //   // A quarter-note C.
-    //   new StaveNote({
-    //     keys: [`${noteStrings[noteName][0]}/${octave}`],
-    //     duration: "4",
-    //   }),
-    // ];
+
     const renderer = new Renderer(score.current, Renderer.Backends.SVG);
 
     // Configure the rendering context.
