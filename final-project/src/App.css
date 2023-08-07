@@ -1,0 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+svg {
+  scale: 2;
+  translate: 50% 50%;
+}
