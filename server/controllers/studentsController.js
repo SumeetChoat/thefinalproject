@@ -85,7 +85,7 @@ class StudentsController {
         }
     }
 
-    static async deleteUser(req,res) {
+    static async deleteStudent(req,res) {
         try {
             const id = req.body.student_id
             const student = await Students.getOneByID(id)
@@ -98,4 +98,4 @@ class StudentsController {
     }
 }
 
-module.export = StudentsController
+module.exports = StudentsController

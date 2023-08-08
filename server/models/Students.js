@@ -14,7 +14,7 @@ class Students {
     }
 
     static async getStudents() {
-        const resp = await db.query("SELECT student_id,username,email,token,score")
+        const resp = await db.query("SELECT student_id,username,email,token,points FROM students")
         if (resp.rows.length == 0) {
             throw new Error('There are no students')
         } else {

@@ -6,7 +6,7 @@ CREATE TABLE students (
     password VARCHAR NOT NULL,
     email VARCHAR NOT NULL,
     token VARCHAR(36),
-    points INT
+    points INT DEFAULT 0
 
 );
 
@@ -29,7 +29,7 @@ CREATE TABLE assignments (
     teacher_id INT REFERENCES teachers(teacher_id),
     range INT ARRAY,
     pattern INT ARRAY,
-    completed BOOLEAN,
-    score INT,
+    completed BOOLEAN DEFAULT false,
+    score INT DEFAULT 0,
     hand VARCHAR
 );
