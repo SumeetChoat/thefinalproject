@@ -10,10 +10,12 @@ studentRouter.post('/login', studentController.login)
 
 studentRouter.use(authenticator)
 
-studentRouter.get('/assignments/:id', studentController.getAssignments)
-studentRouter.get('/:id', studentController.getOneByID)
+studentRouter.get('/assignments/', studentController.getAssignments)
+studentRouter.get('/assignment/',studentController.getAssignmentByID)
+studentRouter.patch('/assignment/', studentController.updateAssignment)
+studentRouter.get('/student', studentController.getOneByID)
 
-studentRouter.delete('/:id', studentController.deleteStudent)
-studentRouter.delete('/:id', studentController.logout)
+studentRouter.delete('/delete', studentController.deleteStudent)
+studentRouter.delete('/logout', studentController.logout)
 
 module.exports = studentRouter
