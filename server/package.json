@@ -1,8 +1,9 @@
 {
   "scripts": {
     "setup-db": "node ./database/setup.js",
+    "setup-test-db": "node ./database/testDB_setup.sql",
     "dev": "nodemon -L index.js",
-    "test": "npx jest"
+    "test": "jest --watchAll"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -13,5 +14,9 @@
     "nodemon": "^3.0.1",
     "pg": "^8.11.2",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.6.2",
+    "supertest": "^6.3.3"
   }
 }
