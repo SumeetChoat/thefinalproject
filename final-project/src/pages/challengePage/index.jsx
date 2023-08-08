@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { autoCorrelate } from "../../lib/pitchDetection";
 import StaveComponent from "../../components/StaveComponent";
 import "./style.css";
+import ChallengeConfigModal from "../../components/ChallengeConfigModal";
 function ChallengePage() {
   const [challengeLength, setChallengeLength] = useState(4);
+  const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
+    useState(false);
   const [range, setRange] = useState([65, 75]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [challenge, setChallenge] = useState([
@@ -87,6 +90,7 @@ function ChallengePage() {
       window.requestAnimationFrame = window.webkitRequestAnimationFrame;
     window.requestAnimationFrame(updatePitch);
   }
+
   function generateNewChallenge() {
     const newChallenge = [];
     localStorage.getItem("accidentals") &&
@@ -126,11 +130,24 @@ function ChallengePage() {
         </button>
         <button
           type="button"
+          onClick={() =>
+            setToggleChallengeConfigModal(!toggleChallengeConfigModal)
+          }
+          className="challenge-button"
+        >
+          Challenge Configuration
+        </button>
+        <button
+          type="button"
           className="challenge-button"
           onClick={generateNewChallenge}
         >
           Next
         </button>
+        <ChallengeConfigModal
+          toggleChallengeConfigModal={toggleChallengeConfigModal}
+          setToggleChallengeConfigModal={setToggleChallengeConfigModal}
+        />
       </div>
     </div>
   );
