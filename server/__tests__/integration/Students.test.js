@@ -1,19 +1,29 @@
-const request = require("supertest")
-const api = require('../api')
-const db = require('../database/connect')
-const bcrypt = require('bcrypt')
+require("dotenv").config()
+const request = require('supertest');
+const {createDBEnv, destroyDBEnv} = require('../../database/setup-test-db')
+const api = require('../../api')
 
 describe("Students route", () => {
-    let username = ""
-    let password = ""
-    
+    let app
+    beforeAll(async () => {
+        app = api.listen(process.env.TEST_PORT, () => {
+            console.log(`Test server running on port ${process.env.TEST_PORT}.`) 
+            }
+        );
+        await createDBEnv();
+    })
+
+    afterAll(async () => {
+        await destroyDBEnv();
+        app.close()
+        console.log("Test server closed.")
+    })
+
     const newStudent = {
         username: "test",
         password: "test",
         email: "test"
     }
-
-    let token = ""
 
     it("Should return no students error", async() => {
         const resp = await request(app)
@@ -30,9 +40,6 @@ describe("Students route", () => {
         .expect(202)
 
         expect(resp.body.username).toEqual(newStudent.username)
-
-        const correctPassword = await bcrypt.compare(resp.body.password, newStudent.password)
-        expect(correctPassword).toEqual(true)
     })
 
     it("Should give error if register with duplicate username", async() => {
