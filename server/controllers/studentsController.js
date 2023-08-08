@@ -1,3 +1,4 @@
+const Assignments = require('../models/Assignments')
 const Students = require('../models/Students')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
@@ -47,8 +48,9 @@ class StudentsController {
 
     static async getOneByID(req,res) {
         try {
-            const id = req.params.id
-            const student = await Students.getOneByID(id)
+            const student_id = req.body.student_id
+            const student = await Students.getOneByID(student_id)
+
             delete student.password
             res.status(200).send(student)
         } catch (err) {
@@ -59,8 +61,10 @@ class StudentsController {
 
     static async getAssignments(req,res) {
         try {
-            const id = req.params.id
-            const assignments = await Students.getAssignments(id)
+            const username = req.headers["username"]
+            const student = await Students.getOneByUsername(username)
+
+            const assignments = await Assignments.getStudentsAssignments(student.student_id)
             res.status(200).json(assignments)
         } catch (err) {
             console.log(err)
@@ -68,10 +72,33 @@ class StudentsController {
         }
     }
 
+    static async getAssignmentByID(req, res) {
+        try {
+            const assignment_id = req.body.assignment_id
+            const assignment = await Assignments.getOneByID(assignment_id)
+            res.status(200).json(assignment)
+        } catch (err) {
+            console.log(err)
+            res.status(404).json({Error: err.message})
+        }
+    }
+
+    static async updateAssignment(req,res) {
+        try {
+            const assignment_id = req.body.assignment_id
+            const data = req.body
+            const assignment = await Assignments.updateAssignment(assignment_id, data)
+            res.status(200).json(assignment)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     static async logout(req,res) {
         try {
-            const id = req.params.id
-            const student = await Students.getOneByID(id)
+            const username = req.headers["username"]
+            const student = await Students.getOneByUsername(username)
+            // this doesn't actually do anything
             res.status(202).json({ message: student})
         } catch (err) {
             console.log(err)
@@ -81,9 +108,10 @@ class StudentsController {
 
     static async deleteStudent(req,res) {
         try {
-            const id = req.params.id
-            const student = await Students.getOneByID(id)
-            const resp = await student.deleteStudent(id)
+            const username = req.headers["username"]
+            const student = await Students.getOneByUsername(username)
+            
+            const resp = await student.deleteStudent(student.student_id)
             res.status(204).json(resp)
         } catch (err) {
             console.log(err)

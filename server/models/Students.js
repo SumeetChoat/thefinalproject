@@ -1,5 +1,6 @@
 const db = require('../database/connect')
 const { v4: uuidv4 } = require("uuid")
+const Assignments = require('./Assignments')
 
 class Students {
     constructor({
@@ -43,15 +44,6 @@ class Students {
         const id = resp.rows[0].student_id
         const newStudent = await Students.getOneByID(id)
         return newStudent
-    }
-
-    static async getAssignments(student_id) {
-        const resp = await db.query("SELECT * FROM assignments WHERE student_id = $1",[student_id])
-        if (resp.rows.length == 0) {
-            throw new Error('There are no assignments')
-        } else {
-            return resp.rows.map((a) => a)
-        }
     }
 
     async deleteStudent() {
