@@ -25,7 +25,6 @@ async function authenticator(req, res, next) {
             }
         }
     } catch(err) {
-        console.log(err)
         res.sendStatus(403)
     }
 }
