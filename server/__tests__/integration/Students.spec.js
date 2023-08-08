@@ -4,19 +4,13 @@ const {createDBEnv, destroyDBEnv} = require('../../database/setup-test-db')
 const api = require('../../api')
 
 describe("Students route", () => {
-    let app
+    let app;
     beforeAll(async () => {
         app = api.listen(process.env.TEST_PORT, () => {
             console.log(`Test server running on port ${process.env.TEST_PORT}.`) 
             }
         );
         await createDBEnv();
-    })
-
-    afterAll(async () => {
-        await destroyDBEnv();
-        app.close()
-        console.log("Test server closed.")
     })
 
     const newStudent = {
@@ -64,6 +58,18 @@ describe("Students route", () => {
     })
 
     it("Should login with correct details", async() => {
-        //
+        const resp = await request(app)
+        .post('/students/login')
+        .send(newStudent)
+        .expect(200)
+
+        expect(resp.body.username).toEqual(newStudent.username)
     })
+
+    afterAll(async () => {
+        await destroyDBEnv();
+        app.close()
+        console.log("Test server closed.")
+    })
+
 })
