@@ -3,7 +3,8 @@
     "setup-db": "node ./database/setup.js",
     "setup-test-db": "node ./database/testDB_setup.sql",
     "dev": "nodemon -L index.js",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll --detectOpenHandles",
+    "coverage": "jest --coverage"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
