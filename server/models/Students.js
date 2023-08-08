@@ -22,10 +22,10 @@ class Students {
         }
     }
 
-    static async getByUsername(username) {
+    static async getOneByUsername(username) {
         const resp = await db.query("SELECT * FROM students WHERE username = $1",[username])
-        if (resp.rows.length == 0){
-            throw new Error("Student with this username does not exist")
+        if (resp.rows.length !== 1){
+            throw new Error("Unable to locate student.")
         } else {
             return new Students(resp.rows[0])
         }

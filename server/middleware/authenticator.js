@@ -10,19 +10,23 @@ async function authenticator(req, res, next) {
         if (userToken == "null") {
             throw new Error("User not authenticated");
         } else if (userType === 'student') {
-            const user = Students.getOneByUsername(username);
+            const user = await Students.getOneByUsername(username);
+            if (user.token === userToken) {
+                next()
+            } else {
+                throw new Error("User not authenticated");
+            }
         } else {
-            const user = Teacher.getOneByUsername(username)
-        }
-
-        if (user.token === userToken) {
-            next()
-        } else {
-            throw new Error("User not authenticated");
+            const user = await Teacher.getOneByUsername(username)
+            if (user.token !== userToken) {
+                next()
+            } else {
+                throw new Error("User not authenticated");
+            }
         }
     } catch(err) {
+        console.log(err)
         res.sendStatus(403)
-        next()
     }
 }
 
