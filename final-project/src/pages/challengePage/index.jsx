@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { autoCorrelate } from "../../lib/pitchDetaction";
+import { autoCorrelate } from "../../lib/pitchDetection";
 import StaveComponent from "../../components/StaveComponent";
 import "./style.css";
 function ChallengePage() {
+  const [challengeLength, setChallengeLength] = useState(4);
+  const [range, setRange] = useState([65, 75]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [challenge, setChallenge] = useState([
     { note: 60, isCorrect: false },
@@ -71,10 +73,13 @@ function ChallengePage() {
         note == challenge[currentIndex].note &&
         challenge[currentIndex].isCorrect !== true
       ) {
+        console.log(note);
         const newState = [...challenge];
         newState[currentIndex].isCorrect = true;
         setChallenge(newState);
-        setCurrentIndex((prev) => prev + 1);
+        if (currentIndex < challenge.length - 1) {
+          setCurrentIndex((prev) => prev + 1);
+        }
       }
     }
 
@@ -82,14 +87,51 @@ function ChallengePage() {
       window.requestAnimationFrame = window.webkitRequestAnimationFrame;
     window.requestAnimationFrame(updatePitch);
   }
+  function generateNewChallenge() {
+    const newChallenge = [];
+    localStorage.getItem("accidentals") &&
+      localStorage.removeItem("accidentals");
+    localStorage.setItem("accidentals", "");
+    for (let i = 0; i < challengeLength; i++) {
+      const localStorageAccidental = localStorage.getItem("accidentals");
+      Math.random() > 0.5
+        ? localStorage.setItem("accidentals", localStorageAccidental + "#")
+        : localStorage.setItem("accidentals", localStorageAccidental + "b");
+      const randomNote =
+        Math.floor(Math.random() * (range[1] - range[0])) + range[0];
+      const newNoteObj = { note: randomNote, isCorrect: false };
+      newChallenge.push(newNoteObj);
+    }
+
+    setChallenge(newChallenge);
+    setCurrentIndex(0);
+  }
   useEffect(() => {
     startPitchDetect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
+
   return (
     <div className="challenge-container">
-      <StaveComponent challenge={challenge} />
-      <button onClick={startPitchDetect}>Start</button>
-      <button type="button">Next</button>
+      <div className="challenge-left-section">
+        <h1 className="challenge-title">
+          Play the following. Remember to hit the start button.
+        </h1>
+        <StaveComponent challenge={challenge} />
+      </div>
+      <div className="challenge-right-section">
+        <h1 className="challenge-timer">00:00</h1>
+        <button onClick={startPitchDetect} className="challenge-button">
+          Start
+        </button>
+        <button
+          type="button"
+          className="challenge-button"
+          onClick={generateNewChallenge}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

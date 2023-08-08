@@ -1,7 +1,20 @@
-#output {
-  display: block;
+.svg-container {
+  margin: 0;
+  padding: 30px;
+  height: 80%;
+  overflow: hidden;
+}
+.svg-container svg {
   scale: 2;
   translate: 50% 50%;
+  display: block;
   height: 100%;
-  max-height: 500px;
+}
+@media screen and (max-width: 900px) {
+  .svg-container {
+  }
+  .svg-container svg {
+    scale: 1.4;
+    translate: 11% 0;
+  }
 }
