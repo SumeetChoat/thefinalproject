@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
+import "./style.css";
 import {
   Renderer,
   Stave,
@@ -79,11 +80,7 @@ function StaveComponent({ challenge }) {
       b.setContext(context).draw();
     });
   }, [challenge]);
-  return (
-    <div ref={score}>
-      <div className="svg-container" id="output"></div>
-    </div>
-  );
+  return <div className="svg-container" id="output" ref={score}></div>;
 }
 
 export default StaveComponent;

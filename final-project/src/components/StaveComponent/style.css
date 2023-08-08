@@ -1,0 +1,7 @@
+#output {
+  display: block;
+  scale: 2;
+  translate: 50% 50%;
+  height: 100%;
+  max-height: 500px;
+}
