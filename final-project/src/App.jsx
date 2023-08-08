@@ -3,7 +3,7 @@ import StaveComponent from "./components/StaveComponent";
 import { useEffect, useState } from "react";
 import { autoCorrelate } from "./lib/pitchDetaction";
 function App() {
-  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [challenge, setChallenge] = useState([
     { note: 60, isCorrect: false },
     { note: 62, isCorrect: false },
@@ -68,15 +68,18 @@ function App() {
     if (ac == -1) {
       // Not hearing anything
     } else {
-      // I need this part
       let pitch = ac;
       var note = noteFromPitch(pitch);
 
-      if (note == challenge[currentIndex].note) {
+      if (
+        note == challenge[currentIndex].note &&
+        challenge[currentIndex].isCorrect !== true
+      ) {
+        console.log(note);
         const newState = [...challenge];
         newState[currentIndex].isCorrect = true;
-
         setChallenge(newState);
+        setCurrentIndex((prev) => prev + 1);
       }
     }
 
@@ -84,10 +87,10 @@ function App() {
       window.requestAnimationFrame = window.webkitRequestAnimationFrame;
     window.requestAnimationFrame(updatePitch);
   }
-  useEffect(() => {
-    setCurrentIndex((prev) => prev + 1);
-  }, [challenge]);
   console.log(currentIndex);
+  useEffect(() => {
+    startPitchDetect();
+  }, [currentIndex]);
   return (
     <>
       <button onClick={startPitchDetect}>Start</button>
