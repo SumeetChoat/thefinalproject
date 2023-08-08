@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const teacherRouter = require('./routes/teachers')
 
 const studentRouter = require('./routes/students');
 
@@ -13,5 +14,6 @@ api.get('/', (req,res) => {
 })
 
 api.use('/students', studentRouter)
+api.use('/teacher', teacherRouter);
 
 module.exports = api;
