@@ -26,6 +26,15 @@ class Teacher {
         console.log(response)
         return Teacher.getOneByUsername(response.rows[0].username)
     }
+
+    //This needs to be in the assignments model
+    // static async createAssignment(data) {
+    //     const {student_id, teacher_id, range, pattern, hand} = data
+
+    //     const response = await db.query("INSERT INTO assignments(student_id, teacher_id, range, pattern, completed, score, hand) VALUES ($1, $2, $3, $4, false, 0, $5) RETURNING assignment_id", [student_id, teacher_id, range, pattern, hand]);
+
+    //     return await Assignment.getOneById(response.rows[0].assignment_id)
+    // }
 }
 
 module.exports = Teacher

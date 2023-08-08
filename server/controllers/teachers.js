@@ -36,4 +36,11 @@ async function login(req, res) {
     }
 }
 
+// async function create(req, res) { // needs to be
+//     const data = req.body
+
+//     const assignment = await Assignment.createAssignment(data)
+//     //Need to send a response
+// }
+
 module.exports = {register, login};

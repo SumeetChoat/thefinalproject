@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS students, teachers, assignments;
+DROP TABLE IF EXISTS assignments, student_teacher, teachers, students;
 
 CREATE TABLE students (
     student_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
