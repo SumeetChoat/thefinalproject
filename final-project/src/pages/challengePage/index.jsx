@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { autoCorrelate } from "../../lib/pitchDetection";
 import StaveComponent from "../../components/StaveComponent";
-import "../../assets/challenge.css";
+import "./styles.css";
 import ChallengeConfigModal from "../../components/ChallengeConfigModal";
 function ChallengePage() {
   const [form, setForm] = useState({

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import "../../assets/protectedroute.css";
+import "./styles.css";
 function ProtectedRoute() {
   return (
     <div className="body-container">

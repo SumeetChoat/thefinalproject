@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { patternArr } from "../../assets/pattern";
-import "../../assets/challengconfig.css";
+import "./styles.css";
 
 /* eslint-disable react/prop-types */
 function ChallengeConfigModal({
