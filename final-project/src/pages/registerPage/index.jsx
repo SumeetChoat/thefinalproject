@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { RegisterForm } from "../../components";
-import './styles.css';
+import '../loginPage/styles.css';
 
 export default function RegisterPage() {
 
