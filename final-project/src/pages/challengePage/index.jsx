@@ -1,18 +1,49 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { autoCorrelate } from "../../lib/pitchDetection";
 import StaveComponent from "../../components/StaveComponent";
 import "./style.css";
 import ChallengeConfigModal from "../../components/ChallengeConfigModal";
 function ChallengePage() {
+  const [form, setForm] = useState({
+    lowNote: "c",
+    lowOctave: 4,
+    highNote: "g",
+    highOctave: 4,
+    clef: "",
+    randomNote: false,
+    pattern: {
+      l2p1: true,
+      l2p2: false,
+      l2p3: false,
+      l2p4: false,
+      l2p5: false,
+      l3p1: false,
+      l3p2: false,
+      l3p3: false,
+      l3p4: false,
+      l3p5: false,
+      l3p6: false,
+      l3p7: false,
+      l3p8: false,
+      l4p1: false,
+      l4p2: false,
+      l4p3: false,
+      l4p4: false,
+      l4p5: false,
+      l4p6: false,
+    },
+    length: null,
+  });
   const [challengeLength, setChallengeLength] = useState(4);
   const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
     useState(false);
   const [range, setRange] = useState([65, 75]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [challenge, setChallenge] = useState([
-    { note: 60, isCorrect: false },
-    { note: 62, isCorrect: false },
-    { note: 64, isCorrect: false },
+    { note: 65, isCorrect: false },
+    { note: 77, isCorrect: false },
+    { note: 69, isCorrect: false },
     { note: 65, isCorrect: false },
   ]);
 
@@ -114,7 +145,7 @@ function ChallengePage() {
     startPitchDetect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
-
+  console.log(form);
   return (
     <div className="challenge-container">
       <div className="challenge-left-section">
@@ -147,6 +178,8 @@ function ChallengePage() {
         <ChallengeConfigModal
           toggleChallengeConfigModal={toggleChallengeConfigModal}
           setToggleChallengeConfigModal={setToggleChallengeConfigModal}
+          form={form}
+          setForm={setForm}
         />
       </div>
     </div>
