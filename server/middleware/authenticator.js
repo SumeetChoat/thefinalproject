@@ -18,7 +18,7 @@ async function authenticator(req, res, next) {
             }
         } else {
             const user = await Teacher.getOneByUsername(username)
-            if (user.token !== userToken) {
+            if (user.token === userToken) {
                 next()
             } else {
                 throw new Error("User not authenticated");

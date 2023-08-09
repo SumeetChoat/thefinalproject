@@ -7,9 +7,9 @@ const teacherRouter = Router();
 teacherRouter.post('/login', teacherController.login);
 teacherRouter.post('/register', teacherController.register);
 
-teacherController.use(authenticator)
+teacherRouter.use(authenticator)
 
-teacherController.post('/assignment', teacherController.create)
-teacherController.get('/students',teacherController.getStudents)
+teacherRouter.post('/assignment', teacherController.create)
+teacherRouter.get('/students',teacherController.getStudents)
 
 module.exports = teacherRouter;
