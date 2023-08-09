@@ -2,10 +2,13 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { ChallengePage, ProtectedRoute, NotFound, LoginPage, RegisterPage } from "./pages";
 
+import { AuthProvider } from "./contexts";
+
 
 function App() {
   return (
     <>
+    <AuthProvider>
       <Routes>
 
       <Route path="/login" element={<LoginPage />} />
@@ -18,6 +21,7 @@ function App() {
         
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </AuthProvider>
     </>
   );
 }
