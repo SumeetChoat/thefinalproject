@@ -7,7 +7,9 @@ CREATE TABLE students (
     email VARCHAR NOT NULL,
     token VARCHAR(36),
     points INT DEFAULT 0
-
+    firstName VARCHAR NOT NULL
+    lastName VARCHAR NOT NULL
+    teacher_username VARCHAR
 );
 
 CREATE TABLE teachers (
