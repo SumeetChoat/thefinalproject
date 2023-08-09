@@ -51,6 +51,18 @@ class StudentsController {
         }
     }
 
+    static async updateDetails(req,res) {
+        try {
+            const data = req.body
+            const username = req.headers["username"]
+            const student = await Students.getOneByUsername(username)
+            const result = await Students.updateDetails(student.student_id, data)
+            res.status(200).send(result)
+        } catch (err) {
+            res.status(500).json({"error": err.message})
+        }
+    }
+
     static async getStudents(req,res) {
         try {
             const students = await Students.getStudents()
@@ -104,7 +116,17 @@ class StudentsController {
             const assignment = await Assignments.updateAssignment(assignment_id, data)
             res.status(200).send(assignment)
         } catch (err) {
-            console.log(err)
+            res.status(500).json({"error": err.message})
+        }
+    }
+
+    static async completeAssignment(res,res) {
+        try {
+            const assignment_id = req.body.assignment_id
+            const assignment = await Assignments.completeAssignment(assignment_id)
+            res.status(200).send(assignment)
+        } catch (err) {
+            res.status(500).json({"error": err.message})
         }
     }
 

@@ -47,8 +47,15 @@ class Assignments {
     static async updateAssignment(assignment_id, data) {
         const {range,pattern,completed,score,hand} = data
         const resp = await db.query("UPDATE assignments SET range=$1, pattern=$2, completed=$3, score=$4, hand=$5 WHERE assignment_id=$6 RETURNING assignment_id",[range,pattern,completed,score,hand,assignment_id])
-        const newAssignment = await Assignments.getOneByID(resp.assignment_id)
-        return newAssignment
+        const updatedAssignment = await Assignments.getOneByID(resp.assignment_id)
+        return updatedAssignment
+    }
+
+    static async completeAssignment(data) {
+        const {assignment_id,score} = data
+        const resp = await db.query("UPDATE assignments SET completed=$1,score=$2 WHERE assignment_id = $3 RETURNING assignment_id",[true,score,assignment_id])
+        const updatedAssignment = await Assignments.getOneByID(resp.assignment_id)
+        return updatedAssignment
     }
 
     async deleteAssignment() {
