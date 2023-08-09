@@ -15,7 +15,15 @@ class Assignments {
     static async getStudentsAssignments(student_id) {
         const resp = await db.query("SELECT * FROM assignments WHERE student_id = $1",[student_id])
         if (resp.rows.length == 0){
-            throw new Error("This student has no assignments.")
+            throw new Error("You have no assignments.")
+        }
+        return resp.rows.map((a) => new Assignments(a))
+    }
+
+    static async getTeachersAssignments(teacher_id) {
+        const resp = await db.query("SELECT * FROM assignments WHERE teacher_id = $1",[teacher_id])
+        if (resp.rows.length === 0){
+            throw new Error('You have not created any assignments.')
         }
         return resp.rows.map((a) => new Assignments(a))
     }

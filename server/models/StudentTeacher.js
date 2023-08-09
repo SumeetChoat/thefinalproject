@@ -1,5 +1,4 @@
 const db = require('../database/connect')
-const Students = require('./Students')
 
 class StudentTeacher {
     constructor({
