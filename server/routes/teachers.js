@@ -9,7 +9,7 @@ teacherRouter.post('/register', teacherController.register);
 
 teacherRouter.use(authenticator)
 
-teacherRouter.post('/assignment', teacherController.create)
+teacherRouter.post('/assignment', teacherController.createAssignment)
 teacherRouter.get('/students',teacherController.getStudents)
 teacherRouter.get('/assignments', teacherController.getCreatedAssignments)
 

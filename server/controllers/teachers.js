@@ -37,7 +37,7 @@ async function login(req, res) {
     }
 }
 
-async function create(req, res) {
+async function createAssignment(req, res) {
     try {
         const data = req.body
         const assignment = await Assignments.createAssignment(data) 
@@ -69,4 +69,4 @@ async function getCreatedAssignments(req,res) {
     }
 }
 
-module.exports = {register, login, create, getStudents, getCreatedAssignments};
+module.exports = {register, login, createAssignment, getStudents, getCreatedAssignments};
