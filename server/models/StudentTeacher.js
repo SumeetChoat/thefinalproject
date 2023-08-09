@@ -27,7 +27,8 @@ class StudentTeacher {
         const teacher_id = teacher.rows[0].teacher_id
 
         const resp = await db.query('INSERT INTO student_teacher (teacher_id, student_id) VALUES($1,$2) RETURNING *',[teacher_id,student_id])
-        if (resp.rows.length === 0){
+        const resp2 = await db.query('UPDATE students SET teacher_username = $1 WHERE student_id = $2 RETURNING *',[teacher_username, student_id])
+        if (resp.rows.length === 0 && resp2.rows.length === 0){
             throw new Error('Something went wrong.')
         }
         return new StudentTeacher(resp.rows[0])

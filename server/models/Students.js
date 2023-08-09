@@ -1,9 +1,10 @@
 const db = require('../database/connect')
 const { v4: uuidv4 } = require("uuid")
+const StudentTeacher = require('./StudentTeacher')
 
 class Students {
     constructor({
-        student_id, username, password, email, token, points
+        student_id, username, password,firstName, lastName, email, token, points, teacher_username
     }) {
         this.student_id = student_id
         this.username = username
@@ -11,6 +12,9 @@ class Students {
         this.email = email
         this.token = token
         this.points = points
+        this.teacher_username = teacher_username
+        this.firstName = firstName
+        this.lastName = lastName
     }
 
     static async getStudents() {
@@ -37,12 +41,18 @@ class Students {
     }
 
     static async createStudent(data) {
-        const { username, password, email, points } = data
+        const { username, password, firstName, lastName, email, points, teacher_username } = data
         const token = uuidv4()
-        const resp = await db.query("INSERT INTO students (username,password,email,points,token) VALUES ($1,$2,$3,$4,$5) RETURNING student_id",[username, password, email, points, token])
+        const resp = await db.query("INSERT INTO students (username,password,firstName,lastName,email,points,token, teacher_username) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING student_id",[username, password, firstName, lastName, email, points, token, teacher_username])
         const id = resp.rows[0].student_id
         const newStudent = await Students.getOneByID(id)
-        return newStudent
+
+        if (teacher_username !== null){
+            await StudentTeacher.assignTeacher(teacher_username, id)
+            return newStudent
+        } else {
+            return newStudent
+        }
     }
 
     static async updateDetails(student_id, data) {

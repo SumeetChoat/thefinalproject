@@ -14,9 +14,9 @@ class StudentsController {
             data["password"] = await bcrypt.hash(data["password"],salt)
 
             const student = await Students.createStudent(data)
-            res.status(201).send(student)
+            return res.status(201).send(student)
         } catch (err) {
-            res.status(500).json({"error": err.message})
+            return res.status(500).json({"error": err.message})
         }
     }
 
@@ -41,7 +41,7 @@ class StudentsController {
     static async assignTeacher(req,res) {
         try {
             const teacher_username = req.body.teacher_username
-            const username = req.headers["username"]
+            const username = req.body.username
             const student = await Students.getOneByUsername(username)
 
             const result = await StudentTeacher.assignTeacher(teacher_username, student.student_id)
@@ -78,6 +78,7 @@ class StudentsController {
             const student = await Students.getOneByID(student_id)
 
             delete student.password
+            delete student.token
             res.status(200).send(student)
         } catch (err) {
             console.log(err)

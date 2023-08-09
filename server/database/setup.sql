@@ -6,9 +6,9 @@ CREATE TABLE students (
     password VARCHAR NOT NULL,
     email VARCHAR NOT NULL,
     token VARCHAR(36),
-    points INT DEFAULT 0
-    firstName VARCHAR NOT NULL
-    lastName VARCHAR NOT NULL
+    points INT DEFAULT 0,
+    firstName VARCHAR NOT NULL,
+    lastName VARCHAR NOT NULL,
     teacher_username VARCHAR
 );
 
@@ -17,7 +17,10 @@ CREATE TABLE teachers (
     username VARCHAR NOT NULL,
     password VARCHAR NOT NULL,
     email VARCHAR NOT NULL,
-    token VARCHAR (36)
+    token VARCHAR (36),
+    firstName VARCHAR,
+    lastName VARCHAR,
+    title VARCHAR
 );
 
 CREATE TABLE student_teacher (
