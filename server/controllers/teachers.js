@@ -47,6 +47,16 @@ async function createAssignment(req, res) {
     }
 }
 
+async function deleteAssignment(req,res) {
+    try {
+        const assignment_id = req.body.assignment_id
+        const result = await Assignments.deleteAssignment(assignment_id)
+        res.status(204).send(result)
+    } catch (err) {
+        res.status(403).json({"error": err.message})
+    }
+}
+
 async function getStudents(req,res) {
     try {
         const username = req.headers["username"]
@@ -69,4 +79,16 @@ async function getCreatedAssignments(req,res) {
     }
 }
 
-module.exports = {register, login, createAssignment, getStudents, getCreatedAssignments};
+async function removeStudent(req,res) {
+    try {
+        const student_id = req.body.student_id
+        const username = req.headers["username"]
+        const teacher = await Teacher.getOneByUsername(username)
+        const result = await StudentTeacher.removeStudent(student_id,teacher.teacher_id)
+        res.status(204).send(result)
+    } catch (err) {
+        res.status(403).json({"error": err.message})
+    }
+}
+
+module.exports = {register, login, createAssignment, getStudents, getCreatedAssignments, removeStudent, deleteAssignment};

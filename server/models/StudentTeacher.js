@@ -20,6 +20,23 @@ class StudentTeacher {
         }
         return resp2.rows.map((s) => s)
     }
+
+    static async assignTeacher(teacher_username,student_id){
+        const teacher = await db.query('SELECT teacher_id FROM teachers WHERE username = $1',[teacher_username])
+        console.log(teacher.rows[0].teacher_id)
+        const teacher_id = teacher.rows[0].teacher_id
+
+        const resp = await db.query('INSERT INTO student_teacher (teacher_id, student_id) VALUES($1,$2) RETURNING *',[teacher_id,student_id])
+        if (resp.rows.length === 0){
+            throw new Error('Something went wrong.')
+        }
+        return new StudentTeacher(resp.rows[0])
+    }
+
+    static async removeStudent(teacher_id,student_id) {
+        const resp = await db.query('DELETE FROM student_teacher WHERE student_id = $1 AND teacher_id = $2 RETURNING *',[student_id,teacher_id])
+        return new StudentTeacher(resp.rows[0])
+    }
 }
 
 module.exports = StudentTeacher

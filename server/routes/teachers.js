@@ -13,4 +13,7 @@ teacherRouter.post('/assignment', teacherController.createAssignment)
 teacherRouter.get('/students',teacherController.getStudents)
 teacherRouter.get('/assignments', teacherController.getCreatedAssignments)
 
+teacherRouter.delete('/assignment', teacherController.deleteAssignment)
+teacherRouter.delete('/student',teacherController.removeStudent)
+
 module.exports = teacherRouter;
