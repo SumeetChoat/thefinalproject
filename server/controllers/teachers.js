@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
-
+const Assignment = require('../models/Assignments')
 const Teacher = require('../models/Teachers');
+const StudentTeacher = require('../models/StudentTeacher')
 
 async function register(req, res) {
     try {
@@ -36,11 +37,25 @@ async function login(req, res) {
     }
 }
 
-// async function create(req, res) { // needs to be
-//     const data = req.body
+async function create(req, res) {
+    try {
+        const data = req.body
+        const assignment = await Assignment.createAssignment(data) 
+        res.status(200).send(assignment)
+    } catch (err) {
+        res.status(500).json({"error": err.message})
+    }
+}
 
-//     const assignment = await Assignment.createAssignment(data)
-//     //Need to send a response
-// }
+async function getStudents(req,res) {
+    try {
+        const username = req.headers["username"]
+        const teacher = await Teacher.getOneByUsername(username)
+        const students = await StudentTeacher.getTeachersStudents(teacher.teacher_id)
+        res.status(200).send(students)
+    } catch (err) {
+        res.status(404).json({"error": err.message})
+    }
+}
 
-module.exports = {register, login};
+module.exports = {register, login, create, getStudents};
