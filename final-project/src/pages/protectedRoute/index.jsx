@@ -19,9 +19,6 @@ function ProtextedRoute() {
             <NavLink to="/learn">Learn more</NavLink>
           </li>
           <li>
-            <NavLink to="/setting">Setting</NavLink>
-          </li>
-          <li>
             <NavLink to="/account">Account</NavLink>
           </li>
         </ul>

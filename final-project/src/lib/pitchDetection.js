@@ -8,7 +8,8 @@ export function autoCorrelate(buf, sampleRate) {
     rms += val * val;
   }
   rms = Math.sqrt(rms / SIZE);
-  if (rms < 0.01)
+  // This line tunes how sensitive the mic is
+  if (rms < 0.03)
     // not enough signal
     return -1;
 
