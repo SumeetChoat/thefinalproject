@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { patternArr } from "../../assets/pattern";
 import "./style.css";
 
@@ -8,6 +8,7 @@ function ChallengeConfigModal({
   setToggleChallengeConfigModal,
   form,
   setForm,
+  generateNewChallenge,
 }) {
   const dialogRef = useRef();
 
@@ -39,17 +40,17 @@ function ChallengeConfigModal({
           value={form.lowNote}
           onChange={(e) => setForm({ ...form, lowNote: e.target.value })}
         >
-          <option value="c">C</option>
-          <option value="c#">C#/Db</option>
-          <option value="d">D</option>
-          <option value="d#">D#/Eb</option>
-          <option value="e">E</option>
-          <option value="f">F</option>
-          <option value="g">G</option>
-          <option value="g#">G#/Ab</option>
-          <option value="a">A</option>
-          <option value="a#">A#/Bb</option>
-          <option value="b">B</option>
+          <option value="C">C</option>
+          <option value="C#">C#/Db</option>
+          <option value="D">D</option>
+          <option value="D#">D#/Eb</option>
+          <option value="E">E</option>
+          <option value="F">F</option>
+          <option value="G">G</option>
+          <option value="G#">G#/Ab</option>
+          <option value="A">A</option>
+          <option value="A#">A#/Bb</option>
+          <option value="B">B</option>
         </select>
         <select
           name="range-low-octave"
@@ -96,26 +97,63 @@ function ChallengeConfigModal({
 
       <div className="challenge-config-modal-input-group">
         <label htmlFor="clef">Clef:</label>
-        <input type="radio" name="clef" id="treble-clef" defaultChecked />
+        <input
+          type="radio"
+          name="clef"
+          id="treble-clef"
+          value="treble"
+          onChange={(e) => setForm({ ...form, clef: e.target.value })}
+          checked={form.clef === "treble"}
+        />
         <label htmlFor="treble-clef">Treble Clef</label>
-        <input type="radio" name="clef" id="bass-clef" />
+        <input
+          type="radio"
+          name="clef"
+          id="bass-clef"
+          value="bass"
+          onChange={(e) => setForm({ ...form, clef: e.target.value })}
+          checked={form.clef === "bass"}
+        />
         <label htmlFor="bass-clef">Bass Clef</label>
       </div>
       <div className="challenge-config-modal-input-group">
         <label htmlFor="">Pattern:</label>
+        <div className="pattern-config-modal-random-section">
+          <div className="checkbox-group">
+            <input
+              type="checkbox"
+              id="random"
+              onChange={() => {
+                setForm({ ...form, randomNote: !form.randomNote });
+              }}
+            />
+            <label htmlFor="random">Random Note(s)</label>
+          </div>
+          <div className="challenge-config-modal-input-group">
+            <label htmlFor="length">Length:</label>
+            <select
+              name="length"
+              id="length"
+              value={form.randomNoteLength}
+              onChange={(e) => {
+                setForm({
+                  ...form,
+                  randomNoteLength: parseInt(e.target.value),
+                });
+              }}
+              disabled={!form.randomNote}
+            >
+              <option value=""></option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+        </div>
         <div className="pattern-container">
           <div className="pattern-group">
-            <div className="checkbox-group">
-              <input
-                type="checkbox"
-                id="random"
-                onChange={() =>
-                  setForm({ ...form, randomNote: !form.randomNote })
-                }
-              />
-              <label htmlFor="random">Random Note</label>
-            </div>
-
             {patternArr.map((p, i) => {
               if (Object.keys(p)[0][1] == 2) {
                 return (
@@ -186,23 +224,23 @@ function ChallengeConfigModal({
           </div>
         </div>
       </div>
-      <div className="challenge-config-modal-input-group">
-        <label htmlFor="length">Length:</label>
-        <select name="length" id="length">
-          <option value=""></option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-      </div>
+
       <button
+        className="pattern-config-modal-button"
         onClick={() => {
           setToggleChallengeConfigModal(!toggleChallengeConfigModal);
         }}
       >
-        Close
+        Cancel
+      </button>
+      <button
+        className="pattern-config-modal-button"
+        onClick={() => {
+          generateNewChallenge();
+          setToggleChallengeConfigModal(!toggleChallengeConfigModal);
+        }}
+      >
+        Save
       </button>
     </dialog>
   );

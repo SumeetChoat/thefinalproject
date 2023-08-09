@@ -1,17 +1,19 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { autoCorrelate } from "../../lib/pitchDetection";
+import { noteStrings } from "../../assets/pattern";
 import StaveComponent from "../../components/StaveComponent";
 import "./style.css";
 import ChallengeConfigModal from "../../components/ChallengeConfigModal";
 function ChallengePage() {
   const [form, setForm] = useState({
-    lowNote: "c",
+    lowNote: "C",
     lowOctave: 4,
-    highNote: "g",
+    highNote: "G",
     highOctave: 4,
-    clef: "",
+    clef: "treble",
     randomNote: false,
+    randomNoteLength: undefined,
     pattern: {
       l2p1: true,
       l2p2: false,
@@ -33,17 +35,15 @@ function ChallengePage() {
       l4p5: false,
       l4p6: false,
     },
-    length: null,
   });
   const [challengeLength, setChallengeLength] = useState(4);
   const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
     useState(false);
-  const [range, setRange] = useState([65, 75]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [challenge, setChallenge] = useState([
-    { note: 65, isCorrect: false },
-    { note: 77, isCorrect: false },
-    { note: 69, isCorrect: false },
+    { note: 60, isCorrect: false },
+    { note: 62, isCorrect: false },
+    { note: 64, isCorrect: false },
     { note: 65, isCorrect: false },
   ]);
 
@@ -107,13 +107,13 @@ function ChallengePage() {
         note == challenge[currentIndex].note &&
         challenge[currentIndex].isCorrect !== true
       ) {
-        console.log(note);
+        console.log("run");
+        // setListening(false);
         const newState = [...challenge];
         newState[currentIndex].isCorrect = true;
         setChallenge(newState);
-        if (currentIndex < challenge.length - 1) {
-          setCurrentIndex((prev) => prev + 1);
-        }
+
+        setCurrentIndex((prev) => prev + 1);
       }
     }
 
@@ -123,6 +123,11 @@ function ChallengePage() {
   }
 
   function generateNewChallenge() {
+    console.log(challenge);
+    const lowestNote =
+      noteStrings.indexOf(form.lowNote) + (form.lowOctave - 1) * 12 + 24;
+    const highestNote =
+      noteStrings.indexOf(form.highNote) + (form.highOctave - 1) * 12 + 24;
     const newChallenge = [];
     localStorage.getItem("accidentals") &&
       localStorage.removeItem("accidentals");
@@ -133,7 +138,7 @@ function ChallengePage() {
         ? localStorage.setItem("accidentals", localStorageAccidental + "#")
         : localStorage.setItem("accidentals", localStorageAccidental + "b");
       const randomNote =
-        Math.floor(Math.random() * (range[1] - range[0])) + range[0];
+        Math.floor(Math.random() * (highestNote - lowestNote)) + lowestNote;
       const newNoteObj = { note: randomNote, isCorrect: false };
       newChallenge.push(newNoteObj);
     }
@@ -142,17 +147,22 @@ function ChallengePage() {
     setCurrentIndex(0);
   }
   useEffect(() => {
-    startPitchDetect();
+    if (currentIndex === challenge.length) {
+      setTimeout(() => {
+        generateNewChallenge();
+      }, 800);
+    }
+    if (currentIndex !== 0) startPitchDetect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
-  console.log(form);
+
   return (
     <div className="challenge-container">
       <div className="challenge-left-section">
         <h1 className="challenge-title">
           Play the following. Remember to hit the start button.
         </h1>
-        <StaveComponent challenge={challenge} />
+        <StaveComponent challenge={challenge} form={form} />
       </div>
       <div className="challenge-right-section">
         <h1 className="challenge-timer">00:00</h1>
@@ -178,6 +188,7 @@ function ChallengePage() {
         <ChallengeConfigModal
           toggleChallengeConfigModal={toggleChallengeConfigModal}
           setToggleChallengeConfigModal={setToggleChallengeConfigModal}
+          generateNewChallenge={generateNewChallenge}
           form={form}
           setForm={setForm}
         />

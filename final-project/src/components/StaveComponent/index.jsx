@@ -11,21 +11,8 @@ import {
   Beam,
   Accidental,
 } from "vexflow";
-function StaveComponent({ challenge }) {
-  const noteStrings = [
-    "C",
-    "C#",
-    "D",
-    "D#",
-    "E",
-    "F",
-    "F#",
-    "G",
-    "G#",
-    "A",
-    "A#",
-    "B",
-  ];
+import { noteStrings } from "../../assets/pattern";
+function StaveComponent({ challenge, form }) {
   const score = useRef(null);
   useEffect(() => {
     if (document.querySelector("svg")) document.querySelector("svg").remove();
@@ -37,17 +24,15 @@ function StaveComponent({ challenge }) {
     const context = renderer.getContext();
 
     // Create a stave1 of width 400 at position 10, 40 on the canvas.
-    const stave1 = new Stave(20, 20, 250);
-    const stave2 = new Stave(20, 120, 250);
-    stave1.addClef("treble");
-    stave2.addClef("bass");
-    stave1.setContext(context);
-    stave2.setContext(context);
+    const stave1 = new Stave(20, 20, 250).addClef("treble").setContext(context);
+    const stave2 = new Stave(20, 120, 250).addClef("bass").setContext(context);
+
     const noteArr = challenge.map((n, i) => {
       const octave = n.note < 24 ? 0 : Math.floor((n.note - 24) / 12) + 1;
       const noteName = n.note % 12;
       if (noteStrings[noteName].length === 1) {
         const newNote = new StaveNote({
+          clef: form.clef === "treble" ? undefined : "bass",
           keys: [`${noteStrings[noteName][0]}/${octave}`],
           duration: "4",
           auto_stem: true,
@@ -59,6 +44,7 @@ function StaveComponent({ challenge }) {
       } else if (noteStrings[noteName].length > 1) {
         const localStorageAccidentals = localStorage.getItem("accidentals");
         const newNote = new StaveNote({
+          clef: form.clef === "treble" ? undefined : "bass",
           keys: [
             `${
               localStorageAccidentals[i] === "b"
@@ -80,6 +66,7 @@ function StaveComponent({ challenge }) {
         return newNote;
       }
     });
+
     const connector = new StaveConnector(stave1, stave2);
     const line = new StaveConnector(stave1, stave2);
     connector.setType("brace");
@@ -99,7 +86,9 @@ function StaveComponent({ challenge }) {
     });
     voice.addTickables(noteArr);
     const beams = Beam.generateBeams(noteArr);
-    Formatter.FormatAndDraw(context, stave1, noteArr);
+    form.clef === "treble"
+      ? Formatter.FormatAndDraw(context, stave1, noteArr)
+      : Formatter.FormatAndDraw(context, stave2, noteArr);
     beams.forEach((b) => {
       b.setContext(context).draw();
     });

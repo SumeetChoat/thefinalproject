@@ -19,3 +19,17 @@ export const patternArr = [
   { l4p5: [0, 2, 4, 2] },
   { l4p6: [4, 2, 0, 2] },
 ];
+export const noteStrings = [
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#",
+  "A",
+  "A#",
+  "B",
+];
