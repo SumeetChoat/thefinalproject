@@ -32,16 +32,16 @@ class Assignments {
         const resp = await db.query("SELECT * FROM assignments WHERE assignment_id = $1",[assignment_id])
         if (resp.rows.length !== 1){
             throw new Error("Unable to locate assignment.")
-        } else {
-            return new Assignments(resp.rows[0])
         }
+        return new Assignments(resp.rows[0])
     }
 
     static async createAssignment(data) {
         const {student_id,teacher_id,range,pattern,completed,score,hand} = data
         const resp = await db.query("INSERT INTO assignments (student_id,teacher_id,range,pattern,completed,score,hand) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *",[student_id,teacher_id,range,pattern,completed,score,hand])
         const id = resp.rows[0].assignment_id
-        return await Assignments.getOneByID(id)
+        const assignment = await Assignments.getOneByID(id)
+        return assignment
     }
 
     static async updateAssignment(assignment_id, data) {
