@@ -120,7 +120,7 @@ class StudentsController {
         }
     }
 
-    static async completeAssignment(res,res) {
+    static async completeAssignment(req,res) {
         try {
             const assignment_id = req.body.assignment_id
             const assignment = await Assignments.completeAssignment(assignment_id)
