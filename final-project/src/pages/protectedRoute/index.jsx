@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import "./style.css";
-function ProtextedRoute() {
+import "../../assets/protectedroute.css";
+function ProtectedRoute() {
   return (
     <div className="body-container">
       <nav>
@@ -28,4 +28,4 @@ function ProtextedRoute() {
   );
 }
 
-export default ProtextedRoute;
+export default ProtectedRoute;
