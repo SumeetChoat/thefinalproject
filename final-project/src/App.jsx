@@ -1,17 +1,24 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { ChallengePage, ProtectedRoute, NotFound } 
-from "./pages";
+import { ChallengePage, ProtectedRoute, NotFound, LoginPage, RegisterPage } from "./pages";
+
 import { AuthProvider } from "./contexts";
+
 
 function App() {
   return (
     <>
     <AuthProvider>
       <Routes>
+
+      <Route path="/login" element={<LoginPage />} />
+
+      <Route path="/register" element={<RegisterPage />} />
+
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/challenge" element={<ChallengePage />} />
         </Route>
+        
         <Route path="*" element={<NotFound />} />
       </Routes>
       </AuthProvider>
@@ -19,4 +26,18 @@ function App() {
   );
 }
 
+
 export default App;
+
+
+
+       {/* homepage commented out for now. pathway must change too after anthony finishes  */}
+      {/* <Route
+          index
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+          path="/"
+        /> */}
