@@ -1,6 +1,5 @@
 const db = require('../database/connect')
 const { v4: uuidv4 } = require("uuid")
-const Assignments = require('./Assignments')
 
 class Students {
     constructor({
@@ -44,6 +43,13 @@ class Students {
         const id = resp.rows[0].student_id
         const newStudent = await Students.getOneByID(id)
         return newStudent
+    }
+
+    static async updateDetails(student_id, data) {
+        const {username, email, firstName, lastName, teacher_username} = data
+        const resp = await db.query('UPDATE students SET username = $1, email = $2, firstName =$3, lastName =$4, teacher_username =$5 WHERE student_id = $6 RETURNING *',[username, email, firstName, lastName, teacher_username, student_id])
+        const updatedStudent = await Students.getOneByID(resp.rows[0].student_id)
+        return updatedStudent
     }
 
     async deleteStudent() {

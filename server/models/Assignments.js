@@ -15,7 +15,15 @@ class Assignments {
     static async getStudentsAssignments(student_id) {
         const resp = await db.query("SELECT * FROM assignments WHERE student_id = $1",[student_id])
         if (resp.rows.length == 0){
-            throw new Error("This student has no assignments.")
+            throw new Error("You have no assignments.")
+        }
+        return resp.rows.map((a) => new Assignments(a))
+    }
+
+    static async getTeachersAssignments(teacher_id) {
+        const resp = await db.query("SELECT * FROM assignments WHERE teacher_id = $1",[teacher_id])
+        if (resp.rows.length === 0){
+            throw new Error('You have not created any assignments.')
         }
         return resp.rows.map((a) => new Assignments(a))
     }
@@ -39,8 +47,15 @@ class Assignments {
     static async updateAssignment(assignment_id, data) {
         const {range,pattern,completed,score,hand} = data
         const resp = await db.query("UPDATE assignments SET range=$1, pattern=$2, completed=$3, score=$4, hand=$5 WHERE assignment_id=$6 RETURNING assignment_id",[range,pattern,completed,score,hand,assignment_id])
-        const newAssignment = await Assignments.getOneByID(resp.assignment_id)
-        return newAssignment
+        const updatedAssignment = await Assignments.getOneByID(resp.assignment_id)
+        return updatedAssignment
+    }
+
+    static async completeAssignment(data) {
+        const {assignment_id,score} = data
+        const resp = await db.query("UPDATE assignments SET completed=$1,score=$2 WHERE assignment_id = $3 RETURNING assignment_id",[true,score,assignment_id])
+        const updatedAssignment = await Assignments.getOneByID(resp.assignment_id)
+        return updatedAssignment
     }
 
     async deleteAssignment() {

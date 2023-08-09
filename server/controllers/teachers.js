@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
-
+const Assignments = require('../models/Assignments')
 const Teacher = require('../models/Teachers');
+const StudentTeacher = require('../models/StudentTeacher')
 
 async function register(req, res) {
     try {
@@ -36,11 +37,58 @@ async function login(req, res) {
     }
 }
 
-// async function create(req, res) { // needs to be
-//     const data = req.body
+async function createAssignment(req, res) {
+    try {
+        const data = req.body
+        const assignment = await Assignments.createAssignment(data) 
+        res.status(200).send(assignment)
+    } catch (err) {
+        res.status(500).json({"error": err.message})
+    }
+}
 
-//     const assignment = await Assignment.createAssignment(data)
-//     //Need to send a response
-// }
+async function deleteAssignment(req,res) {
+    try {
+        const assignment_id = req.body.assignment_id
+        const result = await Assignments.deleteAssignment(assignment_id)
+        res.status(204).send(result)
+    } catch (err) {
+        res.status(403).json({"error": err.message})
+    }
+}
 
-module.exports = {register, login};
+async function getStudents(req,res) {
+    try {
+        const username = req.headers["username"]
+        const teacher = await Teacher.getOneByUsername(username)
+        const students = await StudentTeacher.getTeachersStudents(teacher.teacher_id)
+        res.status(200).send(students)
+    } catch (err) {
+        res.status(404).json({"error": err.message})
+    }
+}
+
+async function getCreatedAssignments(req,res) {
+    try {
+        const username = req.headers["username"]
+        const teacher = await Teacher.getOneByUsername(username)
+        const assignments = await Assignments.getTeachersAssignments(teacher.teacher_id)
+        res.status(200).send(assignments)
+    } catch (err) {
+        res.status(404).json({"error": err.message})
+    }
+}
+
+async function removeStudent(req,res) {
+    try {
+        const student_id = req.body.student_id
+        const username = req.headers["username"]
+        const teacher = await Teacher.getOneByUsername(username)
+        const result = await StudentTeacher.removeStudent(student_id,teacher.teacher_id)
+        res.status(204).send(result)
+    } catch (err) {
+        res.status(403).json({"error": err.message})
+    }
+}
+
+module.exports = {register, login, createAssignment, getStudents, getCreatedAssignments, removeStudent, deleteAssignment};
