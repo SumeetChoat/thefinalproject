@@ -32,10 +32,11 @@ class Assignments {
 
     static async getOneByID(assignment_id) {
         const resp = await db.query("SELECT * FROM assignments WHERE assignment_id = $1",[assignment_id])
-        if (resp.rows.length !== 1){
+        if (resp.rows.length === 0){
             throw new Error("Unable to locate assignment.")
+        } else {
+            return new Assignments(resp.rows[0])
         }
-        return new Assignments(resp.rows[0])
     }
 
     static async createAssignment(data) {
@@ -49,7 +50,7 @@ class Assignments {
     static async updateAssignment(assignment_id, data) {
         const {range,pattern,completed,score,hand} = data
         const resp = await db.query("UPDATE assignments SET range=$1, pattern=$2, completed=$3, score=$4, hand=$5 WHERE assignment_id=$6 RETURNING assignment_id",[range,pattern,completed,score,hand,assignment_id])
-        const updatedAssignment = await Assignments.getOneByID(resp.assignment_id)
+        const updatedAssignment = await Assignments.getOneByID(resp.rows[0].assignment_id)
         return updatedAssignment
     }
 
