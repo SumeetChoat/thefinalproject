@@ -15,7 +15,7 @@ class StudentsController {
             const student = await Students.createStudent(data)
             res.status(201).send(student)
         } catch (err) {
-            res.status(500).json({Error: err.message})
+            res.status(500).json({"Error": err.message})
         }
     }
 
@@ -33,7 +33,7 @@ class StudentsController {
                 res.status(200).json(student)
             }
         } catch (err) {
-            res.status(403).json({Error: err.message})
+            res.status(403).json({"Error": err.message})
         }
     }
 
@@ -42,7 +42,7 @@ class StudentsController {
             const students = await Students.getStudents()
             res.status(200).json(students)
         } catch (err) {
-            res.status(404).json({Error: err.message})
+            res.status(404).json({"Error": err.message})
         }
     }
 
@@ -55,20 +55,20 @@ class StudentsController {
             res.status(200).send(student)
         } catch (err) {
             console.log(err)
-            res.status(404).json({Error: err.message})
+            res.status(404).json({"Error": err.message})
         }
     }
 
     static async getAssignments(req,res) {
         try {
-            const username = req.headers["username"]
+            const username = req.body["username"]
             const student = await Students.getOneByUsername(username)
 
             const assignments = await Assignments.getStudentsAssignments(student.student_id)
             res.status(200).json(assignments)
         } catch (err) {
             console.log(err)
-            res.status(404).json({Error: err.message})
+            res.status(404).json({"Error": err.message})
         }
     }
 
@@ -79,7 +79,7 @@ class StudentsController {
             res.status(200).json(assignment)
         } catch (err) {
             console.log(err)
-            res.status(404).json({Error: err.message})
+            res.status(404).json({"Error": err.message})
         }
     }
 
@@ -96,26 +96,26 @@ class StudentsController {
 
     static async logout(req,res) {
         try {
-            const username = req.headers["username"]
+            const username = req.body["username"]
             const student = await Students.getOneByUsername(username)
             // this doesn't actually do anything
             res.status(202).json({ message: student})
         } catch (err) {
             console.log(err)
-            res.status(403).json({Error: err.message})
+            res.status(403).json({"Error": err.message})
         }
     }
 
     static async deleteStudent(req,res) {
         try {
-            const username = req.headers["username"]
+            const username = req.body["username"]
             const student = await Students.getOneByUsername(username)
             
             const resp = await student.deleteStudent(student.student_id)
             res.status(204).json(resp)
         } catch (err) {
             console.log(err)
-            res.status(403).json({Error: err.message})
+            res.status(403).json({"Error": err.message})
         }
     }
 }

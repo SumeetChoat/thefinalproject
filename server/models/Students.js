@@ -1,6 +1,5 @@
 const db = require('../database/connect')
 const { v4: uuidv4 } = require("uuid")
-const Assignments = require('./Assignments')
 
 class Students {
     constructor({
@@ -34,7 +33,11 @@ class Students {
 
     static async getOneByID(id) {
         const resp = await db.query("SELECT * FROM students WHERE student_id = $1",[id])
-        return new Students(resp.rows[0])
+        if (resp.rows.length !== 1){
+            throw new Error("Unable to locate student.")
+        } else {
+            return new Students(resp.rows[0])
+        }
     }
 
     static async createStudent(data) {
@@ -49,6 +52,7 @@ class Students {
     async deleteStudent() {
         const resp = await db.query("DELETE FROM student_teacher WHERE student_id = $1",[this.student_id])
         const resp2 = await db.query("DELETE FROM students WHERE student_id = $1 RETURNING *",[this.student_id])
+        
         return new Students(resp2.rows[0])
     }
 }

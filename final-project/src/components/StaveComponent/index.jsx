@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
+import "./style.css";
 import {
   Renderer,
   Stave,
@@ -8,6 +9,7 @@ import {
   Formatter,
   Voice,
   Beam,
+  Accidental,
 } from "vexflow";
 function StaveComponent({ challenge }) {
   const noteStrings = [
@@ -35,25 +37,50 @@ function StaveComponent({ challenge }) {
     const context = renderer.getContext();
 
     // Create a stave1 of width 400 at position 10, 40 on the canvas.
-    const stave1 = new Stave(20, 20, 200);
-    const stave2 = new Stave(20, 120, 200);
+    const stave1 = new Stave(20, 20, 250);
+    const stave2 = new Stave(20, 120, 250);
 
     stave1.addClef("treble");
     stave2.addClef("bass");
 
     stave1.setContext(context);
     stave2.setContext(context);
-    const noteArr = challenge.map((n) => {
+    const noteArr = challenge.map((n, i) => {
       const octave = n.note < 24 ? 0 : Math.floor((n.note - 24) / 12) + 1;
       const noteName = n.note % 12;
-      return new StaveNote({
-        keys: [`${noteStrings[noteName][0]}/${octave}`],
-        duration: "4",
-        auto_stem: true,
-      }).setStyle({
-        fillStyle: n.isCorrect ? "green" : "",
-        strokeStyle: n.isCorrect ? "green" : "",
-      });
+      if (noteStrings[noteName].length === 1) {
+        const newNote = new StaveNote({
+          keys: [`${noteStrings[noteName][0]}/${octave}`],
+          duration: "4",
+          auto_stem: true,
+        }).setStyle({
+          fillStyle: n.isCorrect ? "green" : "",
+          strokeStyle: n.isCorrect ? "green" : "",
+        });
+        return newNote;
+      } else if (noteStrings[noteName].length > 1) {
+        const localStorageAccidentals = localStorage.getItem("accidentals");
+        const newNote = new StaveNote({
+          keys: [
+            `${
+              localStorageAccidentals[i] === "b"
+                ? noteStrings[noteName + 1]
+                : noteStrings[noteName]
+            }/${octave}`,
+          ],
+          duration: "4",
+          auto_stem: true,
+        })
+          .setStyle({
+            fillStyle: n.isCorrect ? "green" : "",
+            strokeStyle: n.isCorrect ? "green" : "",
+          })
+          .addModifier(
+            new Accidental(`${localStorageAccidentals[i] === "b" ? "b" : "#"}`),
+            0
+          );
+        return newNote;
+      }
     });
     const connector = new StaveConnector(stave1, stave2);
     const line = new StaveConnector(stave1, stave2);
@@ -79,11 +106,7 @@ function StaveComponent({ challenge }) {
       b.setContext(context).draw();
     });
   }, [challenge]);
-  return (
-    <div ref={score}>
-      <div className="svg-container" id="output"></div>
-    </div>
-  );
+  return <div className="svg-container" id="output" ref={score}></div>;
 }
 
 export default StaveComponent;
