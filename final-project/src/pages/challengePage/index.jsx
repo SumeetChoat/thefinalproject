@@ -19,7 +19,7 @@ function ChallengePage() {
     clef: "bass",
     randomNote: false,
     randomNoteLength: 4,
-    key: "C",
+    key: "E",
     pattern: {
       l2p1: true,
       l2p2: true,
