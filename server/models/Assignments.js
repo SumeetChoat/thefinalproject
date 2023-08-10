@@ -67,9 +67,19 @@ class Assignments {
         return updatedAssignment
     }
 
-    async deleteAssignment() {
+    static async deleteAssignment() {
         const resp = await db.query("DELETE FROM assignments WHERE assignment_id = $1 RETURNING *",[this.assignment_id])
         return new Assignments(resp.rows[0])
+    }
+
+    static async deleteStudentsAssignments(student_user) {
+        const resp = await db.query("DELETE FROM assignments WHERE student_user = $1 RETURNING *",[student_user])
+        return resp.rows.map((a) => new Assignments(a))
+    }
+
+    static async deleteTeachersAssignments(teacher_user) {
+        const resp = await db.query("DELETE FROM assignments WHERE teacher_user = $1 RETURNING *",[teacher_user])
+        return resp.rows.map((a) => new Assignments(a))
     }
 }
 

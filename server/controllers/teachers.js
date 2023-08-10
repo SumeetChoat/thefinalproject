@@ -70,7 +70,7 @@ async function removeStudent(req,res) {
     try {
         const student_username = req.body.student_username
         const teacher_username = req.tokenObj.username
-        //delete their assignments
+        await Assignments.deleteStudentsAssignments(student_username)
         const result = await StudentTeacher.removeStudent(student_username,teacher_username)
         res.status(204).send(result)
     } catch (err) {
@@ -81,6 +81,7 @@ async function removeStudent(req,res) {
 async function deleteTeacher(req,res) {
     try {
         const username = req.tokenObj.username
+        await Assignments.deleteTeachersAssignments(username)
         const teacher = await Teacher.getOneByUsername(username)
         const result = await teacher.deleteTeacher()
         res.status(204).send(result)
