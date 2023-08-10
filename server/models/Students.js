@@ -49,6 +49,13 @@ class Students {
         return newStudent
     }
 
+    static async updateDetails(student_id, data) {
+        const {username, email, firstName, lastName, teacher_username} = data
+        const resp = await db.query('UPDATE students SET username = $1, email = $2, firstName =$3, lastName =$4, teacher_username =$5 WHERE student_id = $6 RETURNING *',[username, email, firstName, lastName, teacher_username, student_id])
+        const updatedStudent = await Students.getOneByID(resp.rows[0].student_id)
+        return updatedStudent
+    }
+
     async deleteStudent() {
         const resp = await db.query("DELETE FROM student_teacher WHERE student_id = $1",[this.student_id])
         const resp2 = await db.query("DELETE FROM students WHERE student_id = $1 RETURNING *",[this.student_id])

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
-import "./style.css";
+import "./styles.css";
 import {
   Renderer,
   Stave,
@@ -39,10 +39,8 @@ function StaveComponent({ challenge }) {
     // Create a stave1 of width 400 at position 10, 40 on the canvas.
     const stave1 = new Stave(20, 20, 250);
     const stave2 = new Stave(20, 120, 250);
-
     stave1.addClef("treble");
     stave2.addClef("bass");
-
     stave1.setContext(context);
     stave2.setContext(context);
     const noteArr = challenge.map((n, i) => {

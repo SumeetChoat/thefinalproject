@@ -1,4 +1,5 @@
 const Assignments = require('../models/Assignments')
+const StudentTeacher = require('../models/StudentTeacher')
 const Students = require('../models/Students')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
@@ -30,17 +31,42 @@ class StudentsController {
             if (!authenticated) {
                 throw new Error("Incorrect credentials")
             } else {
-                res.status(200).json(student)
+                res.status(200).send(student)
             }
         } catch (err) {
-            res.status(403).json({"Error": err.message})
+            res.status(403).json({"error": err.message})
+        }
+    }
+
+    static async assignTeacher(req,res) {
+        try {
+            const teacher_username = req.body.teacher_username
+            const username = req.headers["username"]
+            const student = await Students.getOneByUsername(username)
+
+            const result = await StudentTeacher.assignTeacher(teacher_username, student.student_id)
+            res.status(200).send(result)
+        } catch (err) {
+            res.status(500).json({"error": err.message})
+        }
+    }
+
+    static async updateDetails(req,res) {
+        try {
+            const data = req.body
+            const username = req.headers["username"]
+            const student = await Students.getOneByUsername(username)
+            const result = await Students.updateDetails(student.student_id, data)
+            res.status(200).send(result)
+        } catch (err) {
+            res.status(500).json({"error": err.message})
         }
     }
 
     static async getStudents(req,res) {
         try {
             const students = await Students.getStudents()
-            res.status(200).json(students)
+            res.status(200).send(students)
         } catch (err) {
             res.status(404).json({"Error": err.message})
         }
@@ -65,7 +91,7 @@ class StudentsController {
             const student = await Students.getOneByUsername(username)
 
             const assignments = await Assignments.getStudentsAssignments(student.student_id)
-            res.status(200).json(assignments)
+            res.status(200).send(assignments)
         } catch (err) {
             console.log(err)
             res.status(404).json({"Error": err.message})
@@ -76,7 +102,7 @@ class StudentsController {
         try {
             const assignment_id = req.body.assignment_id
             const assignment = await Assignments.getOneByID(assignment_id)
-            res.status(200).json(assignment)
+            res.status(200).send(assignment)
         } catch (err) {
             console.log(err)
             res.status(404).json({"Error": err.message})
@@ -88,9 +114,19 @@ class StudentsController {
             const assignment_id = req.body.assignment_id
             const data = req.body
             const assignment = await Assignments.updateAssignment(assignment_id, data)
-            res.status(200).json(assignment)
+            res.status(200).send(assignment)
         } catch (err) {
-            console.log(err)
+            res.status(500).json({"error": err.message})
+        }
+    }
+
+    static async completeAssignment(req,res) {
+        try {
+            const assignment_id = req.body.assignment_id
+            const assignment = await Assignments.completeAssignment(assignment_id)
+            res.status(200).send(assignment)
+        } catch (err) {
+            res.status(500).json({"error": err.message})
         }
     }
 
@@ -112,7 +148,7 @@ class StudentsController {
             const student = await Students.getOneByUsername(username)
             
             const resp = await student.deleteStudent(student.student_id)
-            res.status(204).json(resp)
+            res.status(204).send(resp)
         } catch (err) {
             console.log(err)
             res.status(403).json({"Error": err.message})
