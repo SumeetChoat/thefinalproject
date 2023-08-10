@@ -41,7 +41,7 @@ class StudentsController {
     static async assignTeacher(req,res) {
         try {
             const teacher_username = req.body.teacher_username
-            const username = req.body.username
+            const username = req.body.username || req.headers["username"]
             const student = await Students.getOneByUsername(username)
 
             const result = await StudentTeacher.assignTeacher(teacher_username, student.student_id)

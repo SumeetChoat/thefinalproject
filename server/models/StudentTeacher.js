@@ -26,12 +26,16 @@ class StudentTeacher {
         console.log(teacher.rows[0].teacher_id)
         const teacher_id = teacher.rows[0].teacher_id
 
-        const resp = await db.query('INSERT INTO student_teacher (teacher_id, student_id) VALUES($1,$2) RETURNING *',[teacher_id,student_id])
-        const resp2 = await db.query('UPDATE students SET teacher_username = $1 WHERE student_id = $2 RETURNING *',[teacher_username, student_id])
-        if (resp.rows.length === 0 && resp2.rows.length === 0){
-            throw new Error('Something went wrong.')
+        const check = await db.query('SELECT * FROM student_teacher WHERE teacher_id=$1 AND student_id =$2',[teacher_id,student_id])
+        if (check.rows.length === 0){
+            const resp = await db.query('INSERT INTO student_teacher (teacher_id, student_id) VALUES($1,$2) RETURNING *',[teacher_id,student_id])
+            if (resp.rows.length === 0){
+                throw new Error('Something went wrong.')
+            }
+            return new StudentTeacher(resp.rows[0])
+        } else {
+            return check.rows[0]
         }
-        return new StudentTeacher(resp.rows[0])
     }
 
     static async removeStudent(teacher_id,student_id) {

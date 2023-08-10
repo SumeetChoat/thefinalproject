@@ -1,10 +1,11 @@
 const db = require('../database/connect')
 const { v4: uuidv4 } = require("uuid")
 const StudentTeacher = require('./StudentTeacher')
+const Teacher = require('./Teachers')
 
 class Students {
     constructor({
-        student_id, username, password,firstName, lastName, email, token, points, teacher_username
+        student_id, username, password,firstName, lastName, email, token, points
     }) {
         this.student_id = student_id
         this.username = username
@@ -12,7 +13,6 @@ class Students {
         this.email = email
         this.token = token
         this.points = points
-        this.teacher_username = teacher_username
         this.firstName = firstName
         this.lastName = lastName
     }
@@ -41,23 +41,19 @@ class Students {
     }
 
     static async createStudent(data) {
-        const { username, password, firstName, lastName, email, points, teacher_username } = data
-        const token = uuidv4()
-        const resp = await db.query("INSERT INTO students (username,password,firstName,lastName,email,points,token, teacher_username) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING student_id",[username, password, firstName, lastName, email, points, token, teacher_username])
-        const id = resp.rows[0].student_id
-        const newStudent = await Students.getOneByID(id)
+        const { username, password, firstName, lastName, email, points } = data
 
-        if (teacher_username !== null){
-            await StudentTeacher.assignTeacher(teacher_username, id)
-            return newStudent
-        } else {
-            return newStudent
-        }
+        const token = uuidv4()
+        const resp = await db.query("INSERT INTO students (username,password,firstName,lastName,email,points,token) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING student_id",[username, password, firstName, lastName, email, points, token])
+
+        const student_id = resp.rows[0].student_id
+        const newStudent = await Students.getOneByID(student_id)
+        return newStudent
     }
 
     static async updateDetails(student_id, data) {
-        const {username, email, firstName, lastName, teacher_username} = data
-        const resp = await db.query('UPDATE students SET username = $1, email = $2, firstName =$3, lastName =$4, teacher_username =$5 WHERE student_id = $6 RETURNING *',[username, email, firstName, lastName, teacher_username, student_id])
+        const {username, email, firstName, lastName} = data
+        const resp = await db.query('UPDATE students SET username = $1, email = $2, firstName =$3, lastName =$4 WHERE student_id = $5 RETURNING *',[username, email, firstName, lastName, student_id])
         const updatedStudent = await Students.getOneByID(resp.rows[0].student_id)
         return updatedStudent
     }

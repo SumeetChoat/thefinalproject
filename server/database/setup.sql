@@ -8,8 +8,7 @@ CREATE TABLE students (
     token VARCHAR(36),
     points INT DEFAULT 0,
     firstName VARCHAR NOT NULL,
-    lastName VARCHAR NOT NULL,
-    teacher_username VARCHAR
+    lastName VARCHAR NOT NULL
 );
 
 CREATE TABLE teachers (

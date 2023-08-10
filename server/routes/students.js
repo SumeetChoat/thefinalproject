@@ -15,6 +15,8 @@ studentRouter.get('/assignment/',studentController.getAssignmentByID)
 studentRouter.patch('/assignment/', studentController.updateAssignment)
 studentRouter.get('/student', studentController.getOneByID)
 
+studentRouter.patch('/teacher', studentController.assignTeacher)
+
 studentRouter.delete('/delete', studentController.deleteStudent)
 studentRouter.delete('/logout', studentController.logout)
 
