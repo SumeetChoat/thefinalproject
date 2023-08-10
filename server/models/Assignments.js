@@ -1,7 +1,9 @@
 const db = require('../database/connect')
 
 class Assignments {
-    constructor(assignment_id, student_id, teacher_id, range, pattern, completed, score, hand){
+    constructor({
+        assignment_id, student_id, teacher_id, range, pattern, completed, score, hand
+    }){
         this.assignment_id = assignment_id
         this.student_id = student_id
         this.teacher_id = teacher_id

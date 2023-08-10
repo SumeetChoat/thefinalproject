@@ -1,7 +1,5 @@
 const db = require('../database/connect')
 const { v4: uuidv4 } = require("uuid")
-const StudentTeacher = require('./StudentTeacher')
-const Teacher = require('./Teachers')
 
 class Students {
     constructor({

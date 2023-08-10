@@ -79,6 +79,19 @@ async function getCreatedAssignments(req,res) {
     }
 }
 
+
+async function updateAssignment(req,res) {
+    try {
+        const assignment_id = req.body.assignment_id
+        const data = req.body
+        const assignment = await Assignments.updateAssignment(assignment_id, data)
+        res.status(200).send(assignment)
+    } catch (err) {
+        res.status(500).json({"error": err.message})
+    }
+}
+
+
 async function removeStudent(req,res) {
     try {
         const student_id = req.body.student_id
@@ -91,4 +104,4 @@ async function removeStudent(req,res) {
     }
 }
 
-module.exports = {register, login, createAssignment, getStudents, getCreatedAssignments, removeStudent, deleteAssignment};
+module.exports = {register, login, createAssignment, getStudents, getCreatedAssignments, removeStudent, deleteAssignment, updateAssignment};
