@@ -42,15 +42,13 @@ class Students {
         }
     }
 
-    static async createStudent(data) {
-        const { username, password, firstName, lastName, email, points } = data
-
-        const token = uuidv4()
-        const resp = await db.query("INSERT INTO students (username,password,firstName,lastName,email,points,token) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING student_id",[username, password, firstName, lastName, email, points, token])
-
-        const student_id = resp.rows[0].student_id
-        const newStudent = await Students.getOneByID(student_id)
-        return newStudent
+    static async createStudent(username) {
+        const response = await db.query("INSERT INTO students (username) VALUES ($1) RETURNING username", [username]);
+        if (response.rows.length !== 0){
+            return Students.getOneByUsername(response.rows[0].username)
+        } else {
+            throw new Error('Student could not be added.')
+        }
     }
 
     static async updateDetails(student_id, data) {

@@ -6,7 +6,7 @@ require('dotenv').config()
 const bcrypt = require('bcrypt')
 
 class UserController {
-    static async createUser(req,res){
+    static async register(req,res){
         try {
             const data = req.body
             const rounds = parseInt(process.env.BCRYPT_SALT_ROUNDS) 
@@ -14,7 +14,7 @@ class UserController {
             const salt = await bcrypt.genSalt(rounds)
             data["password"] = await bcrypt.hash(data["password"],salt)
 
-            const user = await Users.createUser(data)
+            const user = await Users.register(data)
             res.status(201).send(user)
         } catch (err) {
             res.status(403).json({"error": err.message})

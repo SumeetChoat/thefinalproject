@@ -8,10 +8,6 @@ class StudentsController {
     static async register(req,res) {
         try {
             const data = req.body
-            const rounds = parseInt(process.env.BCRYPT_SALT_ROUNDS) 
-
-            const salt = await bcrypt.genSalt(rounds)
-            data["password"] = await bcrypt.hash(data["password"],salt)
 
             const student = await Students.createStudent(data)
             return res.status(201).send(student)

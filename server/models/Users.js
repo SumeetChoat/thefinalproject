@@ -1,7 +1,6 @@
 const db = require('../database/connect')
 const Students = require('./Students')
-const Teacher = require('./Teachers')
-const teacherController = require('../controllers/teachers')
+const Teachers = require('./Teachers')
 
 class Users {
     constructor({
@@ -23,19 +22,20 @@ class Users {
         }
     }
 
-    static async createUser(data) {
+    static async register(data) {
         const {username,password,firstName,lastName,role,title} = data
         const resp = await db.query('INSERT INTO users (username,password,firstName,lastName,role) VALUES ($1,$2,$3,$4,$5) RETURNING *',[username,password,firstName,lastName,role])
-        const user = await Users.getByUsername(resp.rows[0].username)
-        
-        if (role === 'student'){
-            const student = await Students.createStudent(user.username)
-            delete student.password
-        } else if (role === 'teacher'){
-            const teacher = await Teacher.createTeacher(user.username,title)
-            delete teacher.password
-        }    
-        return user
+        if (resp.rows.length !== 0){
+            const user = await Users.getByUsername(resp.rows[0].username)
+            if (role === 'student'){
+                await Students.createStudent(user.username)
+            } else if (role === 'teacher'){
+                await Teachers.createTeacher(user.username,title)
+            }    
+            return user
+        } else {
+            throw new Error('User with this username already exists.')
+        }
     }
 }
 
