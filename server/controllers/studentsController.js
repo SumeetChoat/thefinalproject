@@ -82,7 +82,7 @@ class StudentsController {
         try {
             const username = req.tokenObj.username
             const student = await Students.getOneByUsername(username)
-            const resp = await student.deleteStudent(student.student_id)
+            const resp = await student.deleteStudent()
             res.status(204).send(resp)
         } catch (err) {
             console.log(err)

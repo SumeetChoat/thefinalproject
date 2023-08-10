@@ -10,26 +10,7 @@ async function createTeacher(req, res) {
         res.status(201).send(result)
     } catch(err) {
         res.status(400).json({"error": err.message})
-    }
-}
-
-async function login(req, res) {
-    try {
-        const data = req.body;
-
-        const teacher = await Teacher.getOneByUsername(data.username);
-
-        const authenticated = await bcrypt.compare(data.password, teacher["password"]);
-
-
-        if (!authenticated) {
-            throw new Error("Incorrect credentials.")
-        } else {
-            res.status(200).send(teacher)
-        }
-    } catch(err) {
-        res.status(403).json({"error": err.message})
-    }
+    } 
 }
 
 async function createAssignment(req, res) {
@@ -54,9 +35,8 @@ async function deleteAssignment(req,res) {
 
 async function getStudents(req,res) {
     try {
-        const username = req.headers["username"]
-        const teacher = await Teacher.getOneByUsername(username)
-        const students = await StudentTeacher.getTeachersStudents(teacher.teacher_id)
+        const username = req.tokenObj.username
+        const students = await StudentTeacher.getTeachersStudents(username)
         res.status(200).send(students)
     } catch (err) {
         res.status(404).json({"error": err.message})
@@ -65,9 +45,8 @@ async function getStudents(req,res) {
 
 async function getCreatedAssignments(req,res) {
     try {
-        const username = req.headers["username"]
-        const teacher = await Teacher.getOneByUsername(username)
-        const assignments = await Assignments.getTeachersAssignments(teacher.teacher_id)
+        const username = req.tokenObj.username
+        const assignments = await Assignments.getTeachersAssignments(username)
         res.status(200).send(assignments)
     } catch (err) {
         res.status(404).json({"error": err.message})
@@ -89,15 +68,25 @@ async function updateAssignment(req,res) {
 
 async function removeStudent(req,res) {
     try {
-        const student_id = req.body.student_id
-        const username = req.headers["username"]
-        const teacher = await Teacher.getOneByUsername(username)
+        const student_username = req.body.student_username
+        const teacher_username = req.tokenObj.username
         //delete their assignments
-        const result = await StudentTeacher.removeStudent(student_id,teacher.teacher_id)
+        const result = await StudentTeacher.removeStudent(student_username,teacher_username)
         res.status(204).send(result)
     } catch (err) {
         res.status(403).json({"error": err.message})
     }
 }
 
-module.exports = {createTeacher, login, createAssignment, getStudents, getCreatedAssignments, removeStudent, deleteAssignment, updateAssignment};
+async function deleteTeacher(req,res) {
+    try {
+        const username = req.tokenObj.username
+        const teacher = await Teacher.getOneByUsername(username)
+        const result = await teacher.deleteTeacher()
+        res.status(204).send(result)
+    } catch (err) {
+        res.status(403).json({"error": err.message})
+    }
+}
+
+module.exports = {createTeacher, createAssignment, getStudents, getCreatedAssignments, removeStudent, deleteAssignment, updateAssignment, deleteTeacher};

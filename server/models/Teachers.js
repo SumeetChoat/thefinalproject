@@ -25,6 +25,13 @@ class Teacher {
             throw new Error('Teacher could not be added.')
         }
     }
+
+    async deleteTeacher() {
+        await db.query("DELETE FROM student_teacher WHERE username = $1",[this.username])
+        await db.query("DELETE FROM tokens WHERE username = $1",[this.username])
+        const result = await db.query("DELETE FROM teachers WHERE username = $1 RETURNING *",[this.username])
+        return new Teacher(result.rows[0])
+    }
 }
 
 module.exports = Teacher
