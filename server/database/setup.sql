@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS assignments, student_teacher, teachers, students, users, tokens, friends, friend_requests, messages, notifications;
 
 CREATE TABLE users (
-    username VARCHAR PRIMARY KEY,
+    username VARCHAR PRIMARY KEY -- ON DELETE CASCADE, 
     password VARCHAR NOT NULL,
     firstName VARCHAR,
     lastName VARCHAR,

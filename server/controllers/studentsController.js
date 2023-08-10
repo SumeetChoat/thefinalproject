@@ -1,63 +1,30 @@
 const Assignments = require('../models/Assignments')
 const StudentTeacher = require('../models/StudentTeacher')
 const Students = require('../models/Students')
-require('dotenv').config()
-const bcrypt = require('bcrypt')
 
 class StudentsController {
-    static async register(req,res) {
-        try {
-            const data = req.body
-
-            const student = await Students.createStudent(data)
-            return res.status(201).send(student)
-        } catch (err) {
-            return res.status(500).json({"error": err.message})
-        }
-    }
-
-    static async login(req,res) {
-        try {
-            const data = req.body
-            const student = await Students.getOneByUsername(data.username)
-            const authenticated = await bcrypt.compare(
-                data.password,
-                student["password"]
-            )
-            if (!authenticated) {
-                throw new Error("Incorrect credentials")
-            } else {
-                res.status(200).send(student)
-            }
-        } catch (err) {
-            res.status(403).json({"error": err.message})
-        }
-    }
-
     static async assignTeacher(req,res) {
         try {
             const teacher_username = req.body.teacher_username
-            const username = req.body.username || req.headers["username"]
-            const student = await Students.getOneByUsername(username)
+            const student_username = req.tokenObj.username
 
-            const result = await StudentTeacher.assignTeacher(teacher_username, student.student_id)
+            const result = await StudentTeacher.assignTeacher(teacher_username, student_username)
             res.status(200).send(result)
         } catch (err) {
             res.status(500).json({"error": err.message})
         }
     }
 
-    static async updateDetails(req,res) {
-        try {
-            const data = req.body
-            const username = req.headers["username"]
-            const student = await Students.getOneByUsername(username)
-            const result = await Students.updateDetails(student.student_id, data)
-            res.status(200).send(result)
-        } catch (err) {
-            res.status(500).json({"error": err.message})
-        }
-    }
+    // static async updateDetails(req,res) {
+    //     try {
+    //         const data = req.body
+    //         const username = req.tokenObj.username
+    //         const result = await Students.updateDetails(username, data)
+    //         res.status(200).send(result)
+    //     } catch (err) {
+    //         res.status(500).json({"error": err.message})
+    //     }
+    // }
 
     static async getStudents(req,res) {
         try {
@@ -68,23 +35,10 @@ class StudentsController {
         }
     }
 
-    static async getOneByID(req,res) {
-        try {
-            const student_id = req.params.id
-            const student = await Students.getOneByID(student_id)
-            delete student.password
-            res.status(200).send(student)
-        } catch (err) {
-            res.status(404).json({"error": err.message})
-        }
-    }
-
     static async getAssignments(req,res) {
         try {
-            const username = req.headers["username"]
-            const student = await Students.getOneByUsername(username)
-
-            const assignments = await Assignments.getStudentsAssignments(student.student_id)
+            const username = req.tokenObj.username
+            const assignments = await Assignments.getStudentsAssignments(username)
             res.status(200).send(assignments)
         } catch (err) {
             console.log(err)
@@ -124,23 +78,10 @@ class StudentsController {
         }
     }
 
-    static async logout(req,res) {
-        try {
-            const username = req.headers["username"]
-            const student = await Students.getOneByUsername(username)
-            // this doesn't actually do anything
-            res.status(202).json({ message: student})
-        } catch (err) {
-            console.log(err)
-            res.status(403).json({"error": err.message})
-        }
-    }
-
     static async deleteStudent(req,res) {
         try {
-            const username = req.headers["username"]
+            const username = req.tokenObj.username
             const student = await Students.getOneByUsername(username)
-            
             const resp = await student.deleteStudent(student.student_id)
             res.status(204).send(resp)
         } catch (err) {
