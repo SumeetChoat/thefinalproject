@@ -97,6 +97,7 @@ async function removeStudent(req,res) {
         const student_id = req.body.student_id
         const username = req.headers["username"]
         const teacher = await Teacher.getOneByUsername(username)
+        //delete their assignments
         const result = await StudentTeacher.removeStudent(student_id,teacher.teacher_id)
         res.status(204).send(result)
     } catch (err) {
