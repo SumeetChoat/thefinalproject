@@ -31,6 +31,7 @@ dialog {
 .pattern-img.hidden {
   opacity: 0.5;
 }
+
 .pattern-config-modal-random-section {
   display: flex;
   align-items: center;
@@ -38,3 +39,4 @@ dialog {
 .pattern-config-modal-button {
   padding: 1rem;
 }
+
