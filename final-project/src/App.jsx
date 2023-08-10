@@ -4,8 +4,19 @@ import { ChallengePage, ProtectedRoute, NotFound, LoginPage, RegisterPage } from
 
 import { AuthProvider } from "./contexts";
 
+import {socket} from './socket';
+import { useEffect } from "react";
+
 
 function App() {
+  socket.connect();
+  useEffect(() => {
+    console.log('Socket connected')
+    return () => {
+      socket.disconnect();
+      socket.off();
+    }
+  })
   return (
     <>
     <AuthProvider>
