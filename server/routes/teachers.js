@@ -4,9 +4,6 @@ const teacherController = require('../controllers/teachers')
 
 const teacherRouter = Router();
 
-// teacherRouter.post('/login', teacherController.login);
-// teacherRouter.post('/register', teacherController.register);
-
 teacherRouter.use(authenticator)
 
 teacherRouter.post('/assignment', teacherController.createAssignment)
