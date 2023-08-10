@@ -1,7 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { autoCorrelate } from "../../lib/pitchDetection";
-import { noteStrings } from "../../assets/pattern";
+import {
+  noteStrings,
+  patternArr,
+  majorArr,
+  minorArr,
+} from "../../assets/pattern";
 import StaveComponent from "../../components/StaveComponent";
 import "./style.css";
 import ChallengeConfigModal from "../../components/ChallengeConfigModal";
@@ -11,12 +16,13 @@ function ChallengePage() {
     lowOctave: 4,
     highNote: "G",
     highOctave: 4,
-    clef: "treble",
+    clef: "bass",
     randomNote: false,
-    randomNoteLength: undefined,
+    randomNoteLength: 4,
+    key: "C",
     pattern: {
       l2p1: true,
-      l2p2: false,
+      l2p2: true,
       l2p3: false,
       l2p4: false,
       l2p5: false,
@@ -36,7 +42,7 @@ function ChallengePage() {
       l4p6: false,
     },
   });
-  const [challengeLength, setChallengeLength] = useState(4);
+
   const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
     useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -107,8 +113,6 @@ function ChallengePage() {
         note == challenge[currentIndex].note &&
         challenge[currentIndex].isCorrect !== true
       ) {
-        console.log("run");
-        // setListening(false);
         const newState = [...challenge];
         newState[currentIndex].isCorrect = true;
         setChallenge(newState);
@@ -123,26 +127,69 @@ function ChallengePage() {
   }
 
   function generateNewChallenge() {
-    console.log(challenge);
     const lowestNote =
       noteStrings.indexOf(form.lowNote) + (form.lowOctave - 1) * 12 + 24;
     const highestNote =
       noteStrings.indexOf(form.highNote) + (form.highOctave - 1) * 12 + 24;
     const newChallenge = [];
-    localStorage.getItem("accidentals") &&
-      localStorage.removeItem("accidentals");
-    localStorage.setItem("accidentals", "");
-    for (let i = 0; i < challengeLength; i++) {
-      const localStorageAccidental = localStorage.getItem("accidentals");
-      Math.random() > 0.5
-        ? localStorage.setItem("accidentals", localStorageAccidental + "#")
-        : localStorage.setItem("accidentals", localStorageAccidental + "b");
+    if (form.randomNote) {
+      localStorage.getItem("accidentals") &&
+        localStorage.removeItem("accidentals");
+      localStorage.setItem("accidentals", "");
+      for (let i = 0; i < form.randomNoteLength; i++) {
+        const randomNote =
+          Math.floor(Math.random() * (highestNote - lowestNote)) + lowestNote;
+        const localStorageAccidental = localStorage.getItem("accidentals");
+        Math.random() > 0.5
+          ? localStorage.setItem("accidentals", localStorageAccidental + "#")
+          : localStorage.setItem("accidentals", localStorageAccidental + "b");
+        const newNoteObj = { note: randomNote, isCorrect: false };
+        newChallenge.push(newNoteObj);
+      }
+    } else {
+      // Pattern
+      let newChallengePattern = [];
+
       const randomNote =
         Math.floor(Math.random() * (highestNote - lowestNote)) + lowestNote;
-      const newNoteObj = { note: randomNote, isCorrect: false };
-      newChallenge.push(newNoteObj);
+      for (let i = 0; i < patternArr.length; i++) {
+        if (form.pattern[Object.keys(patternArr[i])]) {
+          newChallengePattern.push(...Object.values(patternArr[i]));
+        }
+      }
+      const randomPattern =
+        newChallengePattern[
+          Math.floor(Math.random() * newChallengePattern.length)
+        ];
+
+      const scale =
+        form.key.length < 2
+          ? majorArr.map((n) => 24 + noteStrings.indexOf(form.key) + n)
+          : minorArr.map((n) => 24 + noteStrings.indexOf(form.key) + n);
+
+      const indexInKey = scale.findIndex((n) => (randomNote - n) % 12 === 0);
+      console.log(indexInKey);
+      if (indexInKey !== -1) {
+        for (let i = 0; i < randomPattern.length; i++) {
+          const newNoteObj = {
+            note: randomNote + majorArr[randomPattern[i]],
+            isCorrect: false,
+          };
+          newChallenge.push(newNoteObj);
+        }
+      } else {
+        const newRandomNote = randomNote - 1;
+        for (let i = 0; i < randomPattern.length; i++) {
+          const newNoteObj = {
+            note: newRandomNote + majorArr[randomPattern[i]],
+            isCorrect: false,
+          };
+          newChallenge.push(newNoteObj);
+        }
+      }
     }
 
+    console.log(newChallenge);
     setChallenge(newChallenge);
     setCurrentIndex(0);
   }

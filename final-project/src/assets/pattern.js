@@ -19,6 +19,8 @@ export const patternArr = [
   { l4p5: [0, 2, 4, 2] },
   { l4p6: [4, 2, 0, 2] },
 ];
+export const majorArr = [0, 2, 4, 5, 7, 9, 11, 12];
+export const minorArr = [0, 2, 3, 5, 7, 8, 10, 12];
 export const noteStrings = [
   "C",
   "C#",

@@ -70,17 +70,17 @@ function ChallengeConfigModal({
           value={form.highNote}
           onChange={(e) => setForm({ ...form, highNote: e.target.value })}
         >
-          <option value="c">C</option>
-          <option value="c#">C#/Db</option>
-          <option value="d">D</option>
-          <option value="d#">D#/Eb</option>
-          <option value="e">E</option>
-          <option value="f">F</option>
-          <option value="g">G</option>
-          <option value="g#">G#/Ab</option>
-          <option value="a">A</option>
-          <option value="a#">A#/Bb</option>
-          <option value="b">B</option>
+          <option value="C">C</option>
+          <option value="C#">C#/Db</option>
+          <option value="D">D</option>
+          <option value="D#">D#/Eb</option>
+          <option value="E">E</option>
+          <option value="F">F</option>
+          <option value="G">G</option>
+          <option value="G#">G#/Ab</option>
+          <option value="A">A</option>
+          <option value="A#">A#/Bb</option>
+          <option value="B">B</option>
         </select>
         <select
           name="range-high-octave"
@@ -123,6 +123,7 @@ function ChallengeConfigModal({
             <input
               type="checkbox"
               id="random"
+              checked={form.randomNote}
               onChange={() => {
                 setForm({ ...form, randomNote: !form.randomNote });
               }}
@@ -138,7 +139,10 @@ function ChallengeConfigModal({
               onChange={(e) => {
                 setForm({
                   ...form,
-                  randomNoteLength: parseInt(e.target.value),
+                  randomNoteLength:
+                    e.target.value.length > 0
+                      ? parseInt(e.target.value)
+                      : undefined,
                 });
               }}
               disabled={!form.randomNote}
@@ -236,8 +240,16 @@ function ChallengeConfigModal({
       <button
         className="pattern-config-modal-button"
         onClick={() => {
-          generateNewChallenge();
-          setToggleChallengeConfigModal(!toggleChallengeConfigModal);
+          if (
+            Array.from(
+              dialogRef.current.querySelectorAll("input[type='checkbox']")
+            ).some((el) => el.checked)
+          ) {
+            generateNewChallenge();
+            setToggleChallengeConfigModal(!toggleChallengeConfigModal);
+          } else {
+            alert("Please check at least 1 checkbox.");
+          }
         }}
       >
         Save
