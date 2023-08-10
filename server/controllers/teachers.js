@@ -3,16 +3,11 @@ const Assignments = require('../models/Assignments')
 const Teacher = require('../models/Teachers');
 const StudentTeacher = require('../models/StudentTeacher')
 
-async function register(req, res) {
+async function createTeacher(req, res) {
     try {
         const data = req.body;
-
-        const salt = await bcrypt.genSalt(parseInt(process.env.BCRYPT_SALT_ROUNDS));
-        data["password"] = await bcrypt.hash(data["password"], salt);
-
         const result = await Teacher.create(data);
-        res.status(201).send(result);
-
+        res.status(201).send(result)
     } catch(err) {
         res.status(400).json({"error": err.message})
     }
@@ -105,4 +100,4 @@ async function removeStudent(req,res) {
     }
 }
 
-module.exports = {register, login, createAssignment, getStudents, getCreatedAssignments, removeStudent, deleteAssignment, updateAssignment};
+module.exports = {createTeacher, login, createAssignment, getStudents, getCreatedAssignments, removeStudent, deleteAssignment, updateAssignment};

@@ -1,6 +1,7 @@
 const db = require('../database/connect')
 const Students = require('./Students')
 const Teacher = require('./Teachers')
+const teacherController = require('../controllers/teachers')
 
 class Users {
     constructor({

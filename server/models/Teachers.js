@@ -1,15 +1,8 @@
 const db = require('../database/connect')
-const {v4: uuidv4} = require("uuid");
 
 class Teacher {
-    constructor({teacher_id, username, password, email, token, firstName, lastName, title}) {
-        this.teacher_id = teacher_id
+    constructor({username, title}) {
         this.username = username
-        this.password = password
-        this.email = email
-        this.token = token
-        this.firstName = firstName
-        this.lastName = lastName
         this.title = title
     }
 
@@ -22,12 +15,14 @@ class Teacher {
         return new Teacher(response.rows[0]);
     }
 
-    static async create(data) {
-        const {username, password, email, firstName,lastName,title} = data;
-        const token = uuidv4();
-        const response = await db.query("INSERT INTO teachers (username, password, email, token, firstName,lastName,title) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING username", [username, password, email, token, firstName, lastName, title]);
+    static async create(username,title) {
+        const response = await db.query("INSERT INTO teachers (username, title) VALUES ($1, $2) RETURNING username", [username,title]);
         console.log(response)
-        return Teacher.getOneByUsername(response.rows[0].username)
+        if (response.rows.length !== 0){
+            return Teacher.getOneByUsername(response.rows[0].username)
+        } else {
+            throw new Error('Teacher could not be added.')
+        }
     }
 }
 
