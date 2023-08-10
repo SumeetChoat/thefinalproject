@@ -168,27 +168,41 @@ function ChallengePage() {
           : minorArr.map((n) => 24 + noteStrings.indexOf(form.key) + n);
 
       const indexInKey = scale.findIndex((n) => (randomNote - n) % 12 === 0);
-      console.log(indexInKey);
+
+      console.log(randomPattern);
       if (indexInKey !== -1) {
+        console.log(randomNote);
+        console.log(indexInKey);
+
         for (let i = 0; i < randomPattern.length; i++) {
           const newNoteObj = {
-            note: randomNote + majorArr[randomPattern[i]],
+            note:
+              randomNote +
+              majorArr[randomPattern[i] + indexInKey] -
+              majorArr[indexInKey],
             isCorrect: false,
           };
           newChallenge.push(newNoteObj);
         }
       } else {
         const newRandomNote = randomNote - 1;
+        console.log(newRandomNote);
+        const newIndexInKey = scale.findIndex(
+          (n) => (newRandomNote - n) % 12 === 0
+        );
+        console.log(newIndexInKey);
         for (let i = 0; i < randomPattern.length; i++) {
           const newNoteObj = {
-            note: newRandomNote + majorArr[randomPattern[i]],
+            note:
+              newRandomNote +
+              majorArr[randomPattern[i] + newIndexInKey] -
+              majorArr[newIndexInKey],
             isCorrect: false,
           };
           newChallenge.push(newNoteObj);
         }
       }
     }
-
     console.log(newChallenge);
     setChallenge(newChallenge);
     setCurrentIndex(0);
