@@ -15,7 +15,8 @@ class Teacher {
         return new Teacher(response.rows[0]);
     }
 
-    static async create(username,title) {
+    static async createTeacher(username,title) {
+        console.log(title)
         const response = await db.query("INSERT INTO teachers (username, title) VALUES ($1, $2) RETURNING username", [username,title]);
         console.log(response)
         if (response.rows.length !== 0){

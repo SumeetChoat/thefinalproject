@@ -12,7 +12,6 @@ class Users {
         this.firstName = firstName
         this.lastName = lastName
         this.role = role
-        this.title = title
     }
 
     static async getByUsername(username){
@@ -27,17 +26,16 @@ class Users {
     static async createUser(data) {
         const {username,password,firstName,lastName,role,title} = data
         const resp = await db.query('INSERT INTO users (username,password,firstName,lastName,role) VALUES ($1,$2,$3,$4,$5) RETURNING *',[username,password,firstName,lastName,role])
-
         const user = await Users.getByUsername(resp.rows[0].username)
+        
         if (role === 'student'){
             const student = await Students.createStudent(user.username)
-            console.log(student)
+            delete student.password
         } else if (role === 'teacher'){
-            const teacher = await Teacher.createStudent(user.username,title)
-            console.log(teacher)
-        }
+            const teacher = await Teacher.createTeacher(user.username,title)
+            delete teacher.password
+        }    
         return user
-        
     }
 }
 

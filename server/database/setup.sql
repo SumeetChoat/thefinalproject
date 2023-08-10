@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS assignments, student_teacher, teachers, students, users, to
 
 CREATE TABLE users (
     username VARCHAR PRIMARY KEY,
-    password CHAR(36) NOT NULL,
+    password VARCHAR NOT NULL,
     firstName VARCHAR,
     lastName VARCHAR,
     role VARCHAR
