@@ -2,16 +2,21 @@ const db = require('../database/connect')
 
 class Assignments {
     constructor({
-        assignment_id, student_id, teacher_id, range, pattern, completed, score, hand
+        assignment_id, student_user, teacher_user, range, pattern, completed, score, clef, rounds,
+        key, date_assigned, date_completed
     }){
         this.assignment_id = assignment_id
-        this.student_id = student_id
-        this.teacher_id = teacher_id
+        this.student_user = student_user
+        this.teacher_user = teacher_user
         this.range = range
         this.pattern = pattern
         this.completed = completed
         this.score = score
-        this.hand = hand
+        this.clef = clef
+        this.rounds = rounds
+        this.key = key
+        this.date_assigned = date_assigned
+        this.date_completed = date_completed
     }
 
     static async getStudentsAssignments(student_id) {
@@ -40,8 +45,13 @@ class Assignments {
     }
 
     static async createAssignment(data) {
-        const {student_id,teacher_id,range,pattern,completed,score,hand} = data
-        const resp = await db.query("INSERT INTO assignments (student_id,teacher_id,range,pattern,completed,score,hand) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *",[student_id,teacher_id,range,pattern,completed,score,hand])
+        const {student_id,teacher_id,range,pattern,completed,score,clef,key,date_assigned,date_completed} = data
+        const resp = await db.query(`INSERT INTO assignments
+         (student_id,teacher_id,range,pattern,completed,score,clef,key,date_assigned,date_completed) 
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) 
+         RETURNING *`,[
+            student_id,teacher_id,range,pattern,completed,score,clef,key,date_assigned,date_completed
+        ])
         const id = resp.rows[0].assignment_id
         const assignment = await Assignments.getOneByID(id)
         return assignment
@@ -49,11 +59,15 @@ class Assignments {
 
     static async updateAssignment(assignment_id, data) {
         const current = await Assignments.getOneByID(assignment_id)
-        const {range,pattern,completed,score,hand} = data
-        const resp = await db.query("UPDATE assignments SET range=$1, pattern=$2, completed=$3, score=$4, hand=$5 WHERE assignment_id=$6 RETURNING assignment_id",[
+        const {range,pattern,completed,score,clef, key} = data
+        const resp = await db.query(`UPDATE assignments 
+        SET range=$1, pattern=$2, completed=$3, score=$4, clef=$5, key=$6
+        WHERE assignment_id=$6 
+        RETURNING assignment_id`,
+        [
             range || current.range, pattern || current.pattern,
             completed || current.completed ,score || current.score,
-            hand || current.hand,
+            clef || current.clef, key || current.key,
             assignment_id
         ])
         const updatedAssignment = await Assignments.getOneByID(resp.rows[0].assignment_id)
