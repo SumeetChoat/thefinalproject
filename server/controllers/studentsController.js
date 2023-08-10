@@ -123,8 +123,8 @@ class StudentsController {
 
     static async completeAssignment(req,res) {
         try {
-            const assignment_id = req.body.assignment_id
-            const assignment = await Assignments.completeAssignment(assignment_id)
+            const data = req.body
+            const assignment = await Assignments.completeAssignment(data)
             res.status(200).send(assignment)
         } catch (err) {
             res.status(500).json({"error": err.message})
