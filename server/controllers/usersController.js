@@ -37,6 +37,16 @@ class UserController {
             res.status(403).json({"error": err.message})
         }
     }
+
+    static async logout(req,res){
+        try{
+            const tokenObj = req.tokenObj
+            const resp = await tokenObj.deleteToken()
+            res.status(202).json({"message": resp})
+        } catch (err) {
+            res.status(403).json({"error": err.message})
+        }
+    }
 }
 
 module.exports = UserController
