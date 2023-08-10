@@ -74,14 +74,11 @@ class StudentsController {
 
     static async getOneByID(req,res) {
         try {
-            const student_id = req.body.student_id
+            const student_id = req.params.id
             const student = await Students.getOneByID(student_id)
-
             delete student.password
-            delete student.token
             res.status(200).send(student)
         } catch (err) {
-            console.log(err)
             res.status(404).json({"error": err.message})
         }
     }

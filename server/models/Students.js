@@ -35,7 +35,11 @@ class Students {
 
     static async getOneByID(id) {
         const resp = await db.query("SELECT * FROM students WHERE student_id = $1",[id])
-        return new Students(resp.rows[0])
+        if (resp.rows.length == 0){
+            throw new Error('Unable to locate student.')
+        } else {
+            return new Students(resp.rows[0])
+        }
     }
 
     static async createStudent(data) {
