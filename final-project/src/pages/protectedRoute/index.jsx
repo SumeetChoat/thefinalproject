@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import "./style.css";
+import "./styles.css";
 function ProtextedRoute() {
   return (
     <div className="body-container">

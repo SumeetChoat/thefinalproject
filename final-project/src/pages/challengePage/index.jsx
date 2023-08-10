@@ -8,7 +8,7 @@ import {
   minorArr,
 } from "../../assets/pattern";
 import StaveComponent from "../../components/StaveComponent";
-import "./style.css";
+import "./styles.css";
 import ChallengeConfigModal from "../../components/ChallengeConfigModal";
 function ChallengePage() {
   const [form, setForm] = useState({

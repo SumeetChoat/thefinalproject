@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
-import "./style.css";
+import "./styles.css";
 import {
   Renderer,
   Stave,
