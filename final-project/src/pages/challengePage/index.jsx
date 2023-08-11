@@ -1,20 +1,68 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { autoCorrelate } from "../../lib/pitchDetection";
+import {
+  noteStrings,
+  patternArr,
+  majorArr,
+  minorArr,
+} from "../../assets/pattern";
 import StaveComponent from "../../components/StaveComponent";
 import "./styles.css";
 import ChallengeConfigModal from "../../components/ChallengeConfigModal";
+import { useAuth } from "../../contexts";
 function ChallengePage() {
+  const { currentAssignment } = useAuth();
+  const [round, setRound] = useState(null);
+  useEffect(() => {
+    if (currentAssignment) {
+      setRound(currentAssignment.round);
+      const lowOctave =
+        currentAssignment.range[0] < 24
+          ? 0
+          : Math.floor((currentAssignment.range[0] - 24) / 12) + 1;
+      const lowNoteName = currentAssignment.range[0] % 12;
+      const highOctave =
+        currentAssignment.range[1] < 24
+          ? 0
+          : Math.floor((currentAssignment.range[1] - 24) / 12) + 1;
+      const highNoteName = currentAssignment.range[1] % 12;
+      const newForm = {
+        ...form,
+        clef: currentAssignment.clef,
+        range: [`${lowNoteName}${lowOctave}`, `${highNoteName}${highOctave}`],
+        lowNote: lowNoteName,
+        lowOctave: lowOctave,
+        highNote: highNoteName,
+        highOctave: highOctave,
+        randomNote: currentAssignment.pattern.length === 0 ? true : false,
+      };
+      if (currentAssignment.pattern.length > 0) {
+        for (const pattern in newForm.pattern) {
+          if (currentAssignment.pattern.indexOf(pattern) !== -1) {
+            newForm.pattern[pattern] = true;
+          } else {
+            newForm.pattern[pattern] = false;
+          }
+        }
+      }
+
+      setForm(newForm);
+    }
+  }, [currentAssignment]);
+
   const [form, setForm] = useState({
-    lowNote: "c",
+    lowNote: "C",
     lowOctave: 4,
-    highNote: "g",
+    highNote: "G",
     highOctave: 4,
-    clef: "",
+    clef: "bass",
     randomNote: false,
+    randomNoteLength: 4,
+    key: "C",
     pattern: {
       l2p1: true,
-      l2p2: false,
+      l2p2: true,
       l2p3: false,
       l2p4: false,
       l2p5: false,
@@ -33,17 +81,15 @@ function ChallengePage() {
       l4p5: false,
       l4p6: false,
     },
-    length: null,
   });
-  const [challengeLength, setChallengeLength] = useState(4);
+
   const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
     useState(false);
-  const [range, setRange] = useState([65, 75]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [challenge, setChallenge] = useState([
-    { note: 65, isCorrect: false },
-    { note: 77, isCorrect: false },
-    { note: 69, isCorrect: false },
+    { note: 60, isCorrect: false },
+    { note: 62, isCorrect: false },
+    { note: 64, isCorrect: false },
     { note: 65, isCorrect: false },
   ]);
 
@@ -107,13 +153,11 @@ function ChallengePage() {
         note == challenge[currentIndex].note &&
         challenge[currentIndex].isCorrect !== true
       ) {
-        console.log(note);
         const newState = [...challenge];
         newState[currentIndex].isCorrect = true;
         setChallenge(newState);
-        if (currentIndex < challenge.length - 1) {
-          setCurrentIndex((prev) => prev + 1);
-        }
+
+        setCurrentIndex((prev) => prev + 1);
       }
     }
 
@@ -123,36 +167,103 @@ function ChallengePage() {
   }
 
   function generateNewChallenge() {
+    const lowestNote =
+      noteStrings.indexOf(form.lowNote) + (form.lowOctave - 1) * 12 + 24;
+    const highestNote =
+      noteStrings.indexOf(form.highNote) + (form.highOctave - 1) * 12 + 24;
     const newChallenge = [];
-    localStorage.getItem("accidentals") &&
-      localStorage.removeItem("accidentals");
-    localStorage.setItem("accidentals", "");
-    for (let i = 0; i < challengeLength; i++) {
-      const localStorageAccidental = localStorage.getItem("accidentals");
-      Math.random() > 0.5
-        ? localStorage.setItem("accidentals", localStorageAccidental + "#")
-        : localStorage.setItem("accidentals", localStorageAccidental + "b");
-      const randomNote =
-        Math.floor(Math.random() * (range[1] - range[0])) + range[0];
-      const newNoteObj = { note: randomNote, isCorrect: false };
-      newChallenge.push(newNoteObj);
-    }
+    if (form.randomNote) {
+      localStorage.getItem("accidentals") &&
+        localStorage.removeItem("accidentals");
+      localStorage.setItem("accidentals", "");
+      for (let i = 0; i < form.randomNoteLength; i++) {
+        const randomNote =
+          Math.floor(Math.random() * (highestNote - lowestNote)) + lowestNote;
+        const localStorageAccidental = localStorage.getItem("accidentals");
+        Math.random() > 0.5
+          ? localStorage.setItem("accidentals", localStorageAccidental + "#")
+          : localStorage.setItem("accidentals", localStorageAccidental + "b");
+        const newNoteObj = { note: randomNote, isCorrect: false };
+        newChallenge.push(newNoteObj);
+      }
+    } else {
+      // Pattern
+      let newChallengePattern = [];
 
+      const randomNote =
+        Math.floor(Math.random() * (highestNote - lowestNote)) + lowestNote;
+      for (let i = 0; i < patternArr.length; i++) {
+        if (form.pattern[Object.keys(patternArr[i])]) {
+          newChallengePattern.push(...Object.values(patternArr[i]));
+        }
+      }
+      const randomPattern =
+        newChallengePattern[
+          Math.floor(Math.random() * newChallengePattern.length)
+        ];
+
+      const scale =
+        form.key.length < 2
+          ? majorArr.map((n) => 24 + noteStrings.indexOf(form.key) + n)
+          : minorArr.map((n) => 24 + noteStrings.indexOf(form.key) + n);
+
+      const indexInKey = scale.findIndex((n) => (randomNote - n) % 12 === 0);
+
+      console.log(randomPattern);
+      if (indexInKey !== -1) {
+        console.log(randomNote);
+        console.log(indexInKey);
+
+        for (let i = 0; i < randomPattern.length; i++) {
+          const newNoteObj = {
+            note:
+              randomNote +
+              majorArr[randomPattern[i] + indexInKey] -
+              majorArr[indexInKey],
+            isCorrect: false,
+          };
+          newChallenge.push(newNoteObj);
+        }
+      } else {
+        const newRandomNote = randomNote - 1;
+        console.log(newRandomNote);
+        const newIndexInKey = scale.findIndex(
+          (n) => (newRandomNote - n) % 12 === 0
+        );
+        console.log(newIndexInKey);
+        for (let i = 0; i < randomPattern.length; i++) {
+          const newNoteObj = {
+            note:
+              newRandomNote +
+              majorArr[randomPattern[i] + newIndexInKey] -
+              majorArr[newIndexInKey],
+            isCorrect: false,
+          };
+          newChallenge.push(newNoteObj);
+        }
+      }
+    }
+    console.log(newChallenge);
     setChallenge(newChallenge);
     setCurrentIndex(0);
   }
   useEffect(() => {
-    startPitchDetect();
+    if (currentIndex === challenge.length) {
+      setTimeout(() => {
+        generateNewChallenge();
+      }, 800);
+    }
+    if (currentIndex !== 0) startPitchDetect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
-  console.log(form);
+
   return (
     <div className="challenge-container">
       <div className="challenge-left-section">
         <h1 className="challenge-title">
           Play the following. Remember to hit the start button.
         </h1>
-        <StaveComponent challenge={challenge} />
+        <StaveComponent challenge={challenge} form={form} />
       </div>
       <div className="challenge-right-section">
         <h1 className="challenge-timer">00:00</h1>
@@ -178,6 +289,7 @@ function ChallengePage() {
         <ChallengeConfigModal
           toggleChallengeConfigModal={toggleChallengeConfigModal}
           setToggleChallengeConfigModal={setToggleChallengeConfigModal}
+          generateNewChallenge={generateNewChallenge}
           form={form}
           setForm={setForm}
         />
