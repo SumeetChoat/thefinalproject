@@ -3,11 +3,15 @@ DROP TABLE IF EXISTS assignments, student_teacher, teachers, students, users, to
 CREATE TABLE users (
     username VARCHAR PRIMARY KEY,
     password VARCHAR NOT NULL,
+    email VARCHAR NOT NULL,
     first_name VARCHAR,
     last_name VARCHAR,
     role VARCHAR,
     title VARCHAR
 );
+INSERT INTO users (username, password, email, first_name, last_name, role) VALUES
+('anthony','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonychan1211@gmail.com', 'anthony', 'chan', 'teacher'),
+('anthony2','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'anthonyStudent', 'chan', 'student');
 
 CREATE TABLE students (
     username VARCHAR REFERENCES users(username) PRIMARY KEY,

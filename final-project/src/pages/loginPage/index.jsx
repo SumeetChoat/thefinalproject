@@ -3,9 +3,11 @@ import { LoginForm } from "../../components";
 import "./styles.css";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginForm, setLoginForm] = useState({
+    username: "",
+    password: "",
+  });
+
   const [message, setMessage] = useState("");
 
   return (
@@ -14,12 +16,8 @@ export default function LoginPage() {
       <div className="form-container">
         <h1 className="login-title">Login</h1>
         <LoginForm
-          email={email}
-          setEmail={setEmail}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
+          loginForm={loginForm}
+          setLoginForm={setLoginForm}
           message={message}
           setMessage={setMessage}
         />

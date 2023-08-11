@@ -12,12 +12,13 @@ import "./styles.css";
 import ChallengeConfigModal from "../../components/ChallengeConfigModal";
 
 import AssignmentReadyModal from "../../components/AssignmentReadyModal";
-import { useAuth } from "../../contexts";
+import { useAssignments, useAuth } from "../../contexts";
 import FinishAssignmentModal from "../../components/FinishAssignmentModal";
 
 function ChallengePage() {
-  const { currentAssignment, setCurrentAssignment } = useAuth();
-
+  const { currentAssignment, setCurrentAssignment } = useAssignments();
+  const { user } = useAuth();
+  console.log(user);
   const [round, setRound] = useState(null);
   const [showAssignmentReadyModal, setShowAssignmentReadyModal] =
     useState(false);
