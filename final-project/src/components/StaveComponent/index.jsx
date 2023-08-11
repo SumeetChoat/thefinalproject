@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { useEffect, useRef } from "react";
-import "./style.css";
+import "./styles.css";
 import {
   Renderer,
   Stave,
@@ -12,6 +12,7 @@ import {
   Beam,
   Accidental,
 } from "vexflow";
+
 function StaveComponent({ challenge }) {
   const noteStrings = [
     "C",

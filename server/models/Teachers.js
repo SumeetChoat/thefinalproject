@@ -1,13 +1,9 @@
 const db = require('../database/connect')
-const {v4: uuidv4} = require("uuid");
 
 class Teacher {
-    constructor({teacher_id, username, password, email, token}) {
-        this.teacher_id = teacher_id
+    constructor({username, title}) {
         this.username = username
-        this.password = password
-        this.email = email
-        this.token = token
+        this.title = title
     }
 
     static async getOneByUsername(username) {
@@ -19,12 +15,23 @@ class Teacher {
         return new Teacher(response.rows[0]);
     }
 
-    static async create(data) {
-        const {username, password, email} = data;
-        const token = uuidv4();
-        const response = await db.query("INSERT INTO teachers (username, password, email, token) VALUES ($1, $2, $3, $4) RETURNING username", [username, password, email, token]);
+    static async createTeacher(username,title) {
+        console.log(title)
+        const response = await db.query("INSERT INTO teachers (username, title) VALUES ($1, $2) RETURNING username", [username,title]);
         console.log(response)
-        return Teacher.getOneByUsername(response.rows[0].username)
+        if (response.rows.length !== 0){
+            return Teacher.getOneByUsername(response.rows[0].username)
+        } else {
+            throw new Error('Teacher could not be added.')
+        }
+    }
+
+    async deleteTeacher() {
+        await db.query("DELETE FROM student_teacher WHERE teacher_user = $1",[this.username])
+        await db.query("DELETE FROM tokens WHERE username = $1",[this.username])
+        const result = await db.query("DELETE FROM teachers WHERE username = $1 RETURNING *",[this.username])
+        await db.query('DELETE FROM users WHERE username = $1',[this.username])
+        return new Teacher(result.rows[0])
     }
 }
 
