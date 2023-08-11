@@ -52,7 +52,8 @@ CREATE TABLE friends (
 CREATE TABLE friend_requests (
     request_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     sender VARCHAR REFERENCES users(username) NOT NULL,
-    recipient VARCHAR REFERENCES users(username) NOT NULL
+    recipient VARCHAR REFERENCES users(username) NOT NULL,
+    time_sent TIMESTAMP
 );
 
 CREATE TABLE messages (
@@ -60,11 +61,13 @@ CREATE TABLE messages (
     sender VARCHAR REFERENCES users(username) NOT NULL,
     recipient VARCHAR REFERENCES users(username) NOT NULL,
     type VARCHAR NOT NULL,
-    content VARCHAR NOT NULL
+    content VARCHAR NOT NULL,
+    time_sent TIMESTAMP
 );
 
 CREATE TABLE notifications (
     notification_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     username VARCHAR REFERENCES users(username) NOT NULL,
-    message VARCHAR
+    message VARCHAR,
+    time_sent TIMESTAMP
 );
