@@ -34,7 +34,8 @@ CREATE TABLE assignments (
     clef VARCHAR,
     rounds INT NOT NULL,
     date_assigned TIMESTAMP,
-    date_completed TIMESTAMP 
+    date_completed TIMESTAMP,
+    time_taken BIGINT
 );
 
 CREATE TABLE tokens (
