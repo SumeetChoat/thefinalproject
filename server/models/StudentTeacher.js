@@ -14,7 +14,7 @@ class StudentTeacher {
             resp.rows.map((s) => new StudentTeacher(s))  
         }
         // const resp2 = await db.query("SELECT students.student_id, username, email, points FROM students LEFT JOIN student_teacher ON students.student_id = student_teacher.student_id WHERE student_teacher.teacher_id = $1",[teacher_id])
-        const resp2 = await db.query('SELECT users.username, points, firstName, lastName FROM users LEFT JOIN student_teacher ON users.username = student_teacher.student_user WHERE student_teacher.teacher_user = $1',[teacher_user])
+        const resp2 = await db.query('SELECT users.username, firstName, lastName FROM users LEFT JOIN student_teacher ON users.username = student_teacher.student_user WHERE student_teacher.teacher_user = $1',[teacher_user])
         if (resp2.rows.length == 0){
             throw new Error('No students found.')
         }

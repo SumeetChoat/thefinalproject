@@ -5,7 +5,8 @@ CREATE TABLE users (
     password VARCHAR NOT NULL,
     firstName VARCHAR,
     lastName VARCHAR,
-    role VARCHAR
+    role VARCHAR,
+    title VARCHAR
 );
 
 CREATE TABLE students (
@@ -25,13 +26,14 @@ CREATE TABLE student_teacher (
 
 CREATE TABLE assignments (
     assignment_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    student_user VARCHAR REFERENCES students(username),
-    teacher_user VARCHAR REFERENCES teachers(username),
-    range INT ARRAY,
+    student_user VARCHAR REFERENCES users(username),
+    teacher_user VARCHAR REFERENCES users(username),
+    range VARCHAR ARRAY,
     pattern INT ARRAY,
     completed BOOLEAN DEFAULT FALSE,
     score INT DEFAULT 0,
     clef VARCHAR,
+    key VARCHAR,
     rounds INT NOT NULL,
     date_assigned TIMESTAMP,
     date_completed TIMESTAMP,
