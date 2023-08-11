@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { useFriends } from "../../contexts"
-import '../../pages/profilePage/styles.css'
+import { useFriends } from "../../../contexts"
+import '../../../pages/profilePage/styles.css'
 
-function FriendItem({friend}){
+function FriendItem({friend, friends, setFriends}){
     console.log(friend)
-    const {friends,setFriends} = useFriends()
+    //const {friends,setFriends} = useFriends()
 
     function deleteFriend(friend){
          if (confirm(`Are you sure you want to remove ${friend.username} as a friend?`)==true) {

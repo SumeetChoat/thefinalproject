@@ -1,20 +1,24 @@
 .profile-container {
     display: flex;
-    margin: 0 auto
+    /* justify-content: center; */
+    /* margin: 0 auto; */
+    padding: 10px;
+    margin: 0 auto;
+    width: 40%
 }
 
-.friends-list {
+.friends-list, .assignments-list {
     list-style-type: none;
 }
-.friends-item{
+.friends-item, .assignments-item{
     padding: 10px;
     display: flex;
     justify-content: center;
 }
-.friends-item span{
+.friends-item span, .assignments-item span{
     padding: 5px;
 }
-.friends-container {
+.friends-container, .assignments-container {
     display: grid;
     align-items: center;
     padding: 20px 0;

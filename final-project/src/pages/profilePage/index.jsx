@@ -1,26 +1,30 @@
 import { useState, useEffect } from "react"
 import { useAuth, useRole} from "../../contexts"
-import Friends from "../../components/Friends"
+import {Friends, Assignments} from "../../components"
 import './styles.css'
 
 function ProfilePage () {
-    const token = useAuth().token || localStorage.getItem('token')
-    const {role} = useRole()
+    //const token = useAuth().token || localStorage.getItem('token')
+    //const {role} = useRole()
+
+    let role = 'student'
 
     if (role === 'student' || role==='teacher'){
         return(
             <>
             <div className="profile-container">
             <div className="assignments-container">
-                <p></p>
+                Assignments
+                {<Assignments />}
             </div>
             <div className="friends-container">
+                Friends
                 {<Friends/>} 
             </div> 
             {role=='student'?
-                <p></p>
+                <p>leader board</p>
             :
-                <p></p>
+                <p>my students</p>
             }
             </div>
             </>
