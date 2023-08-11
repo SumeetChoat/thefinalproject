@@ -1,0 +1,31 @@
+.profile-container {
+    display: flex;
+    margin: 0 auto
+}
+
+.friends-list {
+    list-style-type: none;
+}
+.friends-item{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+.friends-item span{
+    padding: 5px;
+}
+.friends-container {
+    display: grid;
+    align-items: center;
+    padding: 20px 0;
+    justify-content: space-around;
+    color: black;
+    border-radius: 25px;
+    margin: 25px auto;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgb(210, 210, 210);
+}
+.delete-friend-btn, .message-friend-btn {
+    padding: 5px;
+    cursor: pointer;
+}
