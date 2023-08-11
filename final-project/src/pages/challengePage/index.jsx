@@ -10,7 +10,47 @@ import {
 import StaveComponent from "../../components/StaveComponent";
 import "./styles.css";
 import ChallengeConfigModal from "../../components/ChallengeConfigModal";
+import { useAuth } from "../../contexts";
 function ChallengePage() {
+  const { currentAssignment } = useAuth();
+  const [round, setRound] = useState(null);
+  useEffect(() => {
+    if (currentAssignment) {
+      setRound(currentAssignment.round);
+      const lowOctave =
+        currentAssignment.range[0] < 24
+          ? 0
+          : Math.floor((currentAssignment.range[0] - 24) / 12) + 1;
+      const lowNoteName = currentAssignment.range[0] % 12;
+      const highOctave =
+        currentAssignment.range[1] < 24
+          ? 0
+          : Math.floor((currentAssignment.range[1] - 24) / 12) + 1;
+      const highNoteName = currentAssignment.range[1] % 12;
+      const newForm = {
+        ...form,
+        clef: currentAssignment.clef,
+        range: [`${lowNoteName}${lowOctave}`, `${highNoteName}${highOctave}`],
+        lowNote: lowNoteName,
+        lowOctave: lowOctave,
+        highNote: highNoteName,
+        highOctave: highOctave,
+        randomNote: currentAssignment.pattern.length === 0 ? true : false,
+      };
+      if (currentAssignment.pattern.length > 0) {
+        for (const pattern in newForm.pattern) {
+          if (currentAssignment.pattern.indexOf(pattern) !== -1) {
+            newForm.pattern[pattern] = true;
+          } else {
+            newForm.pattern[pattern] = false;
+          }
+        }
+      }
+
+      setForm(newForm);
+    }
+  }, [currentAssignment]);
+
   const [form, setForm] = useState({
     lowNote: "C",
     lowOctave: 4,

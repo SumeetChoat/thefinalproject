@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
 import "./styles.css";
@@ -30,10 +31,7 @@ function StaveComponent({ challenge, form }) {
     const noteArr = challenge.map((n, i) => {
       const octave = n.note < 24 ? 0 : Math.floor((n.note - 24) / 12) + 1;
       const noteName = n.note % 12;
-      // If randomNote === true
-      if (form.randomNote === true) {
-        console.log("run");
-      }
+
       if (noteStrings[noteName].length === 1) {
         const newNote = new StaveNote({
           clef: form.clef === "treble" ? undefined : "bass",
