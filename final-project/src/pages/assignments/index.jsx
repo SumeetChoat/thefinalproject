@@ -1,7 +1,11 @@
 import { useState } from "react";
 import "./styles.css";
 import { noteStrings } from "../../assets/pattern";
+import { useAuth } from "../../contexts";
+import { useNavigate } from "react-router-dom";
 function Assignments() {
+  const { setCurrentAssignment } = useAuth();
+  const navigate = useNavigate();
   const [assignments, setAssignments] = useState([
     {
       assignment_id: 1,
@@ -84,7 +88,13 @@ function Assignments() {
                 <span className="assignment-row-data-span">{a.round}</span>
               </p>
               <p>{a.completed ? "Completed" : "Incompleted"}</p>
-              <button className="assignment-row-play-button">
+              <button
+                className="assignment-row-play-button"
+                onClick={() => {
+                  setCurrentAssignment(a);
+                  navigate("/challenge");
+                }}
+              >
                 {a.completed ? "Play Again" : "Play"}
               </button>
             </div>
