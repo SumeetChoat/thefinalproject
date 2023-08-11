@@ -26,6 +26,7 @@ function controller(io) {
             const friend_requests = await Friend_Requests.getAll(username)
             const messages = await Messages.getAll(username);
             const notifications = await Notifications.getAll(username);
+            // Need to add assignments??
 
             const data = {
                 "friends" : friends,
