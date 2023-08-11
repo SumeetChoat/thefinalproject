@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS assignments, student_teacher, teachers, students, users, tokens, friends, friend_requests, messages, notifications;
 
 CREATE TABLE users (
-    username VARCHAR PRIMARY KEY -- ON DELETE CASCADE, 
+    username VARCHAR PRIMARY KEY,
     password VARCHAR NOT NULL,
     firstName VARCHAR,
     lastName VARCHAR,
@@ -14,7 +14,7 @@ CREATE TABLE students (
 );
 
 CREATE TABLE teachers (
-    username VARCHAR PRIMARY KEY,
+    username VARCHAR REFERENCES users(username) PRIMARY KEY,
     title VARCHAR
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE assignments (
 CREATE TABLE tokens (
     token_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     token CHAR(36) NOT NULL,
-    username VARCHAR NOT NULL
+    username VARCHAR NOT NULL REFERENCES users(username)
 );
 
 CREATE TABLE friends (

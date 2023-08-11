@@ -43,9 +43,10 @@ class Students {
     // }
 
     async deleteStudent() {
-        await db.query("DELETE FROM student_teacher WHERE username = $1",[this.username])
+        await db.query("DELETE FROM student_teacher WHERE student_user = $1",[this.username])
         await db.query("DELETE FROM tokens WHERE username = $1",[this.username])
         const result = await db.query("DELETE FROM students WHERE username = $1 RETURNING *",[this.username])
+        await db.query('DELETE FROM users WHERE username = $1',[this.username])
         return new Students(result.rows[0])
     }
 }
