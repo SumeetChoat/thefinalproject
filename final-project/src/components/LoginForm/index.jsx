@@ -1,50 +1,58 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+/* eslint-disable react/prop-types */
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts";
 
 export default function LoginForm({
-  email,
-  setEmail,
-  password,
-  setPassword,
+  loginForm,
+  setLoginForm,
   message,
   setMessage,
 }) {
-
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
+  // const {}
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.clear(); //?
 
-    if (email.length > 0 && password.length > 0) {
+    if (loginForm.username.length > 0 && loginForm.password.length > 0) {
       fetch("http://localhost:3000/users/login", {
         method: "POST",
-        body: JSON.stringify({ email: email, password: password }),
+        body: JSON.stringify({
+          username: loginForm.username,
+          password: loginForm.password,
+        }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
       })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        localStorage.setItem("token", JSON.stringify(data.token))
-        setMessage('User logged in successfully.');
-        setTimeout(() => {
-          setMessage('')
-          window.location = "/"
-        }, 300);
-      })
-      .catch((err) => {
-        console.log(err)
-        setMessage('Invalid email or password.');
-        setTimeout(() => {
-          setMessage('')
-        }, 5000)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(res.status);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          localStorage.setItem("token", JSON.stringify(data.token));
+          setUser(data.user);
+          console.log(data.user);
+          setMessage("User logged in successfully.");
+          setTimeout(() => {
+            setMessage("");
+            navigate("/challenge");
+          }, 300);
+        })
+        .catch((err) => {
+          console.log(err);
+          setMessage("Invalid email or password.");
+          setTimeout(() => {
+            setMessage("");
+          }, 5000);
+        });
+      setLoginForm({
+        username: "",
+        password: "",
       });
-      setEmail('')
-      setPassword('')
     } else {
       setMessage("Please fill in all fields.");
       setTimeout(() => {
@@ -56,20 +64,30 @@ export default function LoginForm({
   return (
     <form onSubmit={handleSubmit} className="login-form">
       <div>
-        Email:{" "}
-        <input value={email} type="text" onChange={(e) => setEmail(e.target.value)} />
+        Username:{" "}
+        <input
+          value={loginForm.username}
+          type="text"
+          onChange={(e) =>
+            setLoginForm({ ...loginForm, username: e.target.value })
+          }
+        />
       </div>
       <div>
         Password:{" "}
         <input
-          value={password}
+          value={loginForm.password}
           type="password"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) =>
+            setLoginForm({ ...loginForm, password: e.target.value })
+          }
         />
       </div>
-      {/* <button type="submit">Login</button> */}
+
       <input type="submit" value="Login" />
-      <p>New User? <Link to="/register">Register</Link></p>
+      <p>
+        New User? <Link to="/register">Register</Link>
+      </p>
       <p className="message">{message}</p>
     </form>
   );
