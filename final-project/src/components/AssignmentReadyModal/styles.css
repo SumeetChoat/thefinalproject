@@ -1,0 +1,24 @@
+.assignment-ready-modal {
+  padding: 1.5rem 4rem;
+}
+
+.assignment-ready-modal-title {
+  margin: 1rem 0;
+}
+.assignment-ready-modal-button {
+  padding: 1rem;
+}
+.assignment-ready-pattern-img {
+  width: 150px;
+}
+td {
+  margin: 2rem 0;
+  padding: 2rem 0;
+}
+.assignment-ready-pattern-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.assignment-ready-modal-button-section {
+  text-align: center;
+}
