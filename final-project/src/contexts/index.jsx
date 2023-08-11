@@ -84,7 +84,7 @@ export const RequestsProvider = ({ children }) => {
     </RequestsContext.Provider>
   )
 }
-export const useSentRequests = () => useContext(RequestsContext)
+export const useRequests = () => useContext(RequestsContext)
 
 //message history
 export const MessagesContext = createContext()

@@ -8,6 +8,7 @@ import {
   RegisterPage,
   Home,
   Assignments,
+  Profile
 } from "./pages";
 
 import {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/" element={<ProtectedRoute />}>
             <Route path="/challenge" element={<ChallengePage />} />
             <Route path="/assignments" element={<Assignments />} />
+            <Route path ="/account" element={<Profile/>}/>
           </Route>
 
           <Route path="*" element={<NotFound />} />
