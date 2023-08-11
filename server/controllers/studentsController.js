@@ -15,17 +15,6 @@ class StudentsController {
         }
     }
 
-    // static async updateDetails(req,res) {
-    //     try {
-    //         const data = req.body
-    //         const username = req.tokenObj.username
-    //         const result = await Students.updateDetails(username, data)
-    //         res.status(200).send(result)
-    //     } catch (err) {
-    //         res.status(500).json({"error": err.message})
-    //     }
-    // }
-
     static async getStudents(req,res) {
         try {
             const students = await Students.getStudents()

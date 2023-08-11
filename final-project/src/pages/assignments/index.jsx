@@ -1,10 +1,10 @@
 import { useState } from "react";
 import "./styles.css";
 import { noteStrings } from "../../assets/pattern";
-import { useAuth } from "../../contexts";
+import { useAssignments } from "../../contexts";
 import { useNavigate } from "react-router-dom";
 function Assignments() {
-  const { setCurrentAssignment } = useAuth();
+  const { setCurrentAssignment } = useAssignments();
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState([
     {

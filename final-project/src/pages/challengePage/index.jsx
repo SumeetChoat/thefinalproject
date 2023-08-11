@@ -10,9 +10,9 @@ import {
 import StaveComponent from "../../components/StaveComponent";
 import "./styles.css";
 import ChallengeConfigModal from "../../components/ChallengeConfigModal";
-import { useAuth } from "../../contexts";
+import { useAssignments } from "../../contexts";
 function ChallengePage() {
-  const { currentAssignment } = useAuth();
+  const { currentAssignment } = useAssignments();
   const [round, setRound] = useState(null);
   useEffect(() => {
     if (currentAssignment) {

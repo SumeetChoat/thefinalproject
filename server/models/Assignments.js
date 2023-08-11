@@ -3,7 +3,7 @@ const db = require('../database/connect')
 class Assignments {
     constructor({
         assignment_id, student_user, teacher_user, range, pattern, completed, score, clef, rounds,
-        key, date_assigned, date_completed
+        key, date_assigned, date_completed, time_taken
     }){
         this.assignment_id = assignment_id
         this.student_user = student_user
@@ -17,6 +17,7 @@ class Assignments {
         this.key = key
         this.date_assigned = date_assigned
         this.date_completed = date_completed
+        this.time_taken = time_taken
     }
 
     static async getStudentsAssignments(student_id) {
@@ -45,12 +46,12 @@ class Assignments {
     }
 
     static async createAssignment(data) {
-        const {student_id,teacher_id,range,pattern,completed,score,clef,key,date_assigned,date_completed} = data
+        const {student_id,teacher_id,range,pattern,completed,score,clef,key,date_assigned,date_completed,time_taken} = data
         const resp = await db.query(`INSERT INTO assignments
-         (student_id,teacher_id,range,pattern,completed,score,clef,key,date_assigned,date_completed) 
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) 
+         (student_id,teacher_id,range,pattern,completed,score,clef,key,date_assigned,date_completed,time_taken) 
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) 
          RETURNING *`,[
-            student_id,teacher_id,range,pattern,completed,score,clef,key,date_assigned,date_completed
+            student_id,teacher_id,range,pattern,completed,score,clef,key,date_assigned,date_completed,time_taken
         ])
         const id = resp.rows[0].assignment_id
         const assignment = await Assignments.getOneByID(id)
@@ -59,7 +60,7 @@ class Assignments {
 
     static async updateAssignment(assignment_id, data) {
         const current = await Assignments.getOneByID(assignment_id)
-        const {range,pattern,completed,score,clef, key} = data
+        const {range,pattern,completed,score,clef,key} = data
         const resp = await db.query(`UPDATE assignments 
         SET range=$1, pattern=$2, completed=$3, score=$4, clef=$5, key=$6
         WHERE assignment_id=$7
@@ -75,8 +76,13 @@ class Assignments {
     }
 
     static async completeAssignment(data) {
-        const {assignment_id,score} = data
-        const resp = await db.query("UPDATE assignments SET completed=$1,score=$2 WHERE assignment_id = $3 RETURNING assignment_id",[true,score,assignment_id])
+        const {assignment_id,score,date_completed,time_taken} = data
+        const resp = await db.query(`UPDATE assignments
+        SET completed=$1,score=$2, completed=$3,time_taken=$4,date_completed=$5
+        WHERE assignment_id = $6
+        RETURNING assignment_id`,[
+            true,score,time_taken,date_completed,assignment_id
+        ])
         const updatedAssignment = await Assignments.getOneByID(resp.rows[0].assignment_id)
         return updatedAssignment
     }

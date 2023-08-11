@@ -1,6 +1,7 @@
 const db = require('../database/connect')
 const Students = require('./Students')
 const Teachers = require('./Teachers')
+const StudentTeacher = require('./StudentTeacher')
 
 class Users {
     constructor({
@@ -36,6 +37,19 @@ class Users {
         } else {
             throw new Error('User with this username already exists.')
         }
+    }
+
+    static async updateDetails(data) {
+        const {firstName,lastName, teacher_user, title, username} = data
+        const resp = await db.query('UPDATE users SET firstName = $1,lastName=$2 WHERE username = $3 RETURNING username',[firstName,lastName,username])
+        const updatedUser = await Users.getByUsername(resp.rows[0].username)
+        if (teacher_user){
+            await StudentTeacher.assignTeacher(teacher_user,username)
+        } else if (title) {
+            const resp = await db.query('UPDATE teachers SET title = $1 WHERE username = $2 RETURNING *',[title,username])
+            await Teachers.getOneByUsername(resp.rows[0].username)
+        }
+        return updatedUser
     }
 }
 

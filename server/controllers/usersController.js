@@ -38,6 +38,16 @@ class UserController {
         }
     }
 
+    static async updateDetails(req,res){
+        try{
+            const data = req.body
+            const resp = await Users.updateDetails(data)
+            res.status(200).send(resp)
+        } catch (err) {
+            res.status(500).json({"error": err.message})
+        }
+    }
+
     static async logout(req,res){
         try{
             const tokenObj = req.tokenObj
