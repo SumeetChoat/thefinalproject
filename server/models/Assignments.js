@@ -29,13 +29,8 @@ class Assignments {
     }
 
     static async getTeachersAssignments(teacher_user) {
-        //const resp = await db.query("SELECT * FROM assignments WHERE teacher_user = $1",[teacher_user])
-        // const resp = await db.query('SELECT assignments.* , teachers.title , users.firstName, users.lastName FROM assignments JOIN users ON assignments.teacher_user = users.username JOIN teachers ON assignments.teacher_user = teachers.username WHERE assignments.teacher_user = $1',[teacher_user])
-
-        // const resp = await db.query('SELECT assignments.*, users.firstName, users.lastName FROM assignments JOIN users ON users.username = assignments.teacher_user WHERE teacher_user = $1',[teacher_user])
-
         const resp = await db.query(`
-        SELECT assignments.*, users.firstName as teacher_first_name, users.lastName as teacher_last_name, teachers.title FROM assignments LEFT JOIN users ON users.username = assignments.teacher_user LEFT JOIN teachers ON teachers.username = assignments.teacher_user WHERE assignments.teacher_user = $1
+        SELECT assignments.*, users.first_name as teacher_first_name, users.last_name as teacher_last_name, teachers.title FROM assignments LEFT JOIN users ON users.username = assignments.teacher_user LEFT JOIN teachers ON teachers.username = assignments.teacher_user WHERE assignments.teacher_user = $1
         `,[teacher_user])
         console.log(resp.rows[0])
 

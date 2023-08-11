@@ -5,12 +5,12 @@ const StudentTeacher = require('./StudentTeacher')
 
 class Users {
     constructor({
-        username, password, firstName, lastName, role
+        username, password, first_name, last_name, role
     }) {
         this.username = username
         this.password = password
-        this.firstName = firstName
-        this.lastName = lastName
+        this.first_name = first_name
+        this.last_name = last_name
         this.role = role
     }
 
@@ -24,8 +24,8 @@ class Users {
     }
 
     static async register(data) {
-        const {username,password,firstName,lastName,role,title} = data
-        const resp = await db.query('INSERT INTO users (username,password,firstName,lastName,role) VALUES ($1,$2,$3,$4,$5) RETURNING *',[username,password,firstName,lastName,role])
+        const {username,password,first_name,last_name,role,title} = data
+        const resp = await db.query('INSERT INTO users (username,password,first_name,last_name,role) VALUES ($1,$2,$3,$4,$5) RETURNING *',[username,password,first_name,last_name,role])
         if (resp.rows.length !== 0){
             const user = await Users.getByUsername(resp.rows[0].username)
             if (role === 'student'){
@@ -40,8 +40,8 @@ class Users {
     }
 
     static async updateDetails(data) {
-        const {firstName,lastName, teacher_user, title, username} = data
-        const resp = await db.query('UPDATE users SET firstName = $1,lastName=$2 WHERE username = $3 RETURNING username',[firstName,lastName,username])
+        const {first_name,last_name, teacher_user, title, username} = data
+        const resp = await db.query('UPDATE users SET first_name = $1,last_name=$2 WHERE username = $3 RETURNING username',[first_name,last_name,username])
         const updatedUser = await Users.getByUsername(resp.rows[0].username)
         if (teacher_user){
             await StudentTeacher.assignTeacher(teacher_user,username)

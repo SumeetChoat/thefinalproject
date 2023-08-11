@@ -3,8 +3,8 @@ DROP TABLE IF EXISTS assignments, student_teacher, teachers, students, users, to
 CREATE TABLE users (
     username VARCHAR PRIMARY KEY,
     password VARCHAR NOT NULL,
-    firstName VARCHAR,
-    lastName VARCHAR,
+    first_name VARCHAR,
+    last_name VARCHAR,
     role VARCHAR,
     title VARCHAR
 );
