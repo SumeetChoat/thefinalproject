@@ -59,7 +59,7 @@ export const useFriends = () => useContext(FriendsContext)
 
 //teacher's students
 export const StudentsContext = createContext()
-export const StudentProvider = ({ children }) => {
+export const StudentsProvider = ({ children }) => {
   const [students, setStudents] = useState()
   return (
     <StudentsContext.Provider
