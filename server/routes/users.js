@@ -9,6 +9,8 @@ userRouter.post('/login', usersController.login)
 
 userRouter.use(authenticator)
 
+userRouter.patch('/update',usersController.updateDetails)
+
 userRouter.delete('/logout',usersController.logout)
 
 module.exports = userRouter

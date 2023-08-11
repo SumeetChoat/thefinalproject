@@ -245,6 +245,7 @@ function ChallengeConfigModal({
               dialogRef.current.querySelectorAll("input[type='checkbox']")
             ).some((el) => el.checked)
           ) {
+            localStorage.setItem("challenge-config", JSON.stringify(form));
             generateNewChallenge();
             setToggleChallengeConfigModal(!toggleChallengeConfigModal);
           } else {

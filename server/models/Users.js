@@ -1,15 +1,16 @@
 const db = require('../database/connect')
 const Students = require('./Students')
 const Teachers = require('./Teachers')
+const StudentTeacher = require('./StudentTeacher')
 
 class Users {
     constructor({
-        username, password, firstName, lastName, role
+        username, password, first_name, last_name, role
     }) {
         this.username = username
         this.password = password
-        this.firstName = firstName
-        this.lastName = lastName
+        this.first_name = first_name
+        this.last_name = last_name
         this.role = role
     }
 
@@ -23,8 +24,8 @@ class Users {
     }
 
     static async register(data) {
-        const {username,password,firstName,lastName,role,title} = data
-        const resp = await db.query('INSERT INTO users (username,password,firstName,lastName,role) VALUES ($1,$2,$3,$4,$5) RETURNING *',[username,password,firstName,lastName,role])
+        const {username,password,first_name,last_name,role,title} = data
+        const resp = await db.query('INSERT INTO users (username,password,first_name,last_name,role) VALUES ($1,$2,$3,$4,$5) RETURNING *',[username,password,first_name,last_name,role])
         if (resp.rows.length !== 0){
             const user = await Users.getByUsername(resp.rows[0].username)
             if (role === 'student'){
@@ -36,6 +37,19 @@ class Users {
         } else {
             throw new Error('User with this username already exists.')
         }
+    }
+
+    static async updateDetails(data) {
+        const {first_name,last_name, teacher_user, title, username} = data
+        const resp = await db.query('UPDATE users SET first_name = $1,last_name=$2 WHERE username = $3 RETURNING username',[first_name,last_name,username])
+        const updatedUser = await Users.getByUsername(resp.rows[0].username)
+        if (teacher_user){
+            await StudentTeacher.assignTeacher(teacher_user,username)
+        } else if (title) {
+            const resp = await db.query('UPDATE teachers SET title = $1 WHERE username = $2 RETURNING *',[title,username])
+            await Teachers.getOneByUsername(resp.rows[0].username)
+        }
+        return updatedUser
     }
 }
 

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import "./styles.css";
 import { noteStrings } from "../../assets/pattern";
-import { useAuth } from "../../contexts";
+import { useAssignments } from "../../contexts";
 import { useNavigate } from "react-router-dom";
 function Assignments() {
-  const { setCurrentAssignment } = useAuth();
+  const { setCurrentAssignment } = useAssignments();
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState([
     {
@@ -16,7 +16,7 @@ function Assignments() {
       completed: true,
       score: 0,
       clef: "bass",
-      round: 20,
+      rounds: 20,
       assigned_date: "2023-08-07",
       completed_date: null,
     },
@@ -29,7 +29,7 @@ function Assignments() {
       completed: false,
       score: 0,
       clef: "treble",
-      round: 10,
+      rounds: 10,
       assigned_date: "2023-08-07",
       completed_date: null,
     },
@@ -42,7 +42,20 @@ function Assignments() {
       completed: false,
       score: 0,
       clef: "bass",
-      round: 20,
+      rounds: 20,
+      assigned_date: "2023-08-08",
+      completed_date: null,
+    },
+    {
+      assignment_id: 4,
+      student_id: 3,
+      teacher_id: 5,
+      range: [60, 62],
+      pattern: ["l2p1", "l2p3", "l3p1"],
+      completed: false,
+      score: 0,
+      clef: "bass",
+      rounds: 1,
       assigned_date: "2023-08-08",
       completed_date: null,
     },
@@ -84,8 +97,8 @@ function Assignments() {
                 </span>
               </p>
               <p>
-                Round:{" "}
-                <span className="assignment-row-data-span">{a.round}</span>
+                Rounds:{" "}
+                <span className="assignment-row-data-span">{a.rounds}</span>
               </p>
               <p>{a.completed ? "Completed" : "Incompleted"}</p>
               <button
