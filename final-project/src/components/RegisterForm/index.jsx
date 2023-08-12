@@ -83,51 +83,55 @@ export default function RegisterForm({
 
   return (
     <form onSubmit={handleSubmit} className="register-form">
-      <div>
+      <div className="login-input-group">
         <label>
           First Name:{" "}
           <input
             type="text"
+            className="login-text-input"
             name="firstName"
             value={newUser.firstName}
             onChange={(e) => handleChange(e)}
           />
         </label>
       </div>
-      <div>
+      <div className="login-input-group">
         <label>
           Last Name:{" "}
           <input
             type="text"
+            className="login-text-input"
             name="lastName"
             value={newUser.lastName}
             onChange={(e) => handleChange(e)}
           />
         </label>
       </div>
-      <div>
+      <div className="login-input-group">
         <label>
           Email:{" "}
           <input
-            type="text"
+            type="email"
+            className="login-text-input"
             name="email"
             value={newUser.email}
             onChange={(e) => handleChange(e)}
           />
         </label>
       </div>
-      <div>
+      <div className="login-input-group">
         <label>
           Username:{" "}
           <input
             type="text"
+            className="login-text-input"
             name="username"
             value={newUser.username}
             onChange={(e) => handleChange(e)}
           />
         </label>
       </div>
-      <div>
+      <div className="login-input-group">
         <label>
           Role:{" "}
           <input
@@ -148,7 +152,7 @@ export default function RegisterForm({
           <label htmlFor="teacher">Teacher</label>
         </label>
       </div>
-      <div>
+      <div className="login-input-group ">
         <label>
           Password:{" "}
           <input
@@ -156,11 +160,12 @@ export default function RegisterForm({
             name="password"
             value={newUser.password}
             onChange={(e) => handleChange(e)}
+            className="login-text-input"
           />
         </label>
       </div>
-      <input type="submit" value="Register" />
-      <p>
+      <input type="submit" value="Register" className="login-submit" />
+      <p className="login-register-switch">
         Already Registered? <Link to="/login">Login</Link>
       </p>
       <p className="message">{message}</p>

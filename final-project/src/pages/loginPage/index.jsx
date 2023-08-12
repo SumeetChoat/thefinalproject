@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [message, setMessage] = useState("");
 
   return (
-    <div className="container">
+    <div className="login-container">
       <h1>Welcome to Pitch Perfect - Music App!</h1>
       <div className="form-container">
         <h1 className="login-title">Login</h1>

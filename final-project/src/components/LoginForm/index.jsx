@@ -67,6 +67,7 @@ export default function LoginForm({
         Username:{" "}
         <input
           value={loginForm.username}
+          className="login-text-input"
           type="text"
           onChange={(e) =>
             setLoginForm({ ...loginForm, username: e.target.value })
@@ -77,6 +78,7 @@ export default function LoginForm({
         Password:{" "}
         <input
           value={loginForm.password}
+          className="login-text-input"
           type="password"
           onChange={(e) =>
             setLoginForm({ ...loginForm, password: e.target.value })
@@ -84,8 +86,8 @@ export default function LoginForm({
         />
       </div>
 
-      <input type="submit" value="Login" />
-      <p>
+      <input type="submit" value="Login" className="login-submit" />
+      <p className="login-register-switch">
         New User? <Link to="/register">Register</Link>
       </p>
       <p className="message">{message}</p>
