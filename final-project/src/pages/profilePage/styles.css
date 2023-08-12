@@ -2,7 +2,7 @@
     display: flex;
     padding: 10px;
     margin: 0 auto;
-    width: 40%;
+    width: auto;
     justify-content: center;
 }
 
@@ -20,14 +20,12 @@
     list-style-type: none;
 }
 .friends-item, .assignments-item{
-    padding: 10px;
+    padding: 5px;
     display: flex;
     justify-content: center;
 }
-.friends-item span, .assignments-item span{
-    padding: 5px;
-}
-.connections-container, .assignments-container, .assignments-list-container{
+
+.connections-container, .assignments-container, .assignments-item{
     justify-items: center;
     padding: 20px 0;
     justify-content: space-around;
@@ -40,6 +38,10 @@
 .delete-friend-btn, .message-friend-btn {
     padding: 5px;
     cursor: pointer;
+}
+
+.assignments-item{
+    display: block;
 }
 
 .connections-container {
@@ -55,3 +57,26 @@
     justify-content: space-around;
 }
 
+.assignment-btn{
+    display: flex;
+    justify-content: center;
+    /* justify-content: space-around; */
+}
+
+.assignment-btn button{
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+}
+
+.edit-assignment-btn:hover .svg-icon path{
+    fill: purple
+}
+
+.delete-assignment-btn:hover .svg-icon path {
+    fill: purple
+}
+
+.start-assignment-btn:hover .svg-icon path {
+    fill: purple
+}
