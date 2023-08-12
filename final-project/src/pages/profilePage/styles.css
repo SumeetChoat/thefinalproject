@@ -35,6 +35,12 @@
     padding: 30px;
     box-shadow: 0 8px 20px rgb(210, 210, 210);
 }
+
+.connections-container, .assignments-container {
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
 .delete-friend-btn, .message-friend-btn {
     padding: 5px;
     cursor: pointer;
