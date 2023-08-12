@@ -46,15 +46,11 @@
     cursor: pointer;
 }
 
-.assignments-item{
-    display: block;
+.assignments-item p{
+    padding: 1px;
 }
 
-.connections-container {
-    display: grid;
-}
-
-.assignments-container {
+.connections-container, .assignments-container {
     display: grid;
 }
 
@@ -63,26 +59,31 @@
     justify-content: space-around;
 }
 
-.assignment-btn{
+.assignment-btn, .friends-btn{
     display: flex;
     justify-content: center;
-    /* justify-content: space-around; */
+    justify-content: space-evenly;
 }
 
-.assignment-btn button{
+.assignment-btn button, .friends-btn button{
     background-color: transparent;
     border: none;
     font-size: 20px;
+    padding-top: 5px;
 }
 
-.edit-assignment-btn:hover .svg-icon path{
+.edit-btn:hover .svg-icon path{
     fill: purple
 }
 
-.delete-assignment-btn:hover .svg-icon path {
+.delete-btn:hover .svg-icon path {
     fill: purple
 }
 
-.start-assignment-btn:hover .svg-icon path {
+.start-btn:hover .svg-icon path {
+    fill: purple
+}
+
+.message-btn:hover .svg-icon path {
     fill: purple
 }
