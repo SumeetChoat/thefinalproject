@@ -1,10 +1,19 @@
 .profile-container {
     display: flex;
-    /* justify-content: center; */
-    /* margin: 0 auto; */
     padding: 10px;
     margin: 0 auto;
-    width: 40%
+    width: 40%;
+    justify-content: center;
+}
+
+.profile-left {
+    display: block;
+    align-items: flex-start;
+}
+
+.profile-right {
+    display: block;
+    align-items: flex-end;
 }
 
 .friends-list, .assignments-list {
@@ -18,9 +27,8 @@
 .friends-item span, .assignments-item span{
     padding: 5px;
 }
-.friends-container, .assignments-container {
-    display: grid;
-    align-items: center;
+.connections-container, .assignments-container, .assignments-list-container{
+    justify-items: center;
     padding: 20px 0;
     justify-content: space-around;
     color: black;
@@ -33,3 +41,17 @@
     padding: 5px;
     cursor: pointer;
 }
+
+.connections-container {
+    display: grid;
+}
+
+.assignments-container {
+    display: grid;
+}
+
+.assignments-lists {
+    display: flex;
+    justify-content: space-around;
+}
+

@@ -8,23 +8,39 @@ function AssignmentsList() {
     //const role = useRole()
     console.log('assignments')
     const [assignments,setAssignments] = useState([
-        {range: ["C4","C5"]}
+        {"range": ["C4","C5"], "completed": true}
     ])
-
-    function filter(option){
-
-    }
 
     let role = 'student'
     
     return (
-        <ul className="assignments-list">
-            {assignments ? assignments.map((a,i)=>{
-                return <AssignmentsItem assignment={a} key={i} assignments={assignments} setAssignments={setAssignments}/>
-            }) 
-            : (role=='student' ? <p>You have no assignments</p>
-                    : <p>You have not created any assignments</p>) }
-        </ul>
+        <div className="assignments-lists">
+        <div className="assignments-list-container">
+            <p>Completed</p>
+            {assignments.filter(a => a.completed) !== [] ?
+                <ul className="assignments-list">
+                    {assignments.filter(a=>a.completed)
+                    .map((a,i)=>{
+                        return <AssignmentsItem assignment={a} key={i} assignments={assignments} setAssignments={setAssignments}/>
+                    })}
+                </ul>
+                : <p></p>
+            }
+        </div>
+
+        <div className="assignments-list-container">
+            <p>Incomplete</p>
+            {assignments.filter(a=>!a.completed) !== [] ? 
+                <ul className="assignments-list">
+                    {assignments.filter(a=>!a.completed)
+                    .map((a,i)=>{
+                         return <AssignmentsItem assignment={a} key={i} assignments={assignments} setAssignments={setAssignments}/>
+                    })}
+                </ul>
+                : <p></p>
+            } 
+        </div>
+        </div>
     )
 }
 

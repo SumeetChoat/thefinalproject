@@ -13,19 +13,29 @@ function ProfilePage () {
         return(
             <>
             <div className="profile-container">
-            <div className="assignments-container">
-                Assignments
-                {<Assignments />}
-            </div>
-            <div className="friends-container">
-                Friends
-                {<Friends/>} 
-            </div> 
-            {role=='student'?
-                <p>leader board</p>
-            :
-                <p>my students</p>
-            }
+
+                <div className="profile-left">
+                    <div className="assignments-container">
+                        Assignments
+                        {<Assignments />}
+                    </div>
+
+                    <div className="connections-container">
+                        Connections
+                        {<Friends/>} 
+                    </div> 
+                </div>    
+
+                <div className="profile-right">
+                    <div className="leaderboard-container">
+                            {role=='student'?
+                                <p>LeaderBoard</p>
+                            :
+                                <p>My Students</p>
+                            }
+                    </div>
+                </div>
+
             </div>
             </>
         )
