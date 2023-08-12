@@ -13,7 +13,7 @@ export default function RegisterPage() {
     role: "student",
   });
   return (
-    <div className="container">
+    <div className="login-container">
       <h1>Welcome to Pitch Perfect - Music App</h1>
       <h1>Please Register</h1>
       <RegisterForm
