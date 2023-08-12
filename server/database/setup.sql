@@ -10,39 +10,57 @@ CREATE TABLE users (
     title VARCHAR
 );
 INSERT INTO users (username, password, email, first_name, last_name, role) VALUES
-('anthony','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonychan1211@gmail.com', 'anthony', 'chan', 'teacher'),
-('anthony2','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'anthonyStudent', 'chan', 'student');
+('teacher1','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonychan1211@gmail.com', 'teacher1', 'chan', 'teacher'),
+('teacher2','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'teacher2', 'chan', 'teacher'),
+('student1','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'student1', 'chan', 'student'),
+('student2','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'student2', 'chan', 'student');
 
 CREATE TABLE students (
     username VARCHAR REFERENCES users(username) PRIMARY KEY,
     points INT DEFAULT 0
 );
 
+INSERT INTO students(username, points) VALUES
+('student1', 0),
+('student2', 0);
+
 CREATE TABLE teachers (
     username VARCHAR REFERENCES users(username) PRIMARY KEY,
     title VARCHAR
 );
+
+INSERT INTO teachers (username, title)VALUES
+('teacher1', 'Ms.'),
+('teacher2', 'Mr.');
 
 CREATE TABLE student_teacher (
     student_user VARCHAR REFERENCES students(username),
     teacher_user VARCHAR REFERENCES teachers(username)
 );
 
+INSERT INTO student_teacher(student_user, teacher_user) VALUES
+('student1', 'teacher1'),
+('student2', 'teacher2');
+
 CREATE TABLE assignments (
     assignment_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     student_user VARCHAR REFERENCES users(username),
     teacher_user VARCHAR REFERENCES users(username),
-    range VARCHAR ARRAY,
-    pattern INT ARRAY,
+    range INT[],
+    pattern VARCHAR[],
     completed BOOLEAN DEFAULT FALSE,
     score INT DEFAULT 0,
     clef VARCHAR,
     key VARCHAR,
     rounds INT NOT NULL,
-    date_assigned TIMESTAMP,
+    date_assigned TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_completed TIMESTAMP,
     time_taken BIGINT
 );
+
+INSERT INTO assignments (student_user, teacher_user, range, pattern, completed, score, clef, key, rounds) VALUES
+('student1', 'teacher1', ARRAY[48, 60], ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10),
+('student2', 'teacher2', ARRAY[60, 72], ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10);
 
 CREATE TABLE tokens (
     token_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
