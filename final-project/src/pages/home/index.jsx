@@ -5,28 +5,27 @@ function Home() {
   return (
     <div className="home-wrapper">
       <video
-        src="homeBackground.mp4"
+        src="backgroundVideo.MP4"
         className="background-video"
         autoPlay
         loop
         muted
       ></video>
       <nav className="home-nav">
-        <h1>LOGO</h1>
+        <img src="logo.svg" alt="" className="home-logo" />
         <ul>
           <li>
-            <NavLink to={"/about"}>About Us</NavLink>
-          </li>
-          <li>
-            <NavLink to={"/register"}>Register</NavLink>
-          </li>
-          <li>
-            <NavLink to={"/login"}>Login</NavLink>
+            <NavLink to={"/login"} className="home-nav-li home-login-button">
+              Login
+            </NavLink>
           </li>
         </ul>
       </nav>
       <div className="home-body-container">
-        <button className="try-it-button">Learn More</button>
+        <div className="home-center-section">
+          <h1 className="home-slogan">Play the notes, Master the music!</h1>
+          <button className="try-it-button">Learn More</button>
+        </div>
       </div>
       <Footer />
     </div>
