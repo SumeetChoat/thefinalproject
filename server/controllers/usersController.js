@@ -21,7 +21,6 @@ class UserController {
   static async getUserByToken(req, res) {
     try {
       const { token } = req.body;
-      console.log(token);
       const user = await Users.getUserByToken(token);
       const { password, ...userInfo } = user;
       res.status(200).send(userInfo);
