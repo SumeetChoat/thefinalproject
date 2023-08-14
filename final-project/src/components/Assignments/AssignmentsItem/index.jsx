@@ -28,10 +28,14 @@ function AssignmentsItem({assignment, trash, start, edit}) {
                 {a.assigned_date}
                 </span>
             </p>
-            <p>
-                Teacher:{" "}
-                <span className="assignment-row-data-span">{a.teacher_id}</span>
-            </p>
+                {role == 'student' ? 
+                <p>Teacher:{" "}
+                <span className="assignment-row-data-span">{a.teacher_user}</span>
+                </p>
+                : 
+                <p>Student:{" "}
+                <span className="assignment-row-data-span">{a.student_user}</span></p>
+                }
             <p>
                 Range:{" "}
                 <span className="assignment-row-data-span">
