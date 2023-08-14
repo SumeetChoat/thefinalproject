@@ -9,7 +9,7 @@ function ProtectedRoute() {
   const navigate = useNavigate();
   useEffect(() => {
     async function getUserDataWithToken() {
-      const token = JSON.parse(localStorage.getItem("token"));
+      const token = localStorage.getItem("token");
 
       const res = await fetch("http://localhost:3000/users/getUserByToken", {
         method: "POST",
