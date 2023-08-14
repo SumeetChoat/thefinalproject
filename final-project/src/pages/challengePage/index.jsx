@@ -14,6 +14,7 @@ import ChallengeConfigModal from "../../components/ChallengeConfigModal";
 import AssignmentReadyModal from "../../components/AssignmentReadyModal";
 import { useAssignments, useAuth } from "../../contexts";
 import FinishAssignmentModal from "../../components/FinishAssignmentModal";
+import Stopwatch from "../../components/StopWatch";
 
 function ChallengePage() {
   const { currentAssignment, setCurrentAssignment } = useAssignments();
@@ -59,6 +60,10 @@ function ChallengePage() {
       setShowAssignmentReadyModal(true);
     }
   }, [currentAssignment]);
+  // state to store time
+  const [time, setTime] = useState(0);
+  // state to check stopwatch running or not
+  const [isRunning, setIsRunning] = useState(false);
 
   const [form, setForm] = useState({
     lowNote: "C",
@@ -281,6 +286,7 @@ function ChallengePage() {
           setShowAssignmentReadyModal={setShowAssignmentReadyModal}
           generateNewChallenge={generateNewChallenge}
           setRound={setRound}
+          setIsRunning={setIsRunning}
         />
       )}
 
@@ -299,7 +305,14 @@ function ChallengePage() {
             </h3>
           </div>
         )}
-        <h1 className="challenge-timer">00:00</h1>
+        {currentAssignment && (
+          <Stopwatch
+            time={time}
+            setTime={setTime}
+            isRunning={isRunning}
+            setIsRunning={setIsRunning}
+          />
+        )}
         <button onClick={startPitchDetect} className="challenge-button">
           Start
         </button>
@@ -320,6 +333,8 @@ function ChallengePage() {
                   { note: 64, isCorrect: false },
                   { note: 65, isCorrect: false },
                 ]);
+                setIsRunning(false);
+                setTime(0);
               } else {
                 return;
               }
