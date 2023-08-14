@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./styles.css";
 import { noteStrings } from "../../assets/pattern";
 import { useAssignmentList, useAssignments, useAuth } from "../../contexts";
@@ -7,7 +7,6 @@ import AddAssignmentModal from "../../components/AddAssignmentModal";
 function Assignments() {
   const { setCurrentAssignment } = useAssignments();
   const { assignmentList } = useAssignmentList();
-  console.log(assignmentList);
   const { user } = useAuth();
   const navigate = useNavigate();
   const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
@@ -47,7 +46,6 @@ function Assignments() {
   });
 
   async function handleAddAssignment(form) {
-    console.log(form);
     let pattern = [];
     for (const key in form.pattern) {
       if (form.pattern[key]) {
@@ -76,8 +74,8 @@ function Assignments() {
     });
     if (res.ok) {
       const assignment = await res.json();
-      console.log(assignment);
       alert("Assignment added");
+      setToggleChallengeConfigModal(!toggleChallengeConfigModal);
     }
   }
 
