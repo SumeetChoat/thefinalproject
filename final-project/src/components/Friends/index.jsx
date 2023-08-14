@@ -1,15 +1,16 @@
 import {
     useAuth,
     useFriends,
-    useRequests
- } from "../../contexts";
+} from "../../contexts";
 import FriendItem from "./FriendItem";
 import '../../pages/profilePage/styles.css'
 import { useState } from "react";
-import FontAwesomeIcon from 'react'
 
 function Friends ({trash,message,search, add}){
     const token = useAuth().token || localStorage.getItem('token')
+    const {user} = useAuth()
+
+    //const {friends} = useFriends()
 
     const [friends,setFriends] = useState([
         {username: 'username1'},
@@ -35,18 +36,18 @@ function Friends ({trash,message,search, add}){
           }
         const resp = await fetch(`http://localhost:3000/users/${searchText}`,options)
         const data = await resp.json()
-        if (resp.ok && (!friends.find((f) => f.username == searchText))) {
+        if (resp.ok && (!friends.find((f) => f.username == searchText)) && searchText!==user.username) {
             console.log(data)
             // socket
             alert(`You have sent a friend request to user ${searchText}`)
         } else if (friends.find((f) => f.username == searchText)){
             alert('You are already friends with this user.')
+        } else if (searchText == user.username){
+            alert ('You can\'t send a friend request to yourself!')
         } else {
             alert('There is no user with this username.')
         }
     }
-
-    //const {friends} = useFriends()
 
     return (
         <>

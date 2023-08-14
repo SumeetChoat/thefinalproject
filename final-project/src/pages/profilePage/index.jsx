@@ -4,9 +4,14 @@ import {Friends, Assignments} from "../../components"
 import './styles.css'
 
 function ProfilePage () {
-    //const token = useAuth().token || localStorage.getItem('token')
-    //const {user} = useAuth()
-    //const {role} = user
+    const token = useAuth().token || localStorage.getItem('token')
+    console.log(token)
+    console.log(useAuth())
+    const {user} = useAuth()
+    console.log(user)
+    const {role} = user
+
+    // let role = 'teacher'
 
     const trash= '<svg class=svg-icon xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>'
 
@@ -20,45 +25,36 @@ function ProfilePage () {
 
     const add = '<svg class=svg-icon xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>'
 
-    let role = 'student'
+    return(
+        <>
+        <div className="profile-container">
 
-    if (role === 'student' || role==='teacher'){
-        return(
-            <>
-            <div className="profile-container">
-
-                <div className="profile-left">
-                    <div className="assignments-container">
-                        Assignments
-                        {<Assignments trash={trash} start={start} edit={edit}/>}
-                    </div>
-
-                    <div className="connections-container">
-                        Connections
-                        {<Friends trash={trash} message={message} search={search} add={add}/>} 
-                    </div> 
-                </div>    
-
-                <div className="profile-right">
-                    <div className="leaderboard-container">
-                            {role=='student'?
-                                <p>LeaderBoard</p>
-                            :
-                                <p>My Students</p>
-                            }
-                    </div>
+            <div className="profile-left">
+                <div className="assignments-container">
+                    Assignments
+                    {<Assignments trash={trash} start={start} edit={edit}/>}
                 </div>
 
+                <div className="connections-container">
+                    Connections
+                    {<Friends trash={trash} message={message} search={search} add={add}/>} 
+                </div> 
+            </div>    
+
+            <div className="profile-right">
+                <div className="leaderboard-container">
+                        {role=='student'?
+                            <p>LeaderBoard</p>
+                        :
+                            <p>My Students</p>
+                        }
+                </div>
             </div>
-            </>
-        )
-    } else {
-        return(
-            <div className="profile-container">
-            <p>Log in to see your profile</p>    
-            </div>
-        )
-    }
+
+        </div>
+        </>
+    )
+    
 }
 
 export default ProfilePage
