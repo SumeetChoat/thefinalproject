@@ -61,8 +61,14 @@
 
 .assignment-btn, .friends-btn{
     display: flex;
-    justify-content: center;
+    align-items: center;
     justify-content: space-evenly;
+}
+
+.friends-item{
+    justify-content: space-around;
+    width: 100%;
+    align-items: center;
 }
 
 .assignment-btn button, .friends-btn button{
@@ -70,6 +76,14 @@
     border: none;
     font-size: 20px;
     padding-top: 5px;
+    width: 80%;
+}
+
+.add-btn{
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    padding-top: 5px; 
 }
 
 .edit-btn:hover .svg-icon path{
@@ -86,4 +100,12 @@
 
 .message-btn:hover .svg-icon path {
     fill: purple
+}
+
+.search-row {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    justify-content: space-around;
 }
