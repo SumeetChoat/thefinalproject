@@ -10,6 +10,8 @@ userRouter.post("/getUserByToken", usersController.getUserByToken);
 
 userRouter.use(authenticator);
 
+userRouter.get('/username',usersController.getUserByUsername)
+
 userRouter.patch("/update", usersController.updateDetails);
 
 userRouter.delete("/logout", usersController.logout);

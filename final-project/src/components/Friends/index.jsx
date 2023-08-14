@@ -12,9 +12,9 @@ function Friends ({trash,message,search, add}){
     const token = useAuth().token || localStorage.getItem('token')
 
     const [friends,setFriends] = useState([
-        {username: '1'},
-        {username: '2'},
-        {username: '3'}
+        {username: 'username1'},
+        {username: 'dsfjdsf'},
+        {username: 'ednjdfs'}
     ])
 
     const [textFilter,setTextFilter] = useState('')
@@ -23,20 +23,34 @@ function Friends ({trash,message,search, add}){
         setTextFilter(e.target.value)
     }
 
+    function addFriend(searchText) {
+        const options = {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            }
+          }
+        const resp = fetch('https://pitchperfect-api.onrender.com/users',options)
+    }
+
     //const {friends} = useFriends()
 
     return (
         <>
         <div className="search-row">
             <input type="text" placeholder="Search" value={textFilter} onChange={updateTextFilter} />
-            <button className="add-btn">
+            <button className="add-btn" onClick={()=>addFriend(textFilter)}>
                 <div className="btn-icon" dangerouslySetInnerHTML={{ __html: add}}/>
             </button>
         </div>
         <ul className="friends-list">
-            {friends.length > 0 ? friends.map((friend,i) => {
-                return <FriendItem friend={friend} key={i} friends={friends} setFriends={setFriends} trash={trash} message={message} search={search} add={add}/>
-            }) : <p>Add friends with the search bar above!</p>}       
+            {friends.length > 0 ? 
+                friends.filter(f => textFilter.length == 0 | f.username.toLowerCase().includes(textFilter.toLowerCase()))
+                    .map((friend,i) => {
+                        return <FriendItem friend={friend} key={i} friends={friends} setFriends={setFriends} trash={trash} message={message} search={search} add={add}/>
+                    }) 
+                : <p>Add friends with the search bar above!</p>}       
         </ul>
         </>
     )
