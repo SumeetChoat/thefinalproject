@@ -8,27 +8,26 @@ import {
   RegisterPage,
   Home,
   Assignments,
-  Profile
+  Profile,
 } from "./pages";
 
 function App() {
   return (
     <>
-      
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginPage />} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
 
-          <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
-          <Route path="/" element={<ProtectedRoute />}>
-            <Route path="/challenge" element={<ChallengePage />} />
-            <Route path="/assignments" element={<Assignments />} />
-            <Route path ="/account" element={<Profile/>}/>
-          </Route>
+        <Route path="/" element={<ProtectedRoute />}>
+          <Route path="/challenge" element={<ChallengePage />} />
+          <Route path="/assignments" element={<Assignments />} />
+          <Route path="/account" element={<Profile />} />
+        </Route>
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }

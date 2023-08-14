@@ -29,6 +29,17 @@ class UserController {
     }
   }
 
+  static async getByUsername(req,res) {
+    try {
+      const {username} = req.params
+      const user = await Users.getByUsername(username)
+      res.status(200).send(user)
+    } catch (err) {
+      res.status(404).json({ error: err.message})
+    }
+
+  }
+
   static async login(req, res) {
     try {
       const data = req.body;

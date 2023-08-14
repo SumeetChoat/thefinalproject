@@ -13,6 +13,14 @@ class Notifications {
         return response.rows.map(frnd => new Notifications(frnd))
     }
 
+    static async getNotificationById(id) {
+        const response = await db.query('SELECT * FROM notifications WHERE notification_id = $1', [id]);
+        if (response.rows.length !== 1) {
+            throw new Error("Unable to locate Notification");
+        }
+        return new Notifications(response.rows[0]);
+    }
+
     static async create_friend_req_response(sender, recipient, status) {
         const time = new Date();
         const message = `${sender} has ${status} your friend request.` // status is either "accepted" or "rejected".
@@ -31,6 +39,27 @@ class Notifications {
         const time = new Date();
         const message = `${sender} has sent you a message.` // status is either "accepted" or "rejected".
         const response = await db.query('INSERT INTO notifications(username, message, time_sent) VALUES ($1, $2, $3) RETURNING *;', [recipient, message, time]);
+        return new Notifications(response.rows[0]);
+    }
+
+    static async create_assignment_added(teacher, student) {
+        const time = new Date();
+        const message = `${teacher} has given you a new assignment.`
+        const response = await db.query('INSERT INTO notifications(username, message, time_sent) VALUES ($1, $2, $3) RETURNING *', [student, message, time]);
+        return new Notifications(response.rows[0]);
+    }
+
+    static async create_assignment_completed(teacher, student) {
+        const time = new Date();
+        const message = `${student} has completed an assignment.`
+        const response = await db.query('INSERT INTO notifications(username, message, time_sent) VALUES ($1, $2, $3) RETURNING *', [teacher, message, time]);
+        return new Notifications(response.rows[0]);
+    }
+
+    static async create_assignment_reminder(teacher, student) {
+        const time = new Date();
+        const message = `${teacher} is reminding you to complete an assignment.`
+        const response = await db.query('INSERT INTO notifications(username, message, time_sent) VALUES ($1, $2, $3) RETURNING *', [student, message, time]);
         return new Notifications(response.rows[0]);
     }
 

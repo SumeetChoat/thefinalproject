@@ -2,22 +2,47 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import "./styles.css";
 import { useEffect } from "react";
-import {socket} from "../../socket"
-import { useAuth, useAssignmentList, useFriends, useRequests, useMessages, useNotifications } from '../../contexts';
+import { socket } from "../../socket";
+import {
+  useAuth,
+  useAssignmentList,
+  useFriends,
+  useRequests,
+  useMessages,
+  useNotifications,
+} from "../../contexts";
 
 function ProtectedRoute() {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const { token } = useAuth()
 
-  const {friends, setFriends} = useFriends();
-  const {sentRequests, setSentRequests} = useRequests();
-  const {messages, setMessages} = useMessages();
-  const {notifications, setNotifications} = useNotifications();
-  const {assignmentList, setAssignmentList} = useAssignmentList();
+  const { friends, setFriends } = useFriends();
+  const { sentRequests, setSentRequests } = useRequests();
+  const { messages, setMessages } = useMessages();
+  const { notifications, setNotifications } = useNotifications();
+  const { assignmentList, setAssignmentList } = useAssignmentList();
+
+  async function logout() {
+    const options = {
+      method: "DELETE",
+      headers: {
+        token: token || localStorage.getItem('token')
+      }
+    }
+    const resp = await fetch('http://localhost:3000/users/logout',options)
+    const data = await resp.json()
+    if (resp.ok) {
+      localStorage.removeItem('token')
+      navigate('/login')
+    } else {
+      console.log(data)
+    }
+  }
 
   useEffect(() => {
     async function getUserDataWithToken() {
-      const token = JSON.parse(localStorage.getItem("token"));
+      const token = localStorage.getItem("token");
 
       const res = await fetch("http://localhost:3000/users/getUserByToken", {
         method: "POST",
@@ -29,59 +54,69 @@ function ProtectedRoute() {
         }),
       });
       if (res.ok) {
-        const user = await res.json();
+        const userResp = await res.json();
         setUser({
-          firstName: user.first_name,
-          lastName: user.last_name,
-          role: user.role,
-          username: user.username,
+          firstName: userResp.first_name,
+          lastName: userResp.last_name,
+          role: userResp.role,
+          username: userResp.username,
         });
       } else {
         navigate("/login");
       }
     }
+
     if (!user && !localStorage.getItem("token")) {
       navigate("/login");
     } else if (!user && localStorage.getItem("token")) {
       getUserDataWithToken();
     }
-
-    socket.connect();
-    socket.emit("username", {"username":user.username, "role":user.role})
-
-    socket.on("username", data => {
-      console.log(data);
-      // Update context here with...
-
-      // Friends
-      setFriends(data["friends"])
-      // Friend_Requests
-      setSentRequests(data["friend_requests"])
-      // Messages
-      setMessages(data["messages"])
-      // Notifications
-      setNotifications(data["notifications"])
-      // Assignments
-      setAssignmentList(data["assignments"])
-    })
-
-    socket.on("message", msg => {
-      // Update message context here
-    })
-
-    socket.on("friend_req", req => {
-        // Update friend request context here
-    })
-
-    socket.on("add_friend", friend => {
-        // Update friends context here
-    })
-
-    socket.on("notification", noti => {
-        // Update notifications list
-    })
   }, []);
 
+  useEffect(() => {
+    try {
+      socket.connect();
+      socket.emit("username", { username: user.username, role: user.role });
+
+      socket.on("username", (data) => {
+        console.log(data);
+        // Update context here with...
+
+        // Friends
+        setFriends(data["friends"]);
+        // Friend_Requests
+        setSentRequests(data["friend_requests"]);
+        // Messages
+        setMessages(data["messages"]);
+        // Notifications
+        setNotifications(data["notifications"]);
+        // Assignments
+        setAssignmentList(data["assignments"]);
+      });
+
+      socket.on("message", (msg) => {
+        // Update message context here
+        setMessages([...messages, msg])
+      });
+
+      socket.on("friend_req", (req) => {
+        // Update friend request context here
+        setSentRequests([...sentRequests, req])
+      });
+
+      socket.on("add_friend", (friend) => {
+        // Update friends context here
+        setFriends([...friends, friend])
+      });
+
+      socket.on("notification", (noti) => {
+        // Update notifications list
+        setNotifications([...notifications, noti])
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [user]);
   return (
     <div className="body-container">
       <nav>
@@ -101,6 +136,8 @@ function ProtectedRoute() {
           <li>
             <NavLink to="/account">Account</NavLink>
           </li>
+          {user ? <NavLink onClick={()=>logout()}>Logout</NavLink>
+          : <p></p>}
         </ul>
       </nav>
       <Outlet />
