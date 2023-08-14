@@ -8,7 +8,8 @@ function Assignments() {
   const { setCurrentAssignment } = useAssignments();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [showAddAssignmentModal, setShowAddAssignmentModal] = useState(false);
+  const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
+    useState(false);
   const [assignments, setAssignments] = useState([
     {
       assignment_id: 1,
@@ -63,23 +64,84 @@ function Assignments() {
       completed_date: null,
     },
   ]);
-  console.log(user);
-  async function createAssignment(
-    clef,
-    pattern,
-    range,
-    rounds,
-    studentUsername,
-    teacherUsername
-  ) {
-    const res = await fetch("http://localhost:3000/");
+  const [form, setForm] = useState({
+    studentUsername: "",
+    lowNote: "C",
+    lowOctave: 4,
+    highNote: "G",
+    highOctave: 4,
+    clef: "bass",
+    randomNote: false,
+    randomNoteLength: 4,
+    rounds: 10,
+    key: "C",
+    pattern: {
+      l2p1: true,
+      l2p2: true,
+      l2p3: false,
+      l2p4: false,
+      l2p5: false,
+      l3p1: false,
+      l3p2: false,
+      l3p3: false,
+      l3p4: false,
+      l3p5: false,
+      l3p6: false,
+      l3p7: false,
+      l3p8: false,
+      l4p1: false,
+      l4p2: false,
+      l4p3: false,
+      l4p4: false,
+      l4p5: false,
+      l4p6: false,
+    },
+  });
+
+  async function handleAddAssignment(form) {
+    console.log(form);
+    let pattern = [];
+    for (const key in form.pattern) {
+      if (form.pattern[key]) {
+        pattern.push(key);
+      }
+    }
+    let range = [];
+    range[0] = noteStrings.indexOf(form.lowNote) + (form.lowOctave + 1) * 12;
+    range[1] = noteStrings.indexOf(form.highNote) + (form.highOctave + 1) * 12;
+    console.log(range);
+    const res = await fetch("http://localhost:3000/teachers/assignment", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        range,
+        clef: form.clef,
+        pattern,
+        rounds: form.rounds,
+        student_user: form.studentUsername,
+        teacher_user: user.username,
+        is_random: form.randomNote,
+        random_length: form.randomNoteLength,
+      }),
+    });
+    if (res.ok) {
+      const assignment = await res.json();
+      console.log(assignment);
+      alert("Assignment added");
+    }
   }
+
   return (
     <div className="assignment-wrapper">
       {
         <AddAssignmentModal
-          showAddAssignmentModal={showAddAssignmentModal}
-          setShowAddAssignmentModal={setShowAddAssignmentModal}
+          toggleChallengeConfigModal={toggleChallengeConfigModal}
+          setToggleChallengeConfigModal={setToggleChallengeConfigModal}
+          form={form}
+          setForm={setForm}
+          handleAddAssignment={handleAddAssignment}
         />
       }
       <div className="assignment-title-section">
@@ -90,7 +152,7 @@ function Assignments() {
           <button
             className="add-assignment-button"
             onClick={() => {
-              setShowAddAssignmentModal(true);
+              setToggleChallengeConfigModal(true);
             }}
           >
             + Add Assignment

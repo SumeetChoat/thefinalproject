@@ -33,7 +33,7 @@ export default function LoginForm({
           return res.json();
         })
         .then((data) => {
-          localStorage.setItem("token", JSON.stringify(data.token));
+          localStorage.setItem("token", data.token);
           setUser(data.user);
           console.log(data.user);
           setMessage("User logged in successfully.");
