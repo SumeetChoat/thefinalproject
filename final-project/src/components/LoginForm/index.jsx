@@ -37,6 +37,7 @@ export default function LoginForm({
           setUser(data.user);
           console.log(data.user);
           setMessage("User logged in successfully.");
+
           setTimeout(() => {
             setMessage("");
             navigate("/challenge");

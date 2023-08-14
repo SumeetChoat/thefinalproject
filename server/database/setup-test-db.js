@@ -6,7 +6,8 @@ async function createDBEnv() {
         username VARCHAR NOT NULL,
         password VARCHAR NOT NULL,
         email VARCHAR NOT NULL,
-        token VARCHAR(36)
+        token VARCHAR(36),
+        points INT DEFAULT 0
     );
     
     CREATE TABLE teachers (

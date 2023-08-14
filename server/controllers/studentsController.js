@@ -20,7 +20,7 @@ class StudentsController {
             const students = await Students.getStudents()
             res.status(200).send(students)
         } catch (err) {
-            res.status(404).json({"error": err.message})
+            res.status(404).json({"Error": err.message})
         }
     }
 
@@ -31,7 +31,7 @@ class StudentsController {
             res.status(200).send(assignments)
         } catch (err) {
             console.log(err)
-            res.status(404).json({"error": err.message})
+            res.status(404).json({"Error": err.message})
         }
     }
 
@@ -42,7 +42,7 @@ class StudentsController {
             res.status(200).send(assignment)
         } catch (err) {
             console.log(err)
-            res.status(404).json({"error": err.message})
+            res.status(404).json({"Error": err.message})
         }
     }
 
@@ -75,7 +75,7 @@ class StudentsController {
             res.status(204).send(resp)
         } catch (err) {
             console.log(err)
-            res.status(403).json({"error": err.message})
+            res.status(403).json({"Error": err.message})
         }
     }
 }
