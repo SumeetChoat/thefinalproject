@@ -1,55 +1,102 @@
 import { useState } from "react";
 import "./styles.css";
 import { noteStrings } from "../../assets/pattern";
-import { useAuth } from "../../contexts";
+import { useAssignments, useAuth } from "../../contexts";
 import { useNavigate } from "react-router-dom";
+import AddAssignmentModal from "../../components/AddAssignmentModal";
 function Assignments() {
-  const { setCurrentAssignment } = useAuth();
+  const { setCurrentAssignment } = useAssignments();
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const [showAddAssignmentModal, setShowAddAssignmentModal] = useState(false);
   const [assignments, setAssignments] = useState([
     {
       assignment_id: 1,
-      student_id: 3,
-      teacher_id: 5,
+      student_username: "student2",
+      teacher_username: "teacher2",
       range: [36, 48],
       pattern: ["l2p1", "l2p3", "l3p1"],
       completed: true,
       score: 0,
       clef: "bass",
-      round: 20,
+      rounds: 20,
       assigned_date: "2023-08-07",
       completed_date: null,
     },
     {
       assignment_id: 2,
-      student_id: 3,
-      teacher_id: 5,
+      student_username: "student1",
+      teacher_username: "teacher1",
       range: [60, 72],
       pattern: ["l2p1", "l2p3", "l3p1"],
       completed: false,
       score: 0,
       clef: "treble",
-      round: 10,
+      rounds: 10,
       assigned_date: "2023-08-07",
       completed_date: null,
     },
     {
       assignment_id: 3,
-      student_id: 3,
-      teacher_id: 5,
+      student_username: "student2",
+      teacher_username: "teacher2",
       range: [36, 72],
       pattern: ["l2p1", "l2p3", "l3p1"],
       completed: false,
       score: 0,
       clef: "bass",
-      round: 20,
+      rounds: 20,
+      assigned_date: "2023-08-08",
+      completed_date: null,
+    },
+    {
+      assignment_id: 4,
+      student_username: "student1",
+      teacher_username: "teacher1",
+      range: [60, 62],
+      pattern: ["l2p1", "l2p3", "l3p1"],
+      completed: false,
+      score: 0,
+      clef: "bass",
+      rounds: 1,
       assigned_date: "2023-08-08",
       completed_date: null,
     },
   ]);
+  console.log(user);
+  async function createAssignment(
+    clef,
+    pattern,
+    range,
+    rounds,
+    studentUsername,
+    teacherUsername
+  ) {
+    const res = await fetch("http://localhost:3000/");
+  }
   return (
     <div className="assignment-wrapper">
-      <h1 className="assignment-title">My Assignments</h1>
+      {
+        <AddAssignmentModal
+          showAddAssignmentModal={showAddAssignmentModal}
+          setShowAddAssignmentModal={setShowAddAssignmentModal}
+        />
+      }
+      <div className="assignment-title-section">
+        <h1 className="assignment-title">
+          {user && user.role === "student" && "My"} Assignments
+        </h1>
+        {user && user.role === "teacher" && (
+          <button
+            className="add-assignment-button"
+            onClick={() => {
+              setShowAddAssignmentModal(true);
+            }}
+          >
+            + Add Assignment
+          </button>
+        )}
+      </div>
       <div className="assignment-display-section">
         {assignments.map((a, i) => {
           const lowOctave =
@@ -66,9 +113,13 @@ function Assignments() {
                   {a.assigned_date}
                 </span>
               </p>
-              <p>
-                Teacher:{" "}
-                <span className="assignment-row-data-span">{a.teacher_id}</span>
+              <p className="span-2">
+                {user && user.role === "student" ? "Teacher" : "Student"}:{" "}
+                <span className="assignment-row-data-span">
+                  {user && user.role === "student"
+                    ? a.teacher_username
+                    : a.student_username}
+                </span>
               </p>
               <p>
                 Range:
@@ -84,19 +135,33 @@ function Assignments() {
                 </span>
               </p>
               <p>
-                Round:{" "}
-                <span className="assignment-row-data-span">{a.round}</span>
+                Rounds:{" "}
+                <span className="assignment-row-data-span">{a.rounds}</span>
               </p>
               <p>{a.completed ? "Completed" : "Incompleted"}</p>
-              <button
-                className="assignment-row-play-button"
-                onClick={() => {
-                  setCurrentAssignment(a);
-                  navigate("/challenge");
-                }}
-              >
-                {a.completed ? "Play Again" : "Play"}
-              </button>
+              {user && user.role === "student" && (
+                <button
+                  className="assignment-row-play-button"
+                  onClick={() => {
+                    setCurrentAssignment(a);
+                    navigate("/challenge");
+                  }}
+                >
+                  {a.completed ? "Play Again" : "Play"}
+                </button>
+              )}
+              {user && user.role === "teacher" && (
+                <button
+                  className="assignment-row-play-button"
+                  onClick={() => {
+                    if (a.completed) {
+                      console.log(a);
+                    }
+                  }}
+                >
+                  {a.completed ? "Assign again" : "Send Reminder"}
+                </button>
+              )}
             </div>
           );
         })}

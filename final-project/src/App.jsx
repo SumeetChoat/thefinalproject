@@ -8,9 +8,18 @@ import {
   RegisterPage,
   Home,
   Assignments,
+  Profile
 } from "./pages";
 
-import { AuthProvider } from "./contexts";
+import {
+  AuthProvider,
+  RoleProvider,
+  AssignmentsProvider,
+  FriendsProvider,
+  StudentsProvider,
+  RequestsProvider,
+  MessagesProvider
+} from "./contexts";
 
 import {socket} from './socket';
 import { useEffect } from "react";
@@ -34,6 +43,12 @@ function App() {
   return (
     <>
       <AuthProvider>
+      <RoleProvider>
+      <AssignmentsProvider>
+      <FriendsProvider>
+      <StudentsProvider>
+      <RequestsProvider>
+      <MessagesProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
@@ -43,10 +58,17 @@ function App() {
           <Route path="/" element={<ProtectedRoute />}>
             <Route path="/challenge" element={<ChallengePage />} />
             <Route path="/assignments" element={<Assignments />} />
+            <Route path ="/account" element={<Profile/>}/>
           </Route>
 
           <Route path="*" element={<NotFound />} />
         </Routes>
+      </MessagesProvider>
+      </RequestsProvider>
+      </StudentsProvider>
+      </FriendsProvider>
+      </AssignmentsProvider>
+      </RoleProvider>
       </AuthProvider>
     </>
   );

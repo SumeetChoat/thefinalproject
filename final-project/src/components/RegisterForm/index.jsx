@@ -1,93 +1,174 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React from "react";
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom";
 
-export default function RegisterForm({ firstName, setFirstName, lastName, setLastName, email, setEmail, password, setPassword, message, setMessage }) {
-
-
-  function handleFirstName(e) {
-    setFirstName(e.target.value)
+export default function RegisterForm({
+  newUser,
+  setNewUser,
+  message,
+  setMessage,
+}) {
+  function handleChange(e) {
+    setNewUser({ ...newUser, [e.target.name]: e.target.value });
   }
 
-  function handleLastName(e) {
-    setLastName(e.target.value)
-  }
-
-  function handleEmail(e) {
-    setEmail(e.target.value)
-  }
-
-  function handlePassword(e) {
-    setPassword(e.target.value)
-  }
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (firstName.length > 0 && lastName.length > 0 && email.length > 0 && password.length > 0) {
-      fetch('http://localhost:3000/users/register', {
-        method: 'POST',
-        body: JSON.stringify({first_name: firstName, last_name: lastName, email: email, password: password}),
+    if (
+      newUser.firstName.length > 0 &&
+      newUser.lastName.length > 0 &&
+      newUser.email.length > 0 &&
+      newUser.password.length > 0
+    ) {
+      fetch("http://localhost:3000/users/register", {
+        method: "POST",
+        body: JSON.stringify({
+          first_name: newUser.firstName,
+          last_name: newUser.lastName,
+          email: newUser.email,
+          username: newUser.username,
+          password: newUser.password,
+          role: newUser.role,
+        }),
         headers: {
-          'Content-type': 'application/json; charset=UTF-8',
+          "Content-type": "application/json; charset=UTF-8",
         },
       })
-      .then((res) => {
-        if (!res.ok) {
-          return res.json().then((err) => {
-            throw new Error(err.detail);
-          })
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setMessage('User registered successfully.');
-        setTimeout(() => {
-          setMessage('')
-          navigate('/login')
-        }, 300)
-      })
-      .catch((err) => {
-        console.log(err.message);
-        if (err.message === '400') {
-          setMessage('Email is already in use. Please use a different email.');
-        } else {
-          setMessage('There was a problem with your registration.');
-        }
-        setTimeout(() => {
-          setMessage('');
-        }, 5000);
-      })
-      setFirstName('')
-      setLastName('')
-      setEmail('')
-      setPassword('')
+        .then((res) => {
+          if (!res.ok) {
+            return res.json().then((err) => {
+              throw new Error(err.detail);
+            });
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setMessage("User registered successfully.");
+          setTimeout(() => {
+            setMessage("");
+            navigate("/login");
+          }, 300);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          if (err.message === "400") {
+            setMessage(
+              "Email is already in use. Please use a different email."
+            );
+          } else {
+            setMessage("There was a problem with your registration.");
+          }
+          setTimeout(() => {
+            setMessage("");
+          }, 5000);
+        });
+      setNewUser({
+        ...newUser,
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+      });
     } else {
-      setMessage('Please fill in all fields.')
+      setMessage("Please fill in all fields.");
       setTimeout(() => {
-        setMessage('')
-      }, 5000)
+        setMessage("");
+      }, 5000);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="register-form">
-      <div>
-      <label>First Name: <input type="text" value={firstName} onChange={handleFirstName} /></label>
+      <div className="login-input-group">
+        <label>
+          First Name:{" "}
+          <input
+            type="text"
+            className="login-text-input"
+            name="firstName"
+            value={newUser.firstName}
+            onChange={(e) => handleChange(e)}
+          />
+        </label>
       </div>
-      <div>
-      <label>Last Name: <input type="text" value={lastName} onChange={handleLastName} /></label>
+      <div className="login-input-group">
+        <label>
+          Last Name:{" "}
+          <input
+            type="text"
+            className="login-text-input"
+            name="lastName"
+            value={newUser.lastName}
+            onChange={(e) => handleChange(e)}
+          />
+        </label>
       </div>
-      <div>
-      <label>Email: <input type="text" value={email} onChange={handleEmail} /></label>
+      <div className="login-input-group">
+        <label>
+          Email:{" "}
+          <input
+            type="email"
+            className="login-text-input"
+            name="email"
+            value={newUser.email}
+            onChange={(e) => handleChange(e)}
+          />
+        </label>
       </div>
-      <div>
-      <label>Password: <input type="password" value={password} onChange={handlePassword} /></label>
+      <div className="login-input-group">
+        <label>
+          Username:{" "}
+          <input
+            type="text"
+            className="login-text-input"
+            name="username"
+            value={newUser.username}
+            onChange={(e) => handleChange(e)}
+          />
+        </label>
       </div>
-      <input type="submit" value="Register" />
-      <p>Already Registered? <Link to="/login">Login</Link></p>
-      <p className='message'>{message}</p>
+      <div className="login-input-group">
+        <label>
+          Role:{" "}
+          <input
+            type="radio"
+            name="role"
+            id="student"
+            checked={newUser.role === "student"}
+            onChange={() => setNewUser({ ...newUser, role: "student" })}
+          />
+          <label htmlFor="student">Student</label>
+          <input
+            type="radio"
+            name="role"
+            id="teacher"
+            checked={newUser.role === "teacher"}
+            onChange={() => setNewUser({ ...newUser, role: "teacher" })}
+          />
+          <label htmlFor="teacher">Teacher</label>
+        </label>
+      </div>
+      <div className="login-input-group ">
+        <label>
+          Password:{" "}
+          <input
+            type="password"
+            name="password"
+            value={newUser.password}
+            onChange={(e) => handleChange(e)}
+            className="login-text-input"
+          />
+        </label>
+      </div>
+      <input type="submit" value="Register" className="login-submit" />
+      <p className="login-register-switch">
+        Already Registered? <Link to="/login">Login</Link>
+      </p>
+      <p className="message">{message}</p>
     </form>
-  )
+  );
 }

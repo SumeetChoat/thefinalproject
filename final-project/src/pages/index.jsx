@@ -5,3 +5,4 @@ export { default as LoginPage } from "./loginPage";
 export { default as RegisterPage } from "./registerPage";
 export { default as Home } from "./home";
 export { default as Assignments } from "./assignments";
+export { default as Profile } from './profilePage'

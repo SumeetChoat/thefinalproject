@@ -10,10 +10,19 @@ import {
 import StaveComponent from "../../components/StaveComponent";
 import "./styles.css";
 import ChallengeConfigModal from "../../components/ChallengeConfigModal";
-import { useAuth } from "../../contexts";
+
+import AssignmentReadyModal from "../../components/AssignmentReadyModal";
+import { useAssignments, useAuth } from "../../contexts";
+import FinishAssignmentModal from "../../components/FinishAssignmentModal";
+
 function ChallengePage() {
-  const { currentAssignment } = useAuth();
+  const { currentAssignment, setCurrentAssignment } = useAssignments();
+  const { user } = useAuth();
+  console.log(user);
   const [round, setRound] = useState(null);
+  const [showAssignmentReadyModal, setShowAssignmentReadyModal] =
+    useState(false);
+  const [showFinishAssignmentModal, setShowFinishAssignmentModal] = useState();
   useEffect(() => {
     if (currentAssignment) {
       setRound(currentAssignment.round);
@@ -46,8 +55,8 @@ function ChallengePage() {
           }
         }
       }
-
       setForm(newForm);
+      setShowAssignmentReadyModal(true);
     }
   }, [currentAssignment]);
 
@@ -243,13 +252,20 @@ function ChallengePage() {
         }
       }
     }
-    console.log(newChallenge);
+
     setChallenge(newChallenge);
     setCurrentIndex(0);
   }
   useEffect(() => {
     if (currentIndex === challenge.length) {
       setTimeout(() => {
+        if (round && currentAssignment) {
+          if (round === currentAssignment.rounds) {
+            setShowFinishAssignmentModal(true);
+            return;
+          }
+          setRound((prev) => prev + 1);
+        }
         generateNewChallenge();
       }, 800);
     }
@@ -259,6 +275,15 @@ function ChallengePage() {
 
   return (
     <div className="challenge-container">
+      {currentAssignment && (
+        <AssignmentReadyModal
+          showAssignmentReadyModal={showAssignmentReadyModal}
+          setShowAssignmentReadyModal={setShowAssignmentReadyModal}
+          generateNewChallenge={generateNewChallenge}
+          setRound={setRound}
+        />
+      )}
+
       <div className="challenge-left-section">
         <h1 className="challenge-title">
           Play the following. Remember to hit the start button.
@@ -266,32 +291,78 @@ function ChallengePage() {
         <StaveComponent challenge={challenge} form={form} />
       </div>
       <div className="challenge-right-section">
+        {round && (
+          <div className="assignment-detail">
+            <h1>Assignment</h1>
+            <h3>
+              Round {round}/{currentAssignment.rounds}
+            </h3>
+          </div>
+        )}
         <h1 className="challenge-timer">00:00</h1>
         <button onClick={startPitchDetect} className="challenge-button">
           Start
         </button>
-        <button
-          type="button"
-          onClick={() =>
-            setToggleChallengeConfigModal(!toggleChallengeConfigModal)
-          }
-          className="challenge-button"
-        >
-          Challenge Configuration
-        </button>
-        <button
-          type="button"
-          className="challenge-button"
-          onClick={generateNewChallenge}
-        >
-          Next
-        </button>
+        {round && currentAssignment && (
+          <button
+            className="challenge-button"
+            onClick={() => {
+              if (
+                confirm(
+                  "Are you sure you want to quit the current assignment? Your progress will not be saved."
+                )
+              ) {
+                setCurrentAssignment(null);
+                setRound(null);
+                setChallenge([
+                  { note: 60, isCorrect: false },
+                  { note: 62, isCorrect: false },
+                  { note: 64, isCorrect: false },
+                  { note: 65, isCorrect: false },
+                ]);
+              } else {
+                return;
+              }
+            }}
+          >
+            Quit Assignment
+          </button>
+        )}
+        {!round && !currentAssignment && (
+          <>
+            <button
+              type="button"
+              onClick={() =>
+                setToggleChallengeConfigModal(!toggleChallengeConfigModal)
+              }
+              className="challenge-button"
+            >
+              Challenge Configuration
+            </button>
+            <button
+              type="button"
+              className="challenge-button"
+              onClick={() => {
+                if (round && currentAssignment) {
+                  setRound((prev) => prev + 1);
+                }
+                generateNewChallenge();
+              }}
+            >
+              Next
+            </button>
+          </>
+        )}
         <ChallengeConfigModal
           toggleChallengeConfigModal={toggleChallengeConfigModal}
           setToggleChallengeConfigModal={setToggleChallengeConfigModal}
           generateNewChallenge={generateNewChallenge}
           form={form}
           setForm={setForm}
+        />
+        <FinishAssignmentModal
+          showFinishAssignmentModal={showFinishAssignmentModal}
+          setShowFinishAssignmentModal={setShowFinishAssignmentModal}
         />
       </div>
     </div>

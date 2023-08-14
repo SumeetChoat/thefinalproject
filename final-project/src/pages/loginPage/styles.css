@@ -1,18 +1,11 @@
-body {
-  font-family: Arial, sans-serif;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-input[type="text"],
-input[type="password"] {
+.login-text-input {
   width: 96%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-input[type="submit"] {
+.login-submit {
   width: 100%;
   padding: 10px;
   border: none;
@@ -21,11 +14,11 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-input[type="submit"]:hover {
+.login-submit:hover {
   background-color: #f9d252;
 }
 
-p {
+.login-register-switch {
   text-align: center;
 }
 
@@ -59,30 +52,30 @@ p {
     
   } */
 
-.container h1 {
+.login-container h1 {
   color: #000000;
   font-size: 3em;
 }
 
-form div {
+/* form div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+} */
+/* 
+form div input {
+  margin-top: 5px;
+} */
+
+.login-input-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
 }
 
-form div input {
+/* form div input {
   margin-top: 5px;
-}
-
-form div {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-}
-
-form div input {
-  margin-top: 5px;
-}
+} */
 
 .login-title {
   text-align: center;
