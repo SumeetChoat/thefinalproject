@@ -119,9 +119,11 @@ function ProtectedRoute() {
   }, [user]);
   return (
     <div className="body-container">
-      <nav>
+      <nav className="app-nav">
         <h1>
-          <NavLink to="/">LOGO</NavLink>
+          <NavLink to="/">
+            <img src="logo.svg" alt="logo" className="nav-logo" />
+          </NavLink>
         </h1>
         <ul>
           <li>

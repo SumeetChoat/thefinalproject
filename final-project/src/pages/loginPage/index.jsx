@@ -12,15 +12,21 @@ export default function LoginPage() {
 
   return (
     <div className="login-container">
-      <h1>Welcome to Pitch Perfect - Music App!</h1>
-      <div className="form-container">
-        <h1 className="login-title">Login</h1>
-        <LoginForm
-          loginForm={loginForm}
-          setLoginForm={setLoginForm}
-          message={message}
-          setMessage={setMessage}
-        />
+      <div className="login-inner-container">
+        <div className="login-img-section">
+          <img src="login-pic.JPG" alt="login-pic" />
+        </div>
+        <div className="form-container">
+          <img src="logo.svg" alt="logo" className="login-logo" />
+          <h1 className="login-title">Login</h1>
+
+          <LoginForm
+            loginForm={loginForm}
+            setLoginForm={setLoginForm}
+            message={message}
+            setMessage={setMessage}
+          />
+        </div>
       </div>
     </div>
   );
