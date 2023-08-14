@@ -1,13 +1,11 @@
 import '../../../pages/profilePage/styles.css'
-import { useAssignments} from '../../../contexts'
+import { useAssignments, useAuth} from '../../../contexts'
 import { noteStrings } from '../../../assets/pattern';
 
-function AssignmentsItem({assignment, assignments, setAssignments, trash, start, edit}) {
+function AssignmentsItem({assignment, trash, start, edit}) {
 
-    //const {assignments, setAssignments} = useAssignments()
-    //const {user} = useAuth()
-    //const {role} = user
-    let role = 'teacher'
+    const {user} = useAuth()
+    const {role} = user
 
     function deleteAssignment(a){
         console.log('deleting ',a)
