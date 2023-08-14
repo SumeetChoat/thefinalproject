@@ -6,7 +6,6 @@ import { useState } from 'react'
 function AssignmentsList() {
     //const {assignments, setAssignments} = useAssignments()
     //const role = useRole()
-    console.log('assignments')
     const [assignments, setAssignments] = useState([
         {
           assignment_id: 1,
@@ -68,27 +67,27 @@ function AssignmentsList() {
         <div className="assignments-lists">
         <div className="assignments-list-container">
             <p>Completed</p>
-            {assignments.filter(a => a.completed) !== [] ?
+            {assignments.filter(a => a.completed).length !== 0 ?
                 <ul className="assignments-list">
                     {assignments.filter(a=>a.completed)
                     .map((a,i)=>{
                         return <AssignmentsItem assignment={a} key={i} assignments={assignments} setAssignments={setAssignments}/>
                     })}
                 </ul>
-                : <p></p>
+                : <p>No completed assignments</p>
             }
         </div>
 
         <div className="assignments-list-container">
             <p>Incomplete</p>
-            {assignments.filter(a=>!a.completed) !== [] ? 
+            {assignments.filter(a=>!a.completed).length !== 0 ? 
                 <ul className="assignments-list">
                     {assignments.filter(a=>!a.completed)
                     .map((a,i)=>{
                          return <AssignmentsItem assignment={a} key={i} assignments={assignments} setAssignments={setAssignments}/>
                     })}
                 </ul>
-                : <p></p>
+                : <p>No incomplete assignments</p>
             } 
         </div>
         </div>
