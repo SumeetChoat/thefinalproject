@@ -15,12 +15,30 @@ import {
 function ProtectedRoute() {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const { token } = useAuth()
 
   const { friends, setFriends } = useFriends();
   const { sentRequests, setSentRequests } = useRequests();
   const { messages, setMessages } = useMessages();
   const { notifications, setNotifications } = useNotifications();
   const { assignmentList, setAssignmentList } = useAssignmentList();
+
+  async function logout() {
+    const options = {
+      method: "DELETE",
+      headers: {
+        token: token || localStorage.getItem('token')
+      }
+    }
+    const resp = await fetch('http://localhost:3000/users/logout',options)
+    const data = await resp.json()
+    if (resp.ok) {
+      localStorage.removeItem('token')
+      navigate('/login')
+    } else {
+      console.log(data)
+    }
+  }
 
   useEffect(() => {
     async function getUserDataWithToken() {
@@ -113,6 +131,8 @@ function ProtectedRoute() {
           <li>
             <NavLink to="/account">Account</NavLink>
           </li>
+          {user ? <NavLink onClick={()=>logout()}>Logout</NavLink>
+          : <p></p>}
         </ul>
       </nav>
       <Outlet />

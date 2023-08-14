@@ -3,3 +3,4 @@ export { default as LoginForm } from "./LoginForm"
 export { default as StaveComponent } from "./StaveComponent"
 export { default as Friends } from './Friends'
 export { default as Assignments } from './Assignments'
+export { default as MessagesModal } from './MessagesModal'
