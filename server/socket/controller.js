@@ -8,6 +8,7 @@ function controller(io) {
     let users = {};
     io.on('connection', async socket => {
         console.log('New socket connected');
+
         // write socket events here
         //maybe need to join socket into it's own id??
 
@@ -104,6 +105,10 @@ function controller(io) {
             // Sends notification to sender
             io.to(users[resp.recipient]).emit("notification", noti);
             
+        })
+
+        socket.on('delete_noti', async (noti) => {
+            // Need to decide whether its a case of delete all, or delete one at a time.
         })
         
         socket.on('disconnect', () => {

@@ -76,7 +76,12 @@ function ProtectedRoute() {
   useEffect(() => {
     try {
       socket.connect();
+
+      socket.on("connect_error", () => {
+        socket.emit("username", { username: user.username, role: user.role });
+      })
       socket.emit("username", { username: user.username, role: user.role });
+      
 
       socket.on("username", (data) => {
         console.log(data);
