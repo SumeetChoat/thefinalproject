@@ -5,11 +5,16 @@ import './styles.css'
 
 function ProfilePage () {
     const token = useAuth().token || localStorage.getItem('token')
-    console.log(token)
-    console.log(useAuth())
     const {user} = useAuth()
-    console.log(user)
     const {role} = user
+
+    const [showMessages, setShowMessages] = useState(false)
+
+    if(showMessages){
+        dialog.showModal()
+    } else {
+        dialog.close()
+    }
 
     // let role = 'teacher'
 
@@ -37,7 +42,7 @@ function ProfilePage () {
 
                 <div className="connections-container">
                     Connections
-                    {<Friends trash={trash} message={message} search={search} add={add}/>} 
+                    {<Friends trash={trash} message={message} search={search} add={add} setShowMessages={setShowMessages}/>} 
                 </div> 
             </div>    
 
@@ -50,7 +55,8 @@ function ProfilePage () {
                         }
                 </div>
             </div>
-
+            <dialog className="messages-modal">
+            </dialog>
         </div>
         </>
     )

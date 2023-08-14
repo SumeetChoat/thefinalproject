@@ -113,3 +113,38 @@
     width: 100%;
     justify-content: space-around;
 }
+
+.messages-modal {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 50px;
+}
+
+.messages-modal .messages-container {
+    visibility: hidden;
+    /* width: 300px; */
+    background-color: #E0B1A9;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    z-index: 1; 
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+.messages-modal .show {
+    opacity: 0;
+    visibility: visible;
+    -webkit-animation: fadeIn 5s;
+    animation: fadeIn 5s;
+}

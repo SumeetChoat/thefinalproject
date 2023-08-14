@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useFriends } from "../../../contexts"
 import '../../../pages/profilePage/styles.css'
 
-function FriendItem({friend, friends, setFriends, trash, message, add}){
+function FriendItem({friend, friends, setFriends, trash, message, add, setShowMessages}){
     //const {friends,setFriends} = useFriends()
 
     function deleteFriend(friend){
@@ -15,6 +15,7 @@ function FriendItem({friend, friends, setFriends, trash, message, add}){
 
     function messageFriend(friend){
         console.log('messaging ',friend.username)
+        setShowMessages(true)
     }
 
     function addFriend(friend){
