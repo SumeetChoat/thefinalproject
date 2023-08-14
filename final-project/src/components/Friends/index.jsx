@@ -1,16 +1,14 @@
 import {
     useAuth,
     useFriends,
-    useRole,
     useRequests
  } from "../../contexts";
 import FriendItem from "./FriendItem";
 import '../../pages/profilePage/styles.css'
 import { useState } from "react";
 
-function Friends (){
+function Friends ({trash,message}){
     const token = useAuth().token || localStorage.getItem('token')
-    const role = useRole().role || localStorage.getItem('role')
 
     const [friends,setFriends] = useState([
         {username: '1'},
@@ -25,7 +23,7 @@ function Friends (){
             {token ? 
                 <ul className="friends-list">
                     {friends ? friends.map((friend,i) => {
-                        return <FriendItem friend={friend} key={i} friends={friends} setFriends={setFriends}/>
+                        return <FriendItem friend={friend} key={i} friends={friends} setFriends={setFriends} trash={trash} message={message}/>
                     }) : <p>Add friends!</p>}   
                 </ul>
             : <p>Log in to view your friends</p>

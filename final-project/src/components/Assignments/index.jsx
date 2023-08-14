@@ -1,11 +1,12 @@
 import '../../pages/profilePage/styles.css'
-import { useAuth, useAssignments, useStudents, useRole } from '../../contexts'
+import { useAuth, useAssignments, useStudents } from '../../contexts'
 import AssignmentsItem from './AssignmentsItem'
 import { useState } from 'react'
 
-function AssignmentsList() {
+function AssignmentsList({start,edit,trash}) {
     //const {assignments, setAssignments} = useAssignments()
-    //const role = useRole()
+    //const {user} = useAuth()
+    //cont {role} = user
     const [assignments, setAssignments] = useState([
         {
           assignment_id: 1,
@@ -71,7 +72,7 @@ function AssignmentsList() {
                 <ul className="assignments-list">
                     {assignments.filter(a=>a.completed)
                     .map((a,i)=>{
-                        return <AssignmentsItem assignment={a} key={i} assignments={assignments} setAssignments={setAssignments}/>
+                        return <AssignmentsItem start={start} edit={edit} trash={trash} assignment={a} key={i} assignments={assignments} setAssignments={setAssignments}/>
                     })}
                 </ul>
                 : <p>No completed assignments</p>
@@ -84,7 +85,7 @@ function AssignmentsList() {
                 <ul className="assignments-list">
                     {assignments.filter(a=>!a.completed)
                     .map((a,i)=>{
-                         return <AssignmentsItem assignment={a} key={i} assignments={assignments} setAssignments={setAssignments}/>
+                         return <AssignmentsItem start={start} edit={edit} trash={trash} assignment={a} key={i} assignments={assignments} setAssignments={setAssignments}/>
                     })}
                 </ul>
                 : <p>No incomplete assignments</p>
