@@ -95,3 +95,27 @@ export const MessagesProvider = ({ children }) => {
   );
 };
 export const useMessages = () => useContext(MessagesContext);
+
+//Notifications
+export const NotificationsContext = createContext();
+export const NotificationsProvider = ({ children }) => {
+  const [notifications, setNotifications] = useState();
+  return (
+    <NotificationsContext.Provider value={{ notifications, setNotifications }}>
+      {children}
+    </NotificationsContext.Provider>
+  );
+};
+export const useNotifications = () => useContext(NotificationsContext);
+
+// Assignments
+export const AssignmentListContext = createContext();
+export const AssignmentListProvider = ({ children }) => {
+  const [assignmentList, setAssignmentList] = useState();
+  return (
+    <AssignmentListContext.Provider value={{ assignmentList, setAssignmentList }}>
+      {children}
+    </AssignmentListContext.Provider>
+  );
+};
+export const useAssignmentList = () => useContext(AssignmentListContext);

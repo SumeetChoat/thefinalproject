@@ -11,26 +11,61 @@ import {
   Profile
 } from "./pages";
 
-import {
-  AuthProvider,
-  RoleProvider,
-  AssignmentsProvider,
-  FriendsProvider,
-  StudentsProvider,
-  RequestsProvider,
-  MessagesProvider
-} from "./contexts";
+
+import {socket} from './socket';
+import { useEffect } from "react";
+import { useAssignmentList, useFriends, useRequests, useMessages, useNotifications } from './contexts';
+import eventListeners from "./eventListeners";
+
+const username = "Oliver"; // Just for testing purposes whilst log in isn't working.
 
 function App() {
+  // socket.connect(); // can this be here? Do I just need to send username event after logging in?
+
+  // const {friends, setFriends} = useFriends();
+  // const {sentRequests, setSentRequests} = useRequests();
+  // const {messages, setMessages} = useMessages();
+  // const {notifications, setNotifications} = useNotifications();
+  // const {assignmentList, setAssignmentList} = useAssignmentList();
+  // console.log(useFriends)
+
+    
+
+  // useEffect(() => {
+
+  //   socket.on("username", data => {
+  //     console.log(data);
+  //     // Update context here with...
+
+  //     // Friends
+  //     setFriends(data["friends"])
+  //     // Friend_Requests
+  //     setSentRequests(data["friend_requests"])
+  //     // Messages
+  //     setMessages(data["messages"])
+  //     // Notifications
+  //     setNotifications(data["notifications"])
+  //     // Assignments
+  //     setAssignmentList(data["assignments"])
+
+  // })
+  //   return () => {
+  //     socket.disconnect();
+  //     socket.off();
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log("messages:" , messages);
+  //   console.log("friends:", friends);
+  //   console.log("assignments:", assignmentList);
+  // }, [messages, friends, sentRequests, notifications, assignmentList])
+
+
+
   return (
     <>
-      <AuthProvider>
-      <RoleProvider>
-      <AssignmentsProvider>
-      <FriendsProvider>
-      <StudentsProvider>
-      <RequestsProvider>
-      <MessagesProvider>
+      
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
@@ -45,13 +80,6 @@ function App() {
 
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </MessagesProvider>
-      </RequestsProvider>
-      </StudentsProvider>
-      </FriendsProvider>
-      </AssignmentsProvider>
-      </RoleProvider>
-      </AuthProvider>
     </>
   );
 }

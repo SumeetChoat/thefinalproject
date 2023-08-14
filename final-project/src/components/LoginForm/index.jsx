@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts";
+import {socket} from '../../socket';
 
 export default function LoginForm({
   loginForm,
@@ -37,6 +38,8 @@ export default function LoginForm({
           setUser(data.user);
           console.log(data.user);
           setMessage("User logged in successfully.");
+
+
           setTimeout(() => {
             setMessage("");
             navigate("/challenge");
