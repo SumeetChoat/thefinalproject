@@ -54,17 +54,18 @@ function ProtectedRoute() {
         }),
       });
       if (res.ok) {
-        const user = await res.json();
+        const userResp = await res.json();
         setUser({
-          firstName: user.first_name,
-          lastName: user.last_name,
-          role: user.role,
-          username: user.username,
+          firstName: userResp.first_name,
+          lastName: userResp.last_name,
+          role: userResp.role,
+          username: userResp.username,
         });
       } else {
         navigate("/login");
       }
     }
+
     if (!user && !localStorage.getItem("token")) {
       navigate("/login");
     } else if (!user && localStorage.getItem("token")) {
@@ -95,18 +96,22 @@ function ProtectedRoute() {
 
       socket.on("message", (msg) => {
         // Update message context here
+        setMessages([...messages, msg])
       });
 
       socket.on("friend_req", (req) => {
         // Update friend request context here
+        setSentRequests([...sentRequests, req])
       });
 
       socket.on("add_friend", (friend) => {
         // Update friends context here
+        setFriends([...friends, friend])
       });
 
       socket.on("notification", (noti) => {
         // Update notifications list
+        setNotifications([...notifications, noti])
       });
     } catch (error) {
       console.log(error);
