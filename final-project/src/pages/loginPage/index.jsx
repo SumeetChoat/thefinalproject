@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import { LoginForm } from "../../components";
 import "./styles.css";

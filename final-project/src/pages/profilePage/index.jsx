@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from "react"
 import { useAuth, useRole} from "../../contexts"
 import {Friends, Assignments} from "../../components"

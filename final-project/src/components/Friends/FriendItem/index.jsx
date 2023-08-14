@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react"
 import { useFriends } from "../../../contexts"
 import '../../../pages/profilePage/styles.css'

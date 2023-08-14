@@ -1,3 +1,4 @@
+import React from 'react';
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { autoCorrelate } from "../../lib/pitchDetection";

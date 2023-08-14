@@ -1,3 +1,4 @@
+import React from 'react';
 import "./styles.css";
 import Footer from "../../components/Footer";
 import { NavLink } from "react-router-dom";

@@ -2,16 +2,7 @@
 import React from 'react';
 import { useEffect, useRef } from "react";
 import "./styles.css";
-import {
-  Renderer,
-  Stave,
-  StaveNote,
-  StaveConnector,
-  Formatter,
-  Voice,
-  Beam,
-  Accidental,
-} from "vexflow";
+ 
 
 function StaveComponent({ challenge }) {
   const noteStrings = [
