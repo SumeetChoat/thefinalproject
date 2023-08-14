@@ -2,6 +2,7 @@ const Friends = require('./models/friends');
 const Friend_Requests = require('./models/friend_requests');
 const Messages = require('./models/messages');
 const Notifications = require('./models/notifications');
+const Assignments = require('../models/Assignments');
 
 function controller(io) {
     let users = {};
@@ -11,7 +12,9 @@ function controller(io) {
         //maybe need to join socket into it's own id??
 
         // When user logs in, they will trigger the "username" event by sending their username to the server.
-        socket.on("username", async (username) => {
+        socket.on("username", async (input) => {
+            const username = input.username;
+            const role = input.role;
             // Need to add username and socket id to users array
             users[username] = socket.id;
 
@@ -25,13 +28,20 @@ function controller(io) {
             const friend_requests = await Friend_Requests.getAll(username);
             const messages = await Messages.getAll(username);
             const notifications = await Notifications.getAll(username);
-            // Need to add assignments??
+            
+            let assignments;
+            if (role === "student") {
+                assignments = await Assignments.getStudentsAssignments(username);
+            } else {
+                assignments = await Assignments.getTeachersAssignments(username);
+            }
 
             const data = {
                 "friends" : friends,
                 "friend_requests" : friend_requests,
                 "messages" : messages,
-                "notifications" : notifications
+                "notifications" : notifications,
+                "assignments" : assignments
             }
 
             io.to(socket.id).emit("username", data)

@@ -1,12 +1,20 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import "./styles.css";
-import { useAuth } from "../../contexts";
 import { useEffect } from "react";
+import {socket} from "../../socket"
+import { useAuth, useAssignmentList, useFriends, useRequests, useMessages, useNotifications } from '../../contexts';
 
 function ProtectedRoute() {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
+
+  const {friends, setFriends} = useFriends();
+  const {sentRequests, setSentRequests} = useRequests();
+  const {messages, setMessages} = useMessages();
+  const {notifications, setNotifications} = useNotifications();
+  const {assignmentList, setAssignmentList} = useAssignmentList();
+
   useEffect(() => {
     async function getUserDataWithToken() {
       const token = JSON.parse(localStorage.getItem("token"));
@@ -22,14 +30,12 @@ function ProtectedRoute() {
       });
       if (res.ok) {
         const user = await res.json();
-
         setUser({
           firstName: user.first_name,
           lastName: user.last_name,
           role: user.role,
           username: user.username,
         });
-        return;
       } else {
         navigate("/login");
       }
@@ -39,7 +45,43 @@ function ProtectedRoute() {
     } else if (!user && localStorage.getItem("token")) {
       getUserDataWithToken();
     }
+
+    socket.connect();
+    socket.emit("username", {"username":user.username, "role":user.role})
+
+    socket.on("username", data => {
+      console.log(data);
+      // Update context here with...
+
+      // Friends
+      setFriends(data["friends"])
+      // Friend_Requests
+      setSentRequests(data["friend_requests"])
+      // Messages
+      setMessages(data["messages"])
+      // Notifications
+      setNotifications(data["notifications"])
+      // Assignments
+      setAssignmentList(data["assignments"])
+    })
+
+    socket.on("message", msg => {
+      // Update message context here
+    })
+
+    socket.on("friend_req", req => {
+        // Update friend request context here
+    })
+
+    socket.on("add_friend", friend => {
+        // Update friends context here
+    })
+
+    socket.on("notification", noti => {
+        // Update notifications list
+    })
   }, []);
+
   return (
     <div className="body-container">
       <nav>
