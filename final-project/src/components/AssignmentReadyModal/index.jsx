@@ -2,7 +2,8 @@ import React from 'react';
 /* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
 import "./styles.css";
-import { useAuth } from "../../contexts";
+import { useAssignments } from "../../contexts";
+import { useNavigate } from "react-router-dom";
 function AssignmentReadyModal({
   showAssignmentReadyModal,
   setShowAssignmentReadyModal,
@@ -10,7 +11,8 @@ function AssignmentReadyModal({
   setRound,
 }) {
   const dialogRef = useRef();
-  const { currentAssignment, setCurrentAssignment } = useAuth();
+  const navigate = useNavigate();
+  const { currentAssignment, setCurrentAssignment } = useAssignments();
   useEffect(() => {
     if (showAssignmentReadyModal) {
       dialogRef.current.showModal();
@@ -67,6 +69,7 @@ function AssignmentReadyModal({
           onClick={() => {
             setCurrentAssignment(null);
             setShowAssignmentReadyModal(false);
+            navigate("/assignments");
           }}
         >
           Cancel
