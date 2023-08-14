@@ -6,15 +6,14 @@ import './styles.css'
 function ProfilePage () {
     const token = useAuth().token || localStorage.getItem('token')
     const {user} = useAuth()
-    const {role} = user
-
+    console.log(user)
     const [showMessages, setShowMessages] = useState(false)
 
-    if(showMessages){
-        dialog.showModal()
-    } else {
-        dialog.close()
-    }
+    // if(showMessages){
+    //     dialog.showModal()
+    // } else {
+    //     dialog.close()
+    // }
 
     // let role = 'teacher'
 
@@ -48,7 +47,7 @@ function ProfilePage () {
 
             <div className="profile-right">
                 <div className="leaderboard-container">
-                        {role=='student'?
+                        {user && user.role=='student'?
                             <p>LeaderBoard</p>
                         :
                             <p>My Students</p>
