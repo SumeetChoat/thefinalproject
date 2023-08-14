@@ -52,8 +52,8 @@ function ProfilePage () {
                         }
                 </div>
             </div>
-            <dialog className="messages-modal">
-            </dialog>
+            {/* <dialog className="messages-modal">
+            </dialog> */}
         </div>
         </>
     )
