@@ -1,10 +1,11 @@
 const db = require('../../database/connect');
 
 class Friend_Requests {
-    constructor({request_id, sender, recipient}) {
+    constructor({request_id, sender, recipient, time_sent}) {
         this.request_id = request_id
         this.sender = sender
         this.recipient = recipient
+        this.time_sent = time_sent
     }
 
     static async getOne(sender, recipient) {
@@ -13,13 +14,14 @@ class Friend_Requests {
     }
 
     static async getAll(name) {
-        const response = db.query('SELECT * FROM friend_requests WHERE sender = $1 OR recipient = $1', [name])
-        return response.rows.map(fr_req => new Friend_Requests(fr_req))
+        const response = await db.query('SELECT * FROM friend_requests WHERE sender = $1 OR recipient = $1', [name])
+        return response.rows.map(frnd => new Friend_Requests(frnd))
     }
 
     static async create(data) {
         const {sender, recipient} = data;
-        const response = await db.query('INSERT INTO friend_requests (sender, recipient) VALUES ($1, $2) RETURNING *;', [sender, recipient]);
+        const time = new Date();
+        const response = await db.query('INSERT INTO friend_requests (sender, recipient, time_sent) VALUES ($1, $2, $3) RETURNING *;', [sender, recipient, time]);
         return new Friend_Requests(response.rows[0])
     }
 

@@ -2,7 +2,6 @@ const Friends = require('./models/friends');
 const Friend_Requests = require('./models/friend_requests');
 const Messages = require('./models/messages');
 const Notifications = require('./models/notifications');
-const User = require('./models/user');
 
 function controller(io) {
     let users = {};
@@ -23,7 +22,7 @@ function controller(io) {
 
             // Fetching data from db.
             const friends = await Friends.getAllFriends(username);
-            const friend_requests = await Friend_Requests.getAll(username)
+            const friend_requests = await Friend_Requests.getAll(username);
             const messages = await Messages.getAll(username);
             const notifications = await Notifications.getAll(username);
             // Need to add assignments??
@@ -40,32 +39,33 @@ function controller(io) {
 
         socket.on("message", async (message) => {
             // message needs to have: sender, recipient, type, content
-
+            console.log(message);
             // Adds message to db.
             const msg = await Messages.create(message);
 
             // Needs to add notification to db.
-            const noti = await Notifications.create_message_received(message.username);
+            const noti = await Notifications.create_message_received(message.sender, message.recipient);
 
             // Need to send message back to sender and recipient.
             io.to(socket.id).emit("message", message); // back to sender
-            io.to(users[message.username]).emit("message", message); // to recipient
+            io.to(users[message.recipient]).emit("message", message); // to recipient
 
             // Need to send recipient the notification
-            io.to(users[message.username]).emit("notification", noti);
+            io.to(users[message.recipient]).emit("notification", noti);
         })
 
         socket.on("friend_req", async (req) => {
             // req needs to have: sender, recipient.
-
+            console.log(req);
             // Creates friend request.
-            const req = await Friend_Requests.create(req);
+            const request = await Friend_Requests.create(req);
+            console.log(request);
 
             // Created notification.
-            const noti = await Notifications.create_friend_req_received(req.sender);
+            const noti = await Notifications.create_friend_req_received(req.sender, req.recipient);
 
             // Sends friend request to recipient.
-            io.to(users[req.recipient]).emit("friend_req", req);
+            io.to(users[req.recipient]).emit("friend_req", request);
 
             // Sends notification to recipient.
             io.to(users[req.recipient]).emit("notification", noti);
@@ -74,27 +74,32 @@ function controller(io) {
 
         socket.on("friend_req_resp", async (resp) => {
             // resp needs to have: sender, recipient, status ("accepted" or "rejected")
-
+            // sender is the sender of friend request not response ...
+            
             // Deletes friend request
             const friend_req = await Friend_Requests.getOne(resp.sender, resp.recipient);
             await friend_req.delete();
 
             if (resp.status === "accepted") {
                 // Adds friend
-                await Friends.create(resp.sender, resp.recipient);
+                const friend = await Friends.create(resp.sender, resp.recipient);
+                
+                io.to(users[resp.sender]).emit("add_friend", friend); // Sends new friendship to sender.
+                io.to(users[resp.recipient]).emit("add_friend", friend); // Sends new friendship to recipient.
             }
 
             // Creates notification
-            const noti = await Notifications.create_friend_req_response(resp.recipient, resp.status);
+            const noti = await Notifications.create_friend_req_response(resp.sender, resp.recipient, resp.status);
 
             // Sends notification to sender
-            io.to(users[req.sender]).emit("notification", noti);
+            io.to(users[resp.recipient]).emit("notification", noti);
             
         })
         
         socket.on('disconnect', () => {
-            users.delete(socket.username)
+            delete users[socket.username]
             console.log(`Socket disconnected`);
+            console.log(users)
         })
     })
 }

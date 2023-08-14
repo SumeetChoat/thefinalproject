@@ -14,12 +14,18 @@ import { AuthProvider } from "./contexts";
 
 import {socket} from './socket';
 import { useEffect } from "react";
+import eventListeners from "./eventListeners";
 
+const username = "Oliver";
 
 function App() {
   socket.connect();
+
   useEffect(() => {
-    console.log('Socket connected')
+
+    // Adds socket event listeners.
+    eventListeners();
+
     return () => {
       socket.disconnect();
       socket.off();
