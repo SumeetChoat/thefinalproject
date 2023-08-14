@@ -6,7 +6,7 @@ import FriendItem from "./FriendItem";
 import '../../pages/profilePage/styles.css'
 import { useState } from "react";
 
-function Friends ({trash,message,search,add,setShowMessages}){
+function Friends ({trash,message,add,setShowMessages}){
     const token = useAuth().token || localStorage.getItem('token')
     const {user} = useAuth()
 
@@ -61,7 +61,7 @@ function Friends ({trash,message,search,add,setShowMessages}){
             {friends.length > 0 ? 
                 friends.filter(f => textFilter.length == 0 | f.username.toLowerCase().includes(textFilter.toLowerCase()))
                     .map((friend,i) => {
-                        return <FriendItem friend={friend} key={i} friends={friends} setFriends={setFriends} trash={trash} message={message} search={search} add={add} setShowMessages={setShowMessages}/>
+                        return <FriendItem friend={friend} key={i} friends={friends} setFriends={setFriends} trash={trash} message={message} add={add} setShowMessages={setShowMessages}/>
                     }) 
                 : <p>Add friends with the search bar above!</p>}       
         </ul>
