@@ -8,6 +8,7 @@ function AssignmentReadyModal({
   setShowAssignmentReadyModal,
   generateNewChallenge,
   setRound,
+  setIsRunning,
 }) {
   const dialogRef = useRef();
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function AssignmentReadyModal({
     setShowAssignmentReadyModal(false);
     setRound(1);
     generateNewChallenge();
+    setIsRunning(true);
   }
   console.log(currentAssignment);
   return (
