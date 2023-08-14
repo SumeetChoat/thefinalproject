@@ -23,15 +23,24 @@ function Friends ({trash,message,search, add}){
         setTextFilter(e.target.value)
     }
 
-    function addFriend(searchText) {
+    async function addFriend(searchText) {
         const options = {
             method: "GET",
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
+            },
+            body: {
+                username: searchText
             }
           }
-        const resp = fetch('https://pitchperfect-api.onrender.com/users',options)
+        const resp = await fetch('https://pitchperfect-api.onrender.com/users/username',options)
+        const data = await resp.json()
+        if (resp.ok) {
+            console.log(data)
+            // add friend - socket
+            setFriends([...friends,{username: data.username}])
+        }
     }
 
     //const {friends} = useFriends()

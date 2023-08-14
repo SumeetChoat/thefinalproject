@@ -31,7 +31,7 @@ class UserController {
 
   static async getByUsername(req,res) {
     try {
-      const {username} = req.body
+      const {username} = req.params
       const user = await Users.getByUsername(username)
       res.status(200).send(user)
     } catch (err) {
