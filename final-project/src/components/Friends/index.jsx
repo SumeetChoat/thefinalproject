@@ -24,22 +24,25 @@ function Friends ({trash,message,search, add}){
     }
 
     async function addFriend(searchText) {
+        console.log('add')
         const options = {
             method: "GET",
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
+              token: '	9f283e2a-8b27-4b09-8e95-266e2b949c39'
             },
-            body: {
-                username: searchText
-            }
           }
-        const resp = await fetch('https://pitchperfect-api.onrender.com/users/username',options)
+        const resp = await fetch(`http://localhost:3000/users/${searchText}`,options)
         const data = await resp.json()
-        if (resp.ok) {
+        if (resp.ok && (!friends.find((f) => f.username == searchText))) {
             console.log(data)
-            // add friend - socket
-            setFriends([...friends,{username: data.username}])
+            // socket
+            alert(`You have sent a friend request to user ${searchText}`)
+        } else if (friends.find((f) => f.username == searchText)){
+            alert('You are already friends with this user.')
+        } else {
+            alert('There is no user with this username.')
         }
     }
 
