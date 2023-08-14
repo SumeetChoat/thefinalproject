@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/components/Friends/index.jsx</title>
+    <title>Code coverage report for src/components/AddAssignmentModal/index.jsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/components/Friends</a> index.jsx</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/components/AddAssignmentModal</a> index.jsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.21% </span>
+                <span class="strong">13.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/38</span>
+                <span class='fraction'>5/37</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.21% </span>
+                <span class="strong">13.51% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/38</span>
+                <span class='fraction'>5/37</span>
             </div>
         
             
@@ -100,16 +100,7 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -137,46 +128,52 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
-import {
-    useAuth,
-    useFriends,
-    useRole,
-    useRequests
- } from "../../contexts";
-import FriendItem from "./FriendItem";
-import '../../pages/profilePage/styles.css'
-import { useState } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useRef } from "react";
+import "./styles.css";
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >function Friends (){</span></span>
-<span class="cstat-no" title="statement not covered" >    const token = useAuth().token || localStorage.getItem('token')</span>
-<span class="cstat-no" title="statement not covered" >    const role = useRole().role || localStorage.getItem('role')</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >function AddAssignmentModal({</span></span>
+<span class="cstat-no" title="statement not covered" >  showAddAssignmentModal,</span>
+<span class="cstat-no" title="statement not covered" >  setShowAddAssignmentModal,</span>
+<span class="cstat-no" title="statement not covered" >}) {</span>
+<span class="cstat-no" title="statement not covered" >  const dialogRef = useRef();</span>
+<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (showAddAssignmentModal) {</span>
+<span class="cstat-no" title="statement not covered" >      dialogRef.current.showModal();</span>
+<span class="cstat-no" title="statement not covered" >    } else {</span>
+<span class="cstat-no" title="statement not covered" >      dialogRef.current.close();</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >  }, [showAddAssignmentModal]);</span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;dialog ref={dialogRef}&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;h1&gt;Add Assignment&lt;/h1&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;form&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="input-group"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;label htmlFor="Clef"&gt;Clef:&lt;/label&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;input type="radio" name="clef" id="treble" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;label htmlFor="treble"&gt;Treble&lt;/label&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;input type="radio" name="clef" id="bass" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;label htmlFor="treble"&gt;Bass&lt;/label&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const [friends,setFriends] = useState([</span>
-<span class="cstat-no" title="statement not covered" >        {username: '1'},</span>
-<span class="cstat-no" title="statement not covered" >        {username: '2'},</span>
-<span class="cstat-no" title="statement not covered" >        {username: '3'}</span>
-<span class="cstat-no" title="statement not covered" >    ])</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    //const {friends} = useFriends()</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {token ? </span>
-<span class="cstat-no" title="statement not covered" >                &lt;ul className="friends-list"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    {friends ? friends.map((friend,i) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                        return &lt;FriendItem friend={friend} key={i} friends={friends} setFriends={setFriends}/&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    }) : &lt;p&gt;Add friends!&lt;/p&gt;}   </span>
-<span class="cstat-no" title="statement not covered" >                &lt;/ul&gt;</span>
-<span class="cstat-no" title="statement not covered" >            : &lt;p&gt;Log in to view your friends&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >            }</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/&gt;</span>
-<span class="cstat-no" title="statement not covered" >    )</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="add-assignment-modal-button-section"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;button&gt;Cancel&lt;/button&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;button&gt;Add&lt;/button&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/form&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/dialog&gt;</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
-export default Friends
+export default AddAssignmentModal;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.38% </span>
+                <span class="strong">14.81% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/26</span>
+                <span class='fraction'>4/27</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.38% </span>
+                <span class="strong">14.81% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/26</span>
+                <span class='fraction'>4/27</span>
             </div>
         
             
@@ -89,7 +89,8 @@
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -115,31 +116,33 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, {useState} from "react";
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState } from "react";
 import { RegisterForm } from "../../components";
-import '../loginPage/styles.css';
+import "../loginPage/styles.css";
 &nbsp;
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export default function RegisterPage() {</span></span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const [firstName, setFirstName] = useState('')</span>
-<span class="cstat-no" title="statement not covered" >  const [lastName, setLastName] = useState('')</span>
-<span class="cstat-no" title="statement not covered" >  const [email, setEmail] = useState('')</span>
-<span class="cstat-no" title="statement not covered" >  const [password, setPassword] = useState('')</span>
-<span class="cstat-no" title="statement not covered" >  const [message, setMessage] = useState('')</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return (  </span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="container"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  const [message, setMessage] = useState("");</span>
+<span class="cstat-no" title="statement not covered" >  const [newUser, setNewUser] = useState({</span>
+<span class="cstat-no" title="statement not covered" >    firstName: "",</span>
+<span class="cstat-no" title="statement not covered" >    lastName: "",</span>
+<span class="cstat-no" title="statement not covered" >    email: "",</span>
+<span class="cstat-no" title="statement not covered" >    username: "",</span>
+<span class="cstat-no" title="statement not covered" >    password: "",</span>
+<span class="cstat-no" title="statement not covered" >    role: "student",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="login-container"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;h1&gt;Welcome to Pitch Perfect - Music App&lt;/h1&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;h1&gt;Please Register&lt;/h1&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;RegisterForm </span>
-<span class="cstat-no" title="statement not covered" >        firstName={firstName} setFirstName={setFirstName}</span>
-<span class="cstat-no" title="statement not covered" >        lastName={lastName} setLastName={setLastName}</span>
-<span class="cstat-no" title="statement not covered" >        email={email} setEmail={setEmail}</span>
-<span class="cstat-no" title="statement not covered" >        password={password} setPassword={setPassword}</span>
-<span class="cstat-no" title="statement not covered" >        message={message} setMessage={setMessage}</span>
+<span class="cstat-no" title="statement not covered" >      &lt;RegisterForm</span>
+<span class="cstat-no" title="statement not covered" >        newUser={newUser}</span>
+<span class="cstat-no" title="statement not covered" >        setNewUser={setNewUser}</span>
+<span class="cstat-no" title="statement not covered" >        message={message}</span>
+<span class="cstat-no" title="statement not covered" >        setMessage={setMessage}</span>
 <span class="cstat-no" title="statement not covered" >      /&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >  )</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -148,7 +151,7 @@ import '../loginPage/styles.css';
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-08-13T13:26:03.363Z
+                at 2023-08-14T08:45:01.097Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
