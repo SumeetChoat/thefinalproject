@@ -41,7 +41,7 @@
     overflow-y: scroll;
 }
 
-.delete-btn, .message-btn, .add-btn {
+.delete-btn, .message-btn, .add-btn, .accept-btn, .decline-btn {
     cursor: pointer;
     padding-left: 5px;
     padding-right: 5px;
@@ -60,19 +60,19 @@
     justify-content: space-around;
 }
 
-.assignment-btn, .friends-btn{
+.assignment-btn, .friends-btn, .friend-requests-btn{
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 }
 
-.friends-item{
+.friends-item, .friend-requests-item{
     justify-content: space-around;
     width: 100%;
     align-items: center;
 }
 
-.assignment-btn button, .friends-btn button, .friends-requests-btn button{
+.assignment-btn button, .friends-btn button, .friend-requests-btn button{
     background-color: transparent;
     border: none;
     font-size: 20px;
@@ -85,6 +85,12 @@
     border: none;
     font-size: 20px;
     padding-top: 5px; 
+}
+
+.pending-icon button {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
 }
 
 .edit-btn:hover .svg-icon path{
@@ -112,6 +118,10 @@
 }
 
 .decline-btn:hover .svg-icon path {
+    fill: purple
+}
+
+.pending-btn:hover .svg-icon path {
     fill: purple
 }
 
