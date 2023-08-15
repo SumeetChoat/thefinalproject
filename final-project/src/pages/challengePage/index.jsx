@@ -15,12 +15,14 @@ import AssignmentReadyModal from "../../components/AssignmentReadyModal";
 import { useAssignments, useAuth } from "../../contexts";
 import FinishAssignmentModal from "../../components/FinishAssignmentModal";
 import Stopwatch from "../../components/StopWatch";
+import ToggleButton from "../../components/ToggleButton";
 
 function ChallengePage() {
   const { currentAssignment, setCurrentAssignment } = useAssignments();
   const { user } = useAuth();
   console.log(user);
   const [round, setRound] = useState(null);
+  const [mic, setMic] = useState(false);
   const [showAssignmentReadyModal, setShowAssignmentReadyModal] =
     useState(false);
   const [showFinishAssignmentModal, setShowFinishAssignmentModal] = useState();
@@ -279,106 +281,147 @@ function ChallengePage() {
   }, [currentIndex]);
 
   return (
-    <div className="challenge-container">
-      {currentAssignment && (
-        <AssignmentReadyModal
-          showAssignmentReadyModal={showAssignmentReadyModal}
-          setShowAssignmentReadyModal={setShowAssignmentReadyModal}
-          generateNewChallenge={generateNewChallenge}
-          setRound={setRound}
-          setIsRunning={setIsRunning}
-        />
-      )}
+    <div className="challenge-wrapper">
+      <img
+        src="content-background3.JPG"
+        alt="background"
+        className="content-background"
+      />
 
-      <div className="challenge-left-section">
-        <h1 className="challenge-title">
-          Play the following. Remember to hit the start button.
-        </h1>
-        <StaveComponent challenge={challenge} form={form} />
-      </div>
-      <div className="challenge-right-section">
-        {round && (
-          <div className="assignment-detail">
-            <h1>Assignment</h1>
-            <h3>
-              Round {round}/{currentAssignment.rounds}
-            </h3>
-          </div>
-        )}
+      <div className="challenge-container">
         {currentAssignment && (
-          <Stopwatch
-            time={time}
-            setTime={setTime}
-            isRunning={isRunning}
+          <AssignmentReadyModal
+            showAssignmentReadyModal={showAssignmentReadyModal}
+            setShowAssignmentReadyModal={setShowAssignmentReadyModal}
+            generateNewChallenge={generateNewChallenge}
+            setRound={setRound}
             setIsRunning={setIsRunning}
           />
         )}
-        <button onClick={startPitchDetect} className="challenge-button">
-          Start
-        </button>
-        {round && currentAssignment && (
+
+        <div className="challenge-left-section">
+          <StaveComponent challenge={challenge} form={form} />
+        </div>
+        <div className="challenge-right-section">
+          <div className="mic-setting-section">
+            <ToggleButton
+              mic={mic}
+              setMic={setMic}
+              startPitchDetect={startPitchDetect}
+            />
+            <label htmlFor="mic" className="mic-setting-section-text-label">
+              Mic
+            </label>
+          </div>
           <button
-            className="challenge-button"
-            onClick={() => {
-              if (
-                confirm(
-                  "Are you sure you want to quit the current assignment? Your progress will not be saved."
-                )
-              ) {
-                setCurrentAssignment(null);
-                setRound(null);
-                setChallenge([
-                  { note: 60, isCorrect: false },
-                  { note: 62, isCorrect: false },
-                  { note: 64, isCorrect: false },
-                  { note: 65, isCorrect: false },
-                ]);
-                setIsRunning(false);
-                setTime(0);
-              } else {
-                return;
-              }
-            }}
+            className="challenge-config-modal-button"
+            onClick={() => setToggleChallengeConfigModal(true)}
           >
-            Quit Assignment
-          </button>
-        )}
-        {!round && !currentAssignment && (
-          <>
-            <button
-              type="button"
-              onClick={() =>
-                setToggleChallengeConfigModal(!toggleChallengeConfigModal)
-              }
-              className="challenge-button"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              viewBox="0 0 20 20"
+              height="20"
+              fill="none"
+              className="challenge-config-modal-button-svg-icon"
             >
-              Challenge Configuration
-            </button>
+              <g strokeWidth="1.5" strokeLinecap="round" stroke="#5d41de">
+                <circle r="2.5" cy="10" cx="10"></circle>
+                <path
+                  fillRule="evenodd"
+                  d="m8.39079 2.80235c.53842-1.51424 2.67991-1.51424 3.21831-.00001.3392.95358 1.4284 1.40477 2.3425.97027 
+                  1.4514-.68995 2.9657.82427 2.2758 2.27575-.4345.91407.0166 2.00334.9702 2.34248 1.5143.53842 1.5143 2.67996 0 
+                  3.21836-.9536.3391-1.4047 1.4284-.9702 2.3425.6899 1.4514-.8244 2.9656-2.2758 2.2757-.9141-.4345-2.0033.0167-2.3425.9703-.5384 
+                  1.5142-2.67989 1.5142-3.21831 0-.33914-.9536-1.4284-1.4048-2.34247-.9703-1.45148.6899-2.96571-.8243-2.27575-2.2757.43449-.9141-.01669-2.0034-.97028-2.3425-1.51422-.5384-1.51422-2.67994.00001-3.21836.95358-.33914 1.40476-1.42841.97027-2.34248-.68996-1.45148.82427-2.9657 2.27575-2.27575.91407.4345 2.00333-.01669 2.34247-.97026z"
+                  clipRule="evenodd"
+                ></path>
+              </g>
+            </svg>
+            <span className="challenge-config-modal-label">
+              Challenge Settings
+            </span>
+          </button>
+          {round ? (
+            <div className="assignment-detail">
+              <h1>Assignment</h1>
+              <h3>
+                Round {round}/{currentAssignment.rounds}
+              </h3>
+            </div>
+          ) : (
+            <div className="assignment-detail span-2 challenge-instruction">
+              <h1 className="challenge-title">Challenge Mode</h1>
+              <div className="">
+                <p>Activate your microphone</p>
+                <p>Configure the pattern on Challenge settings</p>
+                <p>Press Next Challenge if you wish to move on</p>
+              </div>
+            </div>
+          )}
+          {currentAssignment && (
+            <Stopwatch
+              time={time}
+              setTime={setTime}
+              isRunning={isRunning}
+              setIsRunning={setIsRunning}
+            />
+          )}
+
+          {round && currentAssignment && (
             <button
-              type="button"
-              className="challenge-button"
+              className="challenge-button next-challenge-button"
               onClick={() => {
-                if (round && currentAssignment) {
-                  setRound((prev) => prev + 1);
+                if (
+                  confirm(
+                    "Are you sure you want to quit the current assignment? Your progress will not be saved."
+                  )
+                ) {
+                  setCurrentAssignment(null);
+                  setRound(null);
+                  setChallenge([
+                    { note: 60, isCorrect: false },
+                    { note: 62, isCorrect: false },
+                    { note: 64, isCorrect: false },
+                    { note: 65, isCorrect: false },
+                  ]);
+                  setIsRunning(false);
+                  setTime(0);
+                } else {
+                  return;
                 }
-                generateNewChallenge();
               }}
             >
-              Next
+              Quit Assignment
             </button>
-          </>
-        )}
-        <ChallengeConfigModal
-          toggleChallengeConfigModal={toggleChallengeConfigModal}
-          setToggleChallengeConfigModal={setToggleChallengeConfigModal}
-          generateNewChallenge={generateNewChallenge}
-          form={form}
-          setForm={setForm}
-        />
-        <FinishAssignmentModal
-          showFinishAssignmentModal={showFinishAssignmentModal}
-          setShowFinishAssignmentModal={setShowFinishAssignmentModal}
-        />
+          )}
+          {!round && !currentAssignment && (
+            <>
+              <button
+                type="button"
+                className="challenge-button next-challenge-button"
+                onClick={() => {
+                  if (round && currentAssignment) {
+                    setRound((prev) => prev + 1);
+                  }
+                  generateNewChallenge();
+                }}
+              >
+                Next Challenge
+              </button>
+            </>
+          )}
+          <ChallengeConfigModal
+            toggleChallengeConfigModal={toggleChallengeConfigModal}
+            setToggleChallengeConfigModal={setToggleChallengeConfigModal}
+            generateNewChallenge={generateNewChallenge}
+            form={form}
+            setForm={setForm}
+          />
+          <FinishAssignmentModal
+            showFinishAssignmentModal={showFinishAssignmentModal}
+            setShowFinishAssignmentModal={setShowFinishAssignmentModal}
+          />
+        </div>
       </div>
     </div>
   );

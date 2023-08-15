@@ -1,9 +1,7 @@
-.login-container {
-}
 .login-inner-container {
   display: grid;
   grid-template-columns: 50% 50%;
-  width: 60%;
+  width: 70%;
   height: 70vh;
   overflow: hidden;
   margin: 0 auto;

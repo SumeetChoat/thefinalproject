@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useRef, useEffect } from "react";
 
 function FinishAssignmentModal({

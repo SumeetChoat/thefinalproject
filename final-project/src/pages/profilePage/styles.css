@@ -1,150 +1,159 @@
 .profile-container {
-    display: flex;
-    padding: 10px;
-    margin: 0 auto;
-    width: auto;
-    justify-content: center;
+  display: flex;
+  padding: 10px;
+  margin: 0 auto;
+  width: auto;
+  justify-content: center;
 }
 
 .profile-left {
-    display: block;
-    align-items: flex-start;
+  display: block;
+  align-items: flex-start;
 }
 
 .profile-right {
-    display: block;
-    align-items: flex-end;
+  display: block;
+  align-items: flex-end;
 }
 
-.friends-list, .assignments-list {
-    list-style-type: none;
+.friends-list,
+.assignments-list {
+  list-style-type: none;
 }
-.friends-item, .assignments-item{
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-}
-
-.connections-container, .assignments-container, .assignments-item{
-    justify-items: center;
-    padding: 20px 0;
-    justify-content: space-around;
-    color: black;
-    border-radius: 25px;
-    margin: 25px auto;
-    padding: 30px;
-    box-shadow: 0 8px 20px rgb(210, 210, 210);
+.friends-item,
+.assignments-item {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
 }
 
-.connections-container, .assignments-container {
-    max-height: 500px;
-    overflow-y: scroll;
+.connections-container,
+.assignments-container,
+.assignments-item {
+  justify-items: center;
+  padding: 20px 0;
+  justify-content: space-around;
+  color: black;
+  border-radius: 25px;
+  margin: 25px auto;
+  padding: 30px;
+  box-shadow: 0 8px 20px rgb(210, 210, 210);
 }
 
-.delete-friend-btn, .message-friend-btn {
-    padding: 5px;
-    cursor: pointer;
+.connections-container,
+.assignments-container {
+  max-height: 500px;
+  overflow-y: scroll;
 }
 
-.assignments-item p{
-    padding: 1px;
+.delete-friend-btn,
+.message-friend-btn {
+  padding: 5px;
+  cursor: pointer;
 }
 
-.connections-container, .assignments-container {
-    display: grid;
+.assignments-item p {
+  padding: 1px;
+}
+
+.connections-container,
+.assignments-container {
+  display: grid;
 }
 
 .assignments-lists {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
-.assignment-btn, .friends-btn{
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+.assignment-btn,
+.friends-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
-.friends-item{
-    justify-content: space-around;
-    width: 100%;
-    align-items: center;
+.friends-item {
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
 }
 
-.assignment-btn button, .friends-btn button{
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    padding-top: 5px;
-    width: 80%;
+.assignment-btn button,
+.friends-btn button {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  padding-top: 5px;
+  width: 80%;
 }
 
-.add-btn{
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    padding-top: 5px; 
+.add-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  padding-top: 5px;
 }
 
-.edit-btn:hover .svg-icon path{
-    fill: purple
+.edit-btn:hover .svg-icon path {
+  fill: purple;
 }
 
 .delete-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .start-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .message-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .add-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .search-row {
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    width: 100%;
-    justify-content: space-around;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  justify-content: space-around;
 }
 
 .messages-modal {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 50px;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 50px;
 }
 
 .messages-modal .messages-container {
-    visibility: hidden;
-    /* width: 300px; */
-    background-color: #E0B1A9;
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    padding: 5px;
-    z-index: 1; 
-    bottom: 125%;
-    left: 50%;
-    margin-left: -80px;
+  visibility: hidden;
+  /* width: 300px; */
+  background-color: #e0b1a9;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
 }
 
 .messages-modal .show {
-    opacity: 0;
-    visibility: visible;
-    -webkit-animation: fadeIn 5s;
-    animation: fadeIn 5s;
+  opacity: 0;
+  visibility: visible;
+  -webkit-animation: fadeIn 5s;
+  animation: fadeIn 5s;
 }
