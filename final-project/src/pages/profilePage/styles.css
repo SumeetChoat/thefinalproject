@@ -16,16 +16,16 @@
     align-items: flex-end;
 }
 
-.friends-list, .assignments-list {
+.friends-list, .assignments-list, .friend-requests-list {
     list-style-type: none;
 }
-.friends-item, .assignments-item{
+.friends-item, .assignments-item, .friend-requests-item{
     padding: 5px;
     display: flex;
     justify-content: center;
 }
 
-.connections-container, .assignments-container, .assignments-item{
+.connections-container, .assignments-container, .assignments-item, .friend-requests-container{
     justify-items: center;
     padding: 20px 0;
     justify-content: space-around;
@@ -36,21 +36,22 @@
     box-shadow: 0 8px 20px rgb(210, 210, 210);
 }
 
-.connections-container, .assignments-container {
+.connections-container, .assignments-container, .friend-requests-container {
     max-height: 500px;
     overflow-y: scroll;
 }
 
-.delete-friend-btn, .message-friend-btn {
-    padding: 5px;
+.delete-btn, .message-btn, .add-btn {
     cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .assignments-item p{
     padding: 1px;
 }
 
-.connections-container, .assignments-container {
+.connections-container, .assignments-container, .friend-requests-container {
     display: grid;
 }
 
@@ -71,7 +72,7 @@
     align-items: center;
 }
 
-.assignment-btn button, .friends-btn button{
+.assignment-btn button, .friends-btn button, .friends-requests-btn button{
     background-color: transparent;
     border: none;
     font-size: 20px;
@@ -103,6 +104,14 @@
 }
 
 .add-btn:hover .svg-icon path {
+    fill: purple
+}
+
+.accept-btn:hover .svg-icon path {
+    fill: purple
+}
+
+.decline-btn:hover .svg-icon path {
     fill: purple
 }
 
