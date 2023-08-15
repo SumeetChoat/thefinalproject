@@ -1,6 +1,9 @@
 :root {
   --primary-purple: #8c52ff;
   --secondary-red: #e3386a;
+  --light-grey: #dddddd8d;
+  --linear-purple: linear-gradient(0.6turn, #ffffffed, rgb(221, 219, 229));
+  --text-purple: #5d41de;
 }
 
 * {
