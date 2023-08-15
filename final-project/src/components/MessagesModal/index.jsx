@@ -10,56 +10,6 @@ function MessagesModal({handleClose, decline, envelope}) {
     const {user} = useAuth()
     const [content,setContent] = useState('')
 
-    // let friendRecipient1 = {"username": 'student1'}
-
-    let messages1 = [
-        {
-            "sender":"student1",
-            "recipient":"student2",
-            "content": "hi"
-        },
-        {
-            "sender":"student2",
-            "recipient":"student1",
-            "content": "hello"
-        },
-        {
-            "sender":"student1",
-            "recipient":"student2",
-            "content": "hi2"
-        },
-        {
-            "sender":"student2",
-            "recipient":"student1",
-            "content": "hello"
-        },
-        {
-            "sender":"student2",
-            "recipient":"student1",
-            "content": "hello"
-        },
-        {
-            "sender":"student2",
-            "recipient":"student1",
-            "content": "hello"
-        },
-        {
-            "sender":"student2",
-            "recipient":"student1",
-            "content": "hello"
-        },
-        {
-            "sender":"student2",
-            "recipient":"student1",
-            "content": "hello"
-        },
-        {
-            "sender":"student1",
-            "recipient":"student2",
-            "content": "hi2"
-        },
-    ]
-
     function handleChange(e) {
         setContent(e.target.value)
     }
