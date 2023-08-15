@@ -111,7 +111,7 @@ function controller(io) {
         socket.on("delete_friend", async (id) => {
             const response = await Friends.delete(id);
 
-            // need to find which user isn't this socket
+            // need to find which user isn't this socket and send them an event to delete friend.
             if (socket.username === response.user1) {
                 io.to(users[response.user2]).emit("delete_friend", id)
             } else {
@@ -130,7 +130,7 @@ function controller(io) {
         socket.on("add_assignment", async (obj) => {
             console.log(obj);
             const response = await Notifications.create_assignment_added(obj.teacher_user, obj.student_user);
-            
+
             io.to(users[obj.recipient]).emit("notification", response);
             io.to(users[obj.recipient]).emit("add_assignment", obj);
         })

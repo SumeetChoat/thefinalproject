@@ -4,7 +4,7 @@ import {
 } from "../../contexts";
 import FriendItem from "./FriendItem";
 import '../../pages/profilePage/styles.css'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { socket } from "../../socket";
 
 function Friends ({trash,message,add,setShowMessages}){
