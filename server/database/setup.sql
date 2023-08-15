@@ -48,6 +48,8 @@ CREATE TABLE assignments (
     teacher_user VARCHAR REFERENCES users(username),
     range INT[],
     pattern VARCHAR[],
+    is_random BOOLEAN NOT NULL,
+    random_length INT,
     completed BOOLEAN DEFAULT FALSE,
     score INT DEFAULT 0,
     clef VARCHAR,
@@ -58,9 +60,9 @@ CREATE TABLE assignments (
     time_taken BIGINT
 );
 
-INSERT INTO assignments (student_user, teacher_user, range, pattern, completed, score, clef, key, rounds) VALUES
-('student1', 'teacher1', ARRAY[48, 60], ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10),
-('student2', 'teacher2', ARRAY[60, 72], ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10);
+INSERT INTO assignments (student_user, teacher_user, range, is_random,pattern, completed, score, clef, key, rounds) VALUES
+('student1', 'teacher1', ARRAY[48, 60], false, ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10),
+('student2', 'teacher2', ARRAY[60, 72], false, ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10);
 
 CREATE TABLE tokens (
     token_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
