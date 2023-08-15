@@ -46,6 +46,7 @@ class Notifications {
         const time = new Date();
         const message = `${teacher} has given you a new assignment.`
         const response = await db.query('INSERT INTO notifications(username, message, time_sent) VALUES ($1, $2, $3) RETURNING *', [student, message, time]);
+        console.log("Model Response: ", response);
         return new Notifications(response.rows[0]);
     }
 
