@@ -56,6 +56,7 @@ async function getCreatedAssignments(req, res) {
 
 async function updateAssignment(req, res) {
   try {
+    console.log("run");
     const assignment_id = req.body.assignment_id;
     const data = req.body;
     const assignment = await Assignments.updateAssignment(assignment_id, data);

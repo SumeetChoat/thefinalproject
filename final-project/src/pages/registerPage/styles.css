@@ -1,39 +1,41 @@
-.login-inner-container {
+.register-inner-container {
   display: grid;
   grid-template-columns: 50% 50%;
   width: 70%;
-  height: 70vh;
+  height: 80vh;
   overflow: hidden;
   margin: 0 auto;
-  padding: 6rem;
+  padding: 4rem;
   gap: 5rem;
 }
-.login-img-section {
+.register-img-section {
   border-radius: 5rem;
   overflow: hidden;
 }
-.login-img-section img {
+.register-img-section img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.login-container h1 {
+.register-container h1 {
   color: #000000;
   font-size: 2em;
   margin: 3rem;
   text-align: center;
 }
 
-.login-text-input {
+.register-text-input {
   width: 70%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 1.2rem;
-  margin: 1rem;
+  /* margin: 1rem; */
 }
-
-.login-submit {
+.register-input-group input[type="radio"] {
+  margin: 0 5px;
+}
+.register-submit {
   padding: 1rem;
   border-radius: 15px;
   font-size: 1.2rem;
@@ -50,14 +52,15 @@
   margin: 2rem;
 }
 
-.login-input-group {
-  display: flex;
-  flex-direction: column;
+.register-input-group {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
   margin-bottom: 15px;
 }
 
-.login-logo {
+.register-logo {
   width: 100px;
-  margin: 4rem auto;
+  margin: 0 auto;
   display: block;
 }
