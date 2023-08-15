@@ -80,7 +80,7 @@ function Friends ({trash,message,add,setShowMessages}){
             {friends && friendUsernames && friendUsernames.length > 0 ? 
                 friendUsernames.filter(f => textFilter.length == 0 || f.username.toLowerCase().includes(textFilter.toLowerCase()))
                     .map((friend,i) => {
-                        return <FriendItem friend={friend} key={i} friendUsernames={friendUsernames} trash={trash} message={message} add={add} setShowMessages={setShowMessages}/>
+                        return <FriendItem friend={friend} key={i} friendUsernames={friendUsernames} trash={trash} message={message} setShowMessages={setShowMessages}/>
                     }) 
                 : <p>Add friends with the search bar above!</p>}       
         </ul>
