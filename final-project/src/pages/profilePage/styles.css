@@ -41,7 +41,7 @@
     overflow-y: scroll;
 }
 
-.delete-btn, .message-btn, .add-btn, .accept-btn, .decline-btn {
+.delete-btn, .message-btn, .add-btn, .accept-btn, .decline-btn, .search-btn {
     cursor: pointer;
     padding-left: 5px;
     padding-right: 5px;
@@ -80,7 +80,7 @@
     width: 80%;
 }
 
-.add-btn{
+.add-btn, .search-btn{
     background-color: transparent;
     border: none;
     font-size: 20px;
@@ -110,6 +110,10 @@
 }
 
 .add-btn:hover .svg-icon path {
+    fill: purple
+}
+
+.search-btn:hover .svg-icon path {
     fill: purple
 }
 

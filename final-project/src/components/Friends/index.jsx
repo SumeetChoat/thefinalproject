@@ -7,7 +7,7 @@ import '../../pages/profilePage/styles.css'
 import { useState, useEffect } from "react";
 import { socket } from "../../socket";
 
-function Friends ({trash,message,add,setShowMessages}){
+function Friends ({trash,message,search,setShowMessages}){
     const token = useAuth().token || localStorage.getItem('token')
     const {user} = useAuth()
     const {friends,setFriends} = useFriends()
@@ -42,7 +42,7 @@ function Friends ({trash,message,add,setShowMessages}){
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
-              token: localStorage.getItem('token')
+              token: token
             },
           }
         const resp = await fetch(`http://localhost:3000/users/${searchText}`,options)
@@ -64,9 +64,9 @@ function Friends ({trash,message,add,setShowMessages}){
     return (
         <>
         <div className="search-row">
-            <input type="text" placeholder="Search" value={textFilter} onChange={updateTextFilter} />
-            <button className="add-btn" onClick={()=>addFriend(textFilter)}>
-                <div className="btn-icon" dangerouslySetInnerHTML={{ __html: add}}/>
+            <input type="text" placeholder="Search a friend" value={textFilter} onChange={updateTextFilter} />
+            <button className="search-btn" /*onClick={()=>addFriend(textFilter)}*/ >
+                <div className="btn-icon" dangerouslySetInnerHTML={{ __html: search}}/>
             </button>
         </div>
         <ul className="friends-list">
