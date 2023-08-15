@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     useAuth,
     useMessages,
@@ -13,6 +13,23 @@ function MessagesModal({handleClose, decline, envelope}) {
     function handleChange(e) {
         setContent(e.target.value)
     }
+
+    const [friendsMessages, setFriendsMessages] = useState([])
+
+    function filterMessages() {
+        setFriendsMessages(messages.map((m) => {
+            if(m.sender == user.username || m.sender == friendRecipient.username || m.recipient == friendRecipient.username){
+                return m
+            }
+        }))     
+    }
+
+    useEffect(() => {
+        if(user && messages && friendRecipient){
+            filterMessages()
+        }
+    },[messages])
+
 
     function sendMessage() {
         console.log('sending ',content)
@@ -31,8 +48,9 @@ function MessagesModal({handleClose, decline, envelope}) {
         <div className="messages-container">
             <div className="chat-container">
                 <ul className="chat-history">
-                {messages1 && user && messages1.length > 0 ?
-                messages1.map((msg,i) => {
+                {friendsMessages && user && friendsMessages.length > 0 ?
+                friendsMessages.map((msg,i) => {
+                    if (msg){
                     return (<div className="message-container" key={i}>
                         {msg.sender == user.username ? 
                         <li className="sent-message">
@@ -45,9 +63,10 @@ function MessagesModal({handleClose, decline, envelope}) {
                         </li>
                         }
                     </div>)
+                    }
                 })
                 :
-                <li>"no messages"</li>
+                <li></li>
                 }
                 </ul>
             </div>
