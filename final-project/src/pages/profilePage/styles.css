@@ -16,49 +16,47 @@
   align-items: flex-end;
 }
 
-.friends-list,
-.assignments-list {
-  list-style-type: none;
+
+.friends-list, .assignments-list, .friend-requests-list {
+    list-style-type: none;
 }
-.friends-item,
-.assignments-item {
-  padding: 5px;
-  display: flex;
-  justify-content: center;
+.friends-item, .assignments-item, .friend-requests-item{
+    padding: 5px;
+    display: flex;
+    justify-content: center;
 }
 
-.connections-container,
-.assignments-container,
-.assignments-item {
-  justify-items: center;
-  padding: 20px 0;
-  justify-content: space-around;
-  color: black;
-  border-radius: 25px;
-  margin: 25px auto;
-  padding: 30px;
-  box-shadow: 0 8px 20px rgb(210, 210, 210);
+.connections-container, .assignments-container, .assignments-item, .friend-requests-container{
+    justify-items: center;
+    padding: 20px 0;
+    justify-content: space-around;
+    color: black;
+    border-radius: 25px;
+    margin: 25px auto;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgb(210, 210, 210);
 }
 
-.connections-container,
-.assignments-container {
-  max-height: 500px;
-  overflow-y: scroll;
+.connections-container, .assignments-container, .friend-requests-container {
+    max-height: 500px;
+    overflow-y: scroll;
 }
 
-.delete-friend-btn,
-.message-friend-btn {
-  padding: 5px;
-  cursor: pointer;
+.delete-btn, .message-btn, .add-btn, .accept-btn, .decline-btn {
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+
 }
 
 .assignments-item p {
   padding: 1px;
 }
 
-.connections-container,
-.assignments-container {
-  display: grid;
+
+.connections-container, .assignments-container, .friend-requests-container {
+    display: grid;
+
 }
 
 .assignments-lists {
@@ -66,26 +64,26 @@
   justify-content: space-around;
 }
 
-.assignment-btn,
-.friends-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+
+.assignment-btn, .friends-btn, .friend-requests-btn{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
-.friends-item {
-  justify-content: space-around;
-  width: 100%;
-  align-items: center;
+.friends-item, .friend-requests-item{
+    justify-content: space-around;
+    width: 100%;
+    align-items: center;
 }
 
-.assignment-btn button,
-.friends-btn button {
-  background-color: transparent;
-  border: none;
-  font-size: 20px;
-  padding-top: 5px;
-  width: 80%;
+.assignment-btn button, .friends-btn button, .friend-requests-btn button{
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    padding-top: 5px;
+    width: 80%;
+
 }
 
 .add-btn {
@@ -95,8 +93,16 @@
   padding-top: 5px;
 }
 
-.edit-btn:hover .svg-icon path {
-  fill: purple;
+
+.pending-icon button {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+}
+
+.edit-btn:hover .svg-icon path{
+    fill: purple
+
 }
 
 .delete-btn:hover .svg-icon path {
@@ -113,6 +119,18 @@
 
 .add-btn:hover .svg-icon path {
   fill: purple;
+}
+
+.accept-btn:hover .svg-icon path {
+    fill: purple
+}
+
+.decline-btn:hover .svg-icon path {
+    fill: purple
+}
+
+.pending-btn:hover .svg-icon path {
+    fill: purple
 }
 
 .search-row {

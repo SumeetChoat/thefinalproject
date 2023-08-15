@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAuth } from "../../contexts"
-import {Friends, Assignments} from "../../components"
+import {Friends, Assignments, FriendRequests} from "../../components"
 import './styles.css'
 
 function ProfilePage () {
@@ -27,23 +27,17 @@ function ProfilePage () {
 
     const add = '<svg class=svg-icon xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>'
 
+    const accept = '<svg class=svg-icon xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
+
+    const decline = '<svg class=svg-icon xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>'
+
+    const pending = '<svg class=svg-icon xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>'
+
     return(
         <>
         <div className="profile-container">
 
             <div className="profile-left">
-                <div className="assignments-container">
-                    Assignments
-                    {<Assignments trash={trash} start={start} edit={edit}/>}
-                </div>
-
-                <div className="connections-container">
-                    Connections
-                    {<Friends trash={trash} message={message} add={add} setShowMessages={setShowMessages}/>} 
-                </div> 
-            </div>    
-
-            <div className="profile-right">
                 <div className="leaderboard-container">
                         {user && user.role=='student'?
                             <p>LeaderBoard</p>
@@ -52,6 +46,25 @@ function ProfilePage () {
                         }
                 </div>
             </div>
+
+            <div className="profile-middle">
+                <div className="assignments-container">
+                    Assignments
+                    {<Assignments trash={trash} start={start} edit={edit}/>}
+                </div>
+            </div>  
+
+            <div className="profile-right">
+                <div className="friend-requests-container">
+                    Friend Requests
+                    {<FriendRequests accept={accept} decline={decline} pending={pending}/>}
+                </div>
+                <div className="connections-container">
+                    {user && user.role === 'student' ? <p>Friends</p> : <p>Connections</p>}
+                    {<Friends trash={trash} message={message} add={add} setShowMessages={setShowMessages}/>} 
+                </div> 
+            </div>  
+
             {/* <dialog className="messages-modal">
             </dialog> */}
         </div>

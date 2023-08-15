@@ -1,13 +1,11 @@
 import '../../../pages/profilePage/styles.css'
-import { useAssignments} from '../../../contexts'
+import { useAssignments, useAuth} from '../../../contexts'
 import { noteStrings } from '../../../assets/pattern';
 
-function AssignmentsItem({assignment, assignments, setAssignments, trash, start, edit}) {
+function AssignmentsItem({assignment, trash, start, edit}) {
 
-    //const {assignments, setAssignments} = useAssignments()
-    //const {user} = useAuth()
-    //const {role} = user
-    let role = 'teacher'
+    const {user} = useAuth()
+    const {role} = user
 
     function deleteAssignment(a){
         console.log('deleting ',a)
@@ -30,10 +28,14 @@ function AssignmentsItem({assignment, assignments, setAssignments, trash, start,
                 {a.assigned_date}
                 </span>
             </p>
-            <p>
-                Teacher:{" "}
-                <span className="assignment-row-data-span">{a.teacher_id}</span>
-            </p>
+                {role == 'student' ? 
+                <p>Teacher:{" "}
+                <span className="assignment-row-data-span">{a.teacher_user}</span>
+                </p>
+                : 
+                <p>Student:{" "}
+                <span className="assignment-row-data-span">{a.student_user}</span></p>
+                }
             <p>
                 Range:{" "}
                 <span className="assignment-row-data-span">

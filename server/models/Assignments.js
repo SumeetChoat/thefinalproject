@@ -49,7 +49,6 @@ class Assignments {
         `,
       [teacher_user]
     );
-    console.log(resp.rows[0]);
 
     if (resp.rows.length === 0) {
       throw new Error("You have not created any assignments.");

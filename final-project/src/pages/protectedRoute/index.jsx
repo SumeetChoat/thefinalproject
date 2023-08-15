@@ -33,8 +33,13 @@ function ProtectedRoute() {
     const resp = await fetch("http://localhost:3000/users/logout", options);
     const data = await resp.json();
     if (resp.ok) {
-      localStorage.removeItem("token");
-      navigate("/login");
+
+      localStorage.removeItem('token')
+
+      socket.disconnect();
+      socket.off();
+
+      navigate('/login')
     } else {
       console.log(data);
     }
@@ -76,7 +81,9 @@ function ProtectedRoute() {
   useEffect(() => {
     try {
       socket.connect();
+
       socket.emit("username", { username: user.username, role: user.role });
+      
 
       socket.on("username", (data) => {
         console.log(data);
@@ -96,27 +103,62 @@ function ProtectedRoute() {
 
       socket.on("message", (msg) => {
         // Update message context here
-        setMessages([...messages, msg]);
+
+        setMessages((messages) => [...messages, msg])
+
       });
 
       socket.on("friend_req", (req) => {
         // Update friend request context here
-        setSentRequests([...sentRequests, req]);
+
+        setSentRequests((sentRequests) => [...sentRequests, req])
+
       });
 
       socket.on("add_friend", (friend) => {
         // Update friends context here
-        setFriends([...friends, friend]);
+
+        setFriends((friends) => [...friends, friend])
+
       });
 
       socket.on("notification", (noti) => {
         // Update notifications list
-        setNotifications([...notifications, noti]);
+
+        setNotifications((notifications) => [...notifications, noti])
+
       });
+
+      socket.on("delete_friend", id => {
+        setFriends((friends) => friends.filter(f => f.friend_id !== id));
+      })
+
+      socket.on("add_assignment", obj => {
+        setAssignmentList(assignmentList => [...assignmentList, obj]);
+      })
+
     } catch (error) {
       console.log(error);
     }
   }, [user]);
+
+  // for testing purposes
+  useEffect(() => {
+    const obj = {
+      "messages":messages,
+      "friend_requests":sentRequests,
+      "friends":friends,
+      "notification":notifications
+    }
+    console.log("Contexts:", obj)
+  }, [messages, sentRequests, friends, notifications]);
+
+
+
+
+
+
+
   return (
     <div className="body-container">
       <nav className="app-nav">
