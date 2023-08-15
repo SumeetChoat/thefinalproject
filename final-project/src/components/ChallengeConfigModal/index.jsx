@@ -30,8 +30,8 @@ function ChallengeConfigModal({
   }
 
   return (
-    <dialog ref={dialogRef}>
-      <h1 className="challenge-config-modal-title">Challenge Configuration</h1>
+    <dialog ref={dialogRef} className="challenge-config-modal-wrapper">
+      <h1 className="challenge-config-modal-title">Challenge Settings</h1>
       <div className="challenge-config-modal-input-group">
         <label htmlFor="range">Range: </label>
         <select
@@ -230,7 +230,7 @@ function ChallengeConfigModal({
       </div>
 
       <button
-        className="pattern-config-modal-button"
+        className="pattern-config-modal-button cancel-button"
         onClick={() => {
           setToggleChallengeConfigModal(!toggleChallengeConfigModal);
         }}
@@ -238,7 +238,7 @@ function ChallengeConfigModal({
         Cancel
       </button>
       <button
-        className="pattern-config-modal-button"
+        className="pattern-config-modal-button save-button"
         onClick={() => {
           if (
             Array.from(

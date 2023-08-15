@@ -20,53 +20,13 @@ import ToggleButton from "../../components/ToggleButton";
 function ChallengePage() {
   const { currentAssignment, setCurrentAssignment } = useAssignments();
   const { user } = useAuth();
-
+  const [time, setTime] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
   const [round, setRound] = useState(null);
   const [mic, setMic] = useState(false);
   const [showAssignmentReadyModal, setShowAssignmentReadyModal] =
     useState(false);
   const [showFinishAssignmentModal, setShowFinishAssignmentModal] = useState();
-  useEffect(() => {
-    if (currentAssignment) {
-      setRound(currentAssignment.round);
-      const lowOctave =
-        currentAssignment.range[0] < 24
-          ? 0
-          : Math.floor((currentAssignment.range[0] - 24) / 12) + 1;
-      const lowNoteName = currentAssignment.range[0] % 12;
-      const highOctave =
-        currentAssignment.range[1] < 24
-          ? 0
-          : Math.floor((currentAssignment.range[1] - 24) / 12) + 1;
-      const highNoteName = currentAssignment.range[1] % 12;
-      const newForm = {
-        ...form,
-        clef: currentAssignment.clef,
-        range: [`${lowNoteName}${lowOctave}`, `${highNoteName}${highOctave}`],
-        lowNote: lowNoteName,
-        lowOctave: lowOctave,
-        highNote: highNoteName,
-        highOctave: highOctave,
-        randomNote: currentAssignment.pattern.length === 0 ? true : false,
-      };
-      if (currentAssignment.pattern.length > 0) {
-        for (const pattern in newForm.pattern) {
-          if (currentAssignment.pattern.indexOf(pattern) !== -1) {
-            newForm.pattern[pattern] = true;
-          } else {
-            newForm.pattern[pattern] = false;
-          }
-        }
-      }
-      setForm(newForm);
-      setShowAssignmentReadyModal(true);
-    }
-  }, [currentAssignment]);
-  // state to store time
-  const [time, setTime] = useState(0);
-  // state to check stopwatch running or not
-  const [isRunning, setIsRunning] = useState(false);
-
   const [form, setForm] = useState({
     lowNote: "C",
     lowOctave: 4,
@@ -99,6 +59,82 @@ function ChallengePage() {
     },
   });
 
+  useEffect(() => {
+    if (currentAssignment) {
+      setRound(currentAssignment.round);
+      const lowOctave =
+        currentAssignment.range[0] < 24
+          ? 0
+          : Math.floor((currentAssignment.range[0] - 24) / 12) + 1;
+      const lowNoteName = currentAssignment.range[0] % 12;
+      const highOctave =
+        currentAssignment.range[1] < 24
+          ? 0
+          : Math.floor((currentAssignment.range[1] - 24) / 12) + 1;
+      const highNoteName = currentAssignment.range[1] % 12;
+      const newForm = {
+        ...form,
+        clef: currentAssignment.clef,
+        lowNote: noteStrings[lowNoteName],
+        lowOctave: lowOctave,
+        highNote: noteStrings[highNoteName],
+        highOctave: highOctave,
+        randomNote: currentAssignment.pattern.length === 0 ? true : false,
+      };
+      if (currentAssignment.pattern.length > 0) {
+        for (const pattern in newForm.pattern) {
+          if (currentAssignment.pattern.indexOf(pattern) !== -1) {
+            newForm.pattern[pattern] = true;
+          } else {
+            newForm.pattern[pattern] = false;
+          }
+        }
+      }
+      setForm(newForm);
+      setShowAssignmentReadyModal(true);
+    } else {
+      setForm({
+        lowNote: "C",
+        lowOctave: 4,
+        highNote: "G",
+        highOctave: 4,
+        clef: "bass",
+        randomNote: false,
+        randomNoteLength: 4,
+        key: "C",
+        pattern: {
+          l2p1: true,
+          l2p2: true,
+          l2p3: false,
+          l2p4: false,
+          l2p5: false,
+          l3p1: false,
+          l3p2: false,
+          l3p3: false,
+          l3p4: false,
+          l3p5: false,
+          l3p6: false,
+          l3p7: false,
+          l3p8: false,
+          l4p1: false,
+          l4p2: false,
+          l4p3: false,
+          l4p4: false,
+          l4p5: false,
+          l4p6: false,
+        },
+      });
+      setChallenge([
+        { note: 60, isCorrect: false },
+        { note: 62, isCorrect: false },
+        { note: 64, isCorrect: false },
+        { note: 65, isCorrect: false },
+      ]);
+      setRound(null);
+      generateNewChallenge();
+    }
+  }, [currentAssignment]);
+
   const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
     useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -116,7 +152,6 @@ function ChallengePage() {
   function startPitchDetect() {
     // grab an audio context
     audioContext = new AudioContext();
-
     // Attempt to get audio input
     navigator.mediaDevices
       .getUserMedia({
@@ -165,11 +200,12 @@ function ChallengePage() {
     } else {
       let pitch = ac;
       var note = noteFromPitch(pitch);
-
+      console.log(note);
       if (
         note == challenge[currentIndex].note &&
         challenge[currentIndex].isCorrect !== true
       ) {
+        console.log(note);
         const newState = [...challenge];
         newState[currentIndex].isCorrect = true;
         setChallenge(newState);
@@ -223,10 +259,7 @@ function ChallengePage() {
         form.key.length < 2
           ? majorArr.map((n) => 24 + noteStrings.indexOf(form.key) + n)
           : minorArr.map((n) => 24 + noteStrings.indexOf(form.key) + n);
-
       const indexInKey = scale.findIndex((n) => (randomNote - n) % 12 === 0);
-
-      console.log(randomPattern);
       if (indexInKey !== -1) {
         console.log(randomNote);
         console.log(indexInKey);
@@ -269,6 +302,7 @@ function ChallengePage() {
         if (round && currentAssignment) {
           if (round === currentAssignment.rounds) {
             setShowFinishAssignmentModal(true);
+            setIsRunning(false);
             return;
           }
           setRound((prev) => prev + 1);
@@ -276,17 +310,16 @@ function ChallengePage() {
         generateNewChallenge();
       }, 800);
     }
-    startPitchDetect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
+
   useEffect(() => {
     if (mic) {
       startPitchDetect();
     } else {
-      if (audioContext) audioContext.close();
+      if (audioContext !== null) audioContext.close();
     }
   }, [challenge, mic]);
-  console.log(audioContext);
   return (
     <div className="challenge-wrapper">
       <img
@@ -320,17 +353,19 @@ function ChallengePage() {
               Mic
             </label>
           </div>
-          <button
-            className="challenge-config-modal-button"
-            onClick={() => {
-              setToggleChallengeConfigModal(true);
-            }}
-          >
-            <span className="challenge-config-modal-label">
-              Challenge Settings
-            </span>
-          </button>
-          {round ? (
+          {!currentAssignment && (
+            <button
+              className="challenge-config-modal-button"
+              onClick={() => {
+                setToggleChallengeConfigModal(true);
+              }}
+            >
+              <span className="challenge-config-modal-label">
+                Challenge Settings
+              </span>
+            </button>
+          )}
+          {currentAssignment ? (
             <div className="assignment-detail">
               <h1>Assignment</h1>
               <h3>
@@ -409,6 +444,7 @@ function ChallengePage() {
           <FinishAssignmentModal
             showFinishAssignmentModal={showFinishAssignmentModal}
             setShowFinishAssignmentModal={setShowFinishAssignmentModal}
+            time={time}
           />
         </div>
       </div>

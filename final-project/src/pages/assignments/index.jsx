@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import AddAssignmentModal from "../../components/AddAssignmentModal";
 import { socket } from "../../socket";
 
-
 function Assignments() {
   const { setCurrentAssignment } = useAssignments();
   const { assignmentList } = useAssignmentList();
@@ -78,12 +77,17 @@ function Assignments() {
       const assignment = await res.json();
       alert("Assignment added");
       setToggleChallengeConfigModal(!toggleChallengeConfigModal);
-      return assignment
+      return assignment;
     }
   }
 
   return (
     <div className="assignment-wrapper">
+      <img
+        src="content-background3.JPG"
+        alt="content-background"
+        className="assignment-content-background"
+      />
       {
         <AddAssignmentModal
           toggleChallengeConfigModal={toggleChallengeConfigModal}
@@ -170,7 +174,10 @@ function Assignments() {
                       if (a.completed) {
                         console.log(a);
                       } else {
-                        socket.emit("reminder", {"sender":a.teacher_user, "recipient":a.student_user});
+                        socket.emit("reminder", {
+                          sender: a.teacher_user,
+                          recipient: a.student_user,
+                        });
                       }
                     }}
                   >
