@@ -5,6 +5,7 @@ import {
 import FriendItem from "./FriendItem";
 import '../../pages/profilePage/styles.css'
 import { useState } from "react";
+import { socket } from "../../socket";
 
 function Friends ({trash,message,add,setShowMessages}){
     const token = useAuth().token || localStorage.getItem('token')
@@ -12,11 +13,7 @@ function Friends ({trash,message,add,setShowMessages}){
 
     //const {friends} = useFriends()
 
-    const [friends,setFriends] = useState([
-        {username: 'username1'},
-        {username: 'dsfjdsf'},
-        {username: 'ednjdfs'}
-    ])
+    const [friends,setFriends] = useFriends()
 
     const [textFilter,setTextFilter] = useState('')
 
@@ -31,7 +28,7 @@ function Friends ({trash,message,add,setShowMessages}){
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
-              token: '	9f283e2a-8b27-4b09-8e95-266e2b949c39'
+              token: localStorage.getItem('token')
             },
           }
         const resp = await fetch(`http://localhost:3000/users/${searchText}`,options)
@@ -39,6 +36,9 @@ function Friends ({trash,message,add,setShowMessages}){
         if (resp.ok && (!friends.find((f) => f.username == searchText)) && searchText!==user.username) {
             console.log(data)
             // socket
+
+            socket.emit("friend_req", {"sender":user.username, "recipient":searchText});
+
             alert(`You have sent a friend request to user ${searchText}`)
         } else if (friends.find((f) => f.username == searchText)){
             alert('You are already friends with this user.')

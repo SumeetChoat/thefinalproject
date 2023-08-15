@@ -4,30 +4,69 @@
   height: 100%;
   position: relative;
   overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.255);
+}
+.home-nav {
+  margin: 0 5rem;
 }
 .background-video {
   position: absolute;
   object-fit: cover;
   z-index: -1;
+  width: 100vw;
 }
-.home-nav {
-  color: white;
-}
+
 .home-body-container {
   flex: 1;
-
   position: relative;
 }
 .try-it-button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
   font-size: 2rem;
   padding: 1.3rem 3rem;
   border-radius: 50px;
-  border: 4px solid white;
-  background-color: transparent;
-  color: white;
+  border: 4px solid var(--primary-purple);
+  color: var(--primary-purple);
+  background-color: rgba(0, 0, 0, 0.425);
   cursor: pointer;
+  transition: all 0.5s;
+}
+.try-it-button:hover {
+  border: 4px solid var(--secondary-red);
+  background-color: var(--secondary-red);
+  color: white;
+}
+.home-nav-li {
+  color: white;
+  text-shadow: 0 0 80px black;
+  font-size: 1.3rem;
+}
+.home-logo {
+  width: 80px;
+}
+.home-login-button {
+  outline: 2px solid var(--secondary-red);
+  background-color: rgba(255, 255, 255, 0.124);
+  padding: 1rem;
+  border-radius: 20px;
+  color: var(--secondary-red);
+  padding-inline: 2rem;
+  transition: all 0.5s;
+}
+.home-login-button:hover {
+  background-color: var(--secondary-red);
+  color: white;
+}
+.home-slogan {
+  color: white;
+  padding: 5rem;
+  font-size: 3rem;
+  text-shadow: 0 0 80px white;
+}
+.home-center-section {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  translate: -50% -50%;
+  text-align: center;
+  width: 90%;
 }

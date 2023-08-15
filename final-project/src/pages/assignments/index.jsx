@@ -4,6 +4,9 @@ import { noteStrings } from "../../assets/pattern";
 import { useAssignmentList, useAssignments, useAuth } from "../../contexts";
 import { useNavigate } from "react-router-dom";
 import AddAssignmentModal from "../../components/AddAssignmentModal";
+import { socket } from "../../socket";
+
+
 function Assignments() {
   const { setCurrentAssignment } = useAssignments();
   const { assignmentList } = useAssignmentList();
@@ -76,6 +79,7 @@ function Assignments() {
       const assignment = await res.json();
       alert("Assignment added");
       setToggleChallengeConfigModal(!toggleChallengeConfigModal);
+      return assignment
     }
   }
 
@@ -165,6 +169,8 @@ function Assignments() {
                     onClick={() => {
                       if (a.completed) {
                         console.log(a);
+                      } else {
+                        socket.emit("reminder", {"sender":a.teacher_user, "recipient":a.student_user});
                       }
                     }}
                   >
