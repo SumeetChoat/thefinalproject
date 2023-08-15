@@ -28,6 +28,7 @@ async function deleteAssignment(req, res) {
   try {
     const assignment_id = req.body.assignment_id;
     const result = await Assignments.deleteAssignment(assignment_id);
+    console.log("CONTROLLER: ", result)
     res.status(204).send(result);
   } catch (err) {
     res.status(403).json({ error: err.message });
@@ -69,10 +70,11 @@ async function removeStudent(req, res) {
   try {
     const student_username = req.body.student_username;
     const teacher_username = req.tokenObj.username;
+  
     await Assignments.deleteStudentsAssignments(student_username);
     const result = await StudentTeacher.removeStudent(
-      student_username,
-      teacher_username
+      teacher_username,
+      student_username
     );
     res.status(204).send(result);
   } catch (err) {

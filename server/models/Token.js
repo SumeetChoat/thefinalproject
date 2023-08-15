@@ -33,6 +33,7 @@ class Token {
             "SELECT * FROM tokens WHERE token = $1", [token]
         )
         if (response.rows.length != 1) {
+            console.log("Issue here")
             throw new Error("Unable to find token.")
         } else {
             return new Token(response.rows[0])

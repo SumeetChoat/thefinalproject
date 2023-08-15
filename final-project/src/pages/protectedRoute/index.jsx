@@ -128,6 +128,10 @@ function ProtectedRoute() {
         setAssignmentList(assignmentList => [...assignmentList, obj]);
       })
 
+      socket.on("delet_noti", username => {
+        setNotifications([]);
+      })
+
     } catch (error) {
       console.log(error);
     }

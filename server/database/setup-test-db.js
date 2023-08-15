@@ -44,6 +44,7 @@ async function createDBEnv() {
     
     INSERT INTO student_teacher(student_user, teacher_user) VALUES
     ('student1', 'teacher1'),
+    ('student2', 'teacher1'),
     ('student2', 'teacher2');
     
     CREATE TABLE assignments (
@@ -66,6 +67,7 @@ async function createDBEnv() {
     
     INSERT INTO assignments (student_user, teacher_user, range, is_random,pattern, completed, score, clef, key, rounds) VALUES
     ('student1', 'teacher1', ARRAY[48, 60], false, ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10),
+    ('student2', 'teacher1', ARRAY[48, 60], false, ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10),
     ('student2', 'teacher2', ARRAY[60, 72], false, ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10);
     
     CREATE TABLE tokens (
