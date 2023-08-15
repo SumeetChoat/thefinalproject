@@ -8,6 +8,16 @@
 }
 .home-nav {
   margin: 0 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.home-nav ul {
+  list-style: none;
+}
+.home-nav a {
+  text-decoration: none;
 }
 .background-video {
   position: absolute;
@@ -25,8 +35,8 @@
   padding: 1.3rem 3rem;
   border-radius: 50px;
   border: 4px solid var(--primary-purple);
-  color: var(--primary-purple);
-  background-color: rgba(0, 0, 0, 0.425);
+  color: rgb(194, 194, 194);
+  background-color: rgba(0, 0, 0, 0.641);
   cursor: pointer;
   transition: all 0.5s;
 }

@@ -5,8 +5,8 @@ import {
     useFriends
 } from "../../contexts";
 
-function MessagesModal({handleClose, showMessages, friend}) {
-    const {messages} = useMessages()
+function MessagesModal({handleClose, showMessages}) {
+    const {messages, friendRecipient} = useMessages()
     const {user} = useAuth()
     const [content,setContent] = useState('')
 
@@ -22,7 +22,7 @@ function MessagesModal({handleClose, showMessages, friend}) {
         <>
         <div className="messages-header">
             <div className="messages-friend-name">
-                {friend ? friend.username : "friend"}
+                {friendRecipient ? friendRecipient.username : "friend"}
             </div>
 
             <div className="close-modal-btn">

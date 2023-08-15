@@ -118,12 +118,13 @@ function Assignments() {
             const highOctave =
               a.range[1] < 24 ? 0 : Math.floor((a.range[1] - 24) / 12) + 1;
             const highNoteName = a.range[1] % 12;
+
             return (
               <div className="assignment-row" key={i}>
                 <p>
                   Date:{" "}
                   <span className="assignment-row-data-span">
-                    {a.assigned_date}
+                    {a.date_assigned.slice(0, 10)}
                   </span>
                 </p>
                 <p className="span-2">

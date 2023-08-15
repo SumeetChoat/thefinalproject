@@ -1,20 +1,21 @@
 .profile-container {
-    display: flex;
-    padding: 10px;
-    margin: 0 auto;
-    width: auto;
-    justify-content: center;
+  display: flex;
+  padding: 10px;
+  margin: 0 auto;
+  width: auto;
+  justify-content: center;
 }
 
 .profile-left {
-    display: block;
-    align-items: flex-start;
+  display: block;
+  align-items: flex-start;
 }
 
 .profile-right {
-    display: block;
-    align-items: flex-end;
+  display: block;
+  align-items: flex-end;
 }
+
 
 .friends-list, .assignments-list, .friend-requests-list {
     list-style-type: none;
@@ -45,20 +46,24 @@
     cursor: pointer;
     padding-left: 5px;
     padding-right: 5px;
+
 }
 
-.assignments-item p{
-    padding: 1px;
+.assignments-item p {
+  padding: 1px;
 }
+
 
 .connections-container, .assignments-container, .friend-requests-container {
     display: grid;
+
 }
 
 .assignments-lists {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
+
 
 .assignment-btn, .friends-btn, .friend-requests-btn{
     display: flex;
@@ -78,6 +83,7 @@
     font-size: 20px;
     padding-top: 5px;
     width: 80%;
+
 }
 
 .add-btn, .search-btn{
@@ -86,6 +92,13 @@
     font-size: 20px;
     padding-top: 5px; 
 }
+.add-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  padding-top: 5px;
+}
+
 
 .pending-icon button {
     background-color: transparent;
@@ -95,22 +108,23 @@
 
 .edit-btn:hover .svg-icon path{
     fill: purple
+
 }
 
 .delete-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .start-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .message-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .add-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .search-btn:hover .svg-icon path {
@@ -138,11 +152,11 @@
 }
 
 .search-row {
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    width: 100%;
-    justify-content: space-around;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  justify-content: space-around;
 }
 
 .messages-modal {

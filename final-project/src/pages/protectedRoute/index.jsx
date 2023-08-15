@@ -15,7 +15,7 @@ import {
 function ProtectedRoute() {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
-  const { token } = useAuth()
+  const { token } = useAuth();
 
   const { friends, setFriends } = useFriends();
   const { sentRequests, setSentRequests } = useRequests();
@@ -27,12 +27,13 @@ function ProtectedRoute() {
     const options = {
       method: "DELETE",
       headers: {
-        token: token || localStorage.getItem('token')
-      }
-    }
-    const resp = await fetch('http://localhost:3000/users/logout',options)
-    const data = await resp.json()
+        token: token || localStorage.getItem("token"),
+      },
+    };
+    const resp = await fetch("http://localhost:3000/users/logout", options);
+    const data = await resp.json();
     if (resp.ok) {
+
       localStorage.removeItem('token')
 
       socket.disconnect();
@@ -40,7 +41,7 @@ function ProtectedRoute() {
 
       navigate('/login')
     } else {
-      console.log(data)
+      console.log(data);
     }
   }
 
@@ -102,22 +103,30 @@ function ProtectedRoute() {
 
       socket.on("message", (msg) => {
         // Update message context here
+
         setMessages((messages) => [...messages, msg])
+
       });
 
       socket.on("friend_req", (req) => {
         // Update friend request context here
+
         setSentRequests((sentRequests) => [...sentRequests, req])
+
       });
 
       socket.on("add_friend", (friend) => {
         // Update friends context here
+
         setFriends((friends) => [...friends, friend])
+
       });
 
       socket.on("notification", (noti) => {
         // Update notifications list
+
         setNotifications((notifications) => [...notifications, noti])
+
       });
 
       socket.on("delete_friend", id => {
@@ -171,8 +180,7 @@ function ProtectedRoute() {
           <li>
             <NavLink to="/account">Account</NavLink>
           </li>
-          {user ? <NavLink onClick={()=>logout()}>Logout</NavLink>
-          : <p></p>}
+          {user ? <NavLink onClick={() => logout()}>Logout</NavLink> : <p></p>}
         </ul>
       </nav>
       <Outlet />

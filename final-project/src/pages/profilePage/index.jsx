@@ -32,10 +32,7 @@ function ProfilePage () {
     }
     function showModal(f) {
         setShowMessages(true)
-        friend = f
     }
-
-    let friend = null
 
     return(
         <>
@@ -70,7 +67,7 @@ function ProfilePage () {
             </div>  
 
             <div className={showHideClassName}>
-              {<MessagesModal handleClose={hideModal} showMessages={showMessages} friend={friend}/>}
+              {<MessagesModal handleClose={hideModal} showMessages={showMessages} />}
             </div>
         </div>
         </>
