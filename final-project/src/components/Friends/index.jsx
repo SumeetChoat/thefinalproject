@@ -4,20 +4,17 @@ import {
 } from "../../contexts";
 import FriendItem from "./FriendItem";
 import '../../pages/profilePage/styles.css'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { socket } from "../../socket";
 
 function Friends ({trash,message,add,setShowMessages}){
     const token = useAuth().token || localStorage.getItem('token')
     const {user} = useAuth()
     const {friends,setFriends} = useFriends()
-    console.log(friends)
-    console.log(user)
 
     const [friendUsernames, setFriendUsernames] = useState([])
 
     function getUsernames() {
-        console.log('get usernames')
         setFriendUsernames(friends.map((f) => {
             if(f.user1 !== user.username){
                 return {"username": f.user1}
@@ -25,16 +22,12 @@ function Friends ({trash,message,add,setShowMessages}){
                 return {"username": f.user2}
             }
         }))  
-        console.log(friendUsernames)
     }
 
     useEffect(() => {
-        console.log('friends: ',friends)
         if (friends) {  
-            console.log(friends)
             getUsernames()
         }
-        console.log(friendUsernames)
     },[friends])
 
     const [textFilter,setTextFilter] = useState('')
@@ -44,8 +37,6 @@ function Friends ({trash,message,add,setShowMessages}){
     }
 
     async function addFriend(searchText) {
-        console.log(searchText, searchText.length)
-        console.log('add')
         const options = {
             method: "GET",
             headers: {
@@ -58,8 +49,6 @@ function Friends ({trash,message,add,setShowMessages}){
         const data = await resp.json()
         if (resp.ok && (!friendUsernames.find((f) => f.username == searchText)) && searchText!==user.username && searchText.length>0) {
             console.log(data)
-            // socket
-
             socket.emit("friend_req", {"sender":user.username, "recipient":searchText});
 
             alert(`You have sent a friend request to user ${searchText}`)
@@ -84,7 +73,7 @@ function Friends ({trash,message,add,setShowMessages}){
             {friends && friendUsernames && friendUsernames.length > 0 ? 
                 friendUsernames.filter(f => textFilter.length == 0 || f.username.toLowerCase().includes(textFilter.toLowerCase()))
                     .map((friend,i) => {
-                        return <FriendItem friend={friend} key={i} friendUsernames={friendUsernames} trash={trash} message={message} add={add} setShowMessages={setShowMessages}/>
+                        return <FriendItem friend={friend} key={i} friendUsernames={friendUsernames} trash={trash} message={message} setShowMessages={setShowMessages}/>
                     }) 
                 : <p>Add friends with the search bar above!</p>}       
         </ul>
