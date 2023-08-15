@@ -33,6 +33,16 @@ class Users {
       return resp.rows[0];
     }
   }
+
+  static async getAll(){
+    const resp = await db.query('SELECT * FROM users')
+    if (resp.rows.length == 0){
+      throw new Error('No users found.')
+    } else {
+      return resp.rows.map((u) => new Users(u))
+    }
+  }
+
   static async register(data) {
     const { username, password, first_name, last_name, email, role, title } =
       data;

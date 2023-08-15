@@ -16,7 +16,6 @@
   align-items: flex-end;
 }
 
-
 .friends-list, .assignments-list, .friend-requests-list {
     list-style-type: none;
 }
