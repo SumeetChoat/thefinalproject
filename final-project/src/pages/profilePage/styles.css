@@ -3,7 +3,6 @@
   padding: 10px;
   margin: 0 auto;
   width: auto;
-  justify-content: center;
 }
 
 .profile-left {
@@ -16,7 +15,7 @@
   align-items: flex-end;
 }
 
-.friends-list, .assignments-list, .friend-requests-list {
+.friends-list, .assignments-list, .friend-requests-list, .message-container{
     list-style-type: none;
 }
 .friends-item, .assignments-item, .friend-requests-item{
@@ -36,9 +35,14 @@
     box-shadow: 0 8px 20px rgb(210, 210, 210);
 }
 
-.connections-container, .assignments-container, .friend-requests-container, .messages-modal {
-    max-height: 500px;
+.connections-container, .assignments-container, .friend-requests-container, .chat-container {
+    max-height: 800px;
     overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.chat-container{
+  max-height: 500px;
 }
 
 .delete-btn, .message-btn, .add-btn, .accept-btn, .decline-btn, .search-btn {
@@ -82,7 +86,12 @@
     font-size: 20px;
     padding-top: 5px;
     width: 80%;
+}
 
+.close-modal-btn, .send-btn{
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
 }
 
 .add-btn, .search-btn{
@@ -142,13 +151,14 @@
     fill: purple
 }
 
-.close-btn:hover .svg-icon path {
-    fill: white
-}
-
 .send-btn:hover .svg-icon path {
     fill: white
 }
+
+.close-modal-btn:hover .svg-icon path {
+  fill: white
+}
+
 
 .search-row {
   display: flex;
@@ -159,12 +169,13 @@
 }
 
 .messages-modal {
-    position: absolute;
-    cursor: pointer;
-    bottom: 0;
-    right: 0;
-    padding: 50px;
-    background-color: rgb(149, 119, 215);
+  position: absolute;
+  cursor: pointer;
+  bottom: 0;
+  right: 0;
+  padding: 50px;
+  background-color: rgb(149, 119, 215);
+  font-size: 20px;
 }
 
 .display-none {
@@ -173,3 +184,34 @@
 .display-block {
     display: block;
 }
+
+.message-container li{
+  overflow: hidden;
+  display: flex;
+}
+
+.messages-header .close-modal-btn, .send-btn{
+  float: right;
+}
+
+.chat-container{
+  background-color: white;
+}
+
+.message-container .sent-message{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.msg-content{
+  min-width: fit-content;
+  padding: 5px;
+  background-color: rgb(169, 120, 169);
+  border-radius: 10px;
+}
+
+.msg-content p {
+  font-size: 15px;
+  margin: 0 0 0.2rem 0;
+}
+

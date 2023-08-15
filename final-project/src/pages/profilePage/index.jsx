@@ -25,7 +25,9 @@ function ProfilePage () {
 
     const search = '<svg class=svg-icon xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>'
 
-    const [showMessages, setShowMessages] = useState(true)
+    const envelope = '<svg class=svg-icon xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>'
+
+    const [showMessages, setShowMessages] = useState(false)
     const showHideClassName = showMessages ? "messages-modal display-block" : "messages-modal display-none"
     function hideModal() {
         setShowMessages(false)
@@ -67,7 +69,7 @@ function ProfilePage () {
             </div>  
 
             <div className={showHideClassName}>
-              {<MessagesModal handleClose={hideModal} showMessages={showMessages} />}
+              {<MessagesModal handleClose={hideModal} showMessages={showMessages} decline={decline} envelope={envelope} />}
             </div>
         </div>
         </>

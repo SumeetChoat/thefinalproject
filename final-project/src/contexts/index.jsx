@@ -90,7 +90,7 @@ export const MessagesProvider = ({ children }) => {
   const [messages, setMessages] = useState();
   const [friendRecipient, setFriendRecipient] = useState()
   return (
-    <MessagesContext.Provider value={{ messages, setMessages }}>
+    <MessagesContext.Provider value={{ messages, setMessages, friendRecipient, setFriendRecipient }}>
       {children}
     </MessagesContext.Provider>
   );
