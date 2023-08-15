@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from "react"
 import { useFriends } from "../../../contexts"
 import '../../../pages/profilePage/styles.css'
+import { socket } from "../../../socket"
 
 function FriendItem({friend, trash, message, add, setShowMessages}){
     const {friends,setFriends} = useFriends()
@@ -11,6 +12,7 @@ function FriendItem({friend, trash, message, add, setShowMessages}){
             setFriends(
                 friends.filter(f => f.username != friend.username)
             )
+            socket.emit("delete_friend", 1)
          }
     }
 
