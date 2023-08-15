@@ -31,10 +31,14 @@ function controller(io) {
             const notifications = await Notifications.getAll(username);
             
             let assignments;
+            try{
             if (role === "student") {
                 assignments = await Assignments.getStudentsAssignments(username);
             } else {
                 assignments = await Assignments.getTeachersAssignments(username);
+            }
+            } catch(err) {
+                assignments = [];
             }
 
             const data = {
@@ -141,8 +145,8 @@ function controller(io) {
         
         socket.on('disconnect', () => {
             delete users[socket.username]
-            console.log(`Socket disconnected`);
-            console.log(users)
+            // console.log(`Socket disconnected`);
+            // console.log(users)
         })
     })
 }
