@@ -1,5 +1,8 @@
 import { useEffect, useRef } from "react";
 import { patternArr } from "../../assets/pattern";
+
+import { useAuth } from "../../contexts";
+import { socket } from "../../socket";
 // import "./styles.css";
 
 /* eslint-disable react/prop-types */
@@ -11,6 +14,7 @@ function AddAssignmentModal({
   handleAddAssignment,
 }) {
   const dialogRef = useRef();
+  const {user} = useAuth();
 
   useEffect(() => {
     if (toggleChallengeConfigModal) {
@@ -265,13 +269,14 @@ function AddAssignmentModal({
       </button>
       <button
         className="pattern-config-modal-button"
-        onClick={() => {
+        onClick={async () => {
           if (
             Array.from(
               dialogRef.current.querySelectorAll("input[type='checkbox']")
             ).some((el) => el.checked)
           ) {
-            handleAddAssignment(form);
+            const newAssignment = await handleAddAssignment(form);
+            socket.emit("add_assignment", newAssignment);
           } else {
             alert("Please check at least 1 checkbox.");
           }

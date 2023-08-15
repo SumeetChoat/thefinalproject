@@ -8,6 +8,7 @@ function controller(io) {
     let users = {};
     io.on('connection', async socket => {
         console.log('New socket connected');
+
         // write socket events here
         //maybe need to join socket into it's own id??
 
@@ -74,8 +75,9 @@ function controller(io) {
             // Created notification.
             const noti = await Notifications.create_friend_req_received(req.sender, req.recipient);
 
-            // Sends friend request to recipient.
-            io.to(users[req.recipient]).emit("friend_req", request);
+            // Sends friend request
+            io.to(users[req.recipient]).emit("friend_req", request); //recipient
+            io.to(users[req.sender]).emit("friend_req", request); //sender
 
             // Sends notification to recipient.
             io.to(users[req.recipient]).emit("notification", noti);
@@ -104,6 +106,37 @@ function controller(io) {
             // Sends notification to sender
             io.to(users[resp.recipient]).emit("notification", noti);
             
+        })
+
+        socket.on("delete_friend", async (id) => {
+            const response = await Friends.delete(id);
+
+            // need to find which user isn't this socket
+            if (socket.username === response.user1) {
+                io.to(users[response.user2]).emit("delete_friend", id)
+            } else {
+                io.to(users[response.user1]).emit("delete_friend", id)
+            }
+
+        })
+
+        socket.on("reminder", async (obj) => {
+            // Send student reminder to complete assignment
+            const response = await Notifications.create_assignment_reminder(obj.sender, obj.recipient);
+
+            io.to(users[obj.recipient]).emit(response);
+        })
+
+        socket.on("add_assignment", async (obj) => {
+            console.log(obj);
+            const response = await Notifications.create_assignment_added(obj.teacher_user, obj.student_user);
+            
+            io.to(users[obj.recipient]).emit("notification", response);
+            io.to(users[obj.recipient]).emit("add_assignment", obj);
+        })
+
+        socket.on('delete_noti', async (noti) => {
+            // Need to decide whether its a case of delete all, or delete one at a time.
         })
         
         socket.on('disconnect', () => {
