@@ -12,7 +12,7 @@ function FriendRequests({accept, decline, pending}) {
                     <hr></hr>
                     {sentRequests.map((r, i) => {
                         return (r.sender !== user.username ?
-                        <FriendRequest request={r} type="r" key={i} accept={accept} decline={decline} pending={pending}/>
+                        <FriendRequest request={r} type='r' key={i} accept={accept} decline={decline} pending={pending}/>
                         : <p></p>)
                     })
                     }
@@ -24,7 +24,7 @@ function FriendRequests({accept, decline, pending}) {
                     <hr></hr>
                     {sentRequests.map((r,i) => {
                         return (r.sender == user.username ?
-                        <FriendRequest request={r} type="s" key={i} accept={accept} decline={decline} pending={pending}/>
+                        <FriendRequest request={r} type='s' key={i} accept={accept} decline={decline} pending={pending}/>
                         : <p></p>)
                     })
                     }

@@ -2,6 +2,7 @@ import { useAuth } from "../../../contexts"
 
 function FriendRequest({request, type, accept, decline, pending}) {
     const {user} = useAuth()
+    console.log(request,type)
 
     function acceptRequest(request){
 
@@ -13,7 +14,7 @@ function FriendRequest({request, type, accept, decline, pending}) {
 
     return (
         <div className="friend-requests-item">
-            {type == 's' ? request.sender : request.recipient}
+            {type == 's' ? request.recipient : request.sender}
             {type == 'r' ? 
             <div className="friend-requests-btn">
                 <button className="accept-btn" onClick={()=>acceptRequest(request)}>
