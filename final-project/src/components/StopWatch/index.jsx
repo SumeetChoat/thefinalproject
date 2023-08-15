@@ -5,7 +5,7 @@ const Stopwatch = ({ time, setTime, isRunning }) => {
   useEffect(() => {
     let intervalId;
     if (isRunning) {
-      intervalId = setInterval(() => setTime(time + 1), 10);
+      intervalId = setInterval(() => setTime(time + 100), 1000);
     }
     return () => clearInterval(intervalId);
   }, [isRunning, time]);
