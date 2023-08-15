@@ -1,97 +1,162 @@
 require("dotenv").config()
 const request = require('supertest');
-const {createDBEnv, destroyDBEnv} = require('../../database/setup-test-db')
-const api = require('../../api')
+const ioClient = require('socket.io-client');
 
-describe("Testing the Teacher routes", () => {
-    let app;
+const {createDBEnv, destroyDBEnv} = require('../../database/setup-test-db');
+const {server, io} = require('../../api');
+const socketController = require('../../socket/controller');
+
+const ioOptions = {
+    transports: ['websocket'],
+    forceNew: true,
+    reconnection: false,
+  };
+
+describe("Testing Socket server", () => {
+    let clientSocket1;
+    // let clientSocket2;
+
     beforeAll(async () => {
-        app = api.listen(process.env.TEST_PORT, () => console.log(`Test server running on port ${process.env.TEST_PORT}.`));
+        server.listen(process.env.TEST_PORT, () => {
+            // console.log(`Test server running on port ${process.env.TEST_PORT}.`);
+        });
         await createDBEnv();
+        student1Socket = ioClient(`http://localhost:${process.env.TEST_PORT}`, ioOptions);        
+        teacher1Socket = ioClient(`http://localhost:${process.env.TEST_PORT}`, ioOptions);        
+        student2Socket = ioClient(`http://localhost:${process.env.TEST_PORT}`, ioOptions);        
+
     })
 
     afterAll(async () => {
         await destroyDBEnv();
-        app.close()
-        console.log("Test server closed.")
-    })
-
-    describe('Teacher routes', () => {
-        test('Testing teacher register route', async () => {
-            const data = {
-                "username" : "Oliver",
-                "password" : "1",
-                "email" : "oliver@gmail.com",
-            }
-    
-            const response = await request(app).post('/teacher/register').send(data);
-            expect(response.body.username).toBe("Oliver")
-            expect(response.body.email).toBe("oliver@gmail.com")
+        server.close(() => {
+            // console.log("Test server closed.");
         })
-    
-        test('Testing teacher login route', async () => {
-            const data = {
-                "username" : "Oliver",
-                "password" : "1"
-            }
-            const response = await request(app).post('/teacher/login').send(data);
-            expect(response.status).toBe(200);
-            expect(response.body.username).toBe("Oliver");
-        })
-    })
-
-    describe('Student routes', () => {
-        const newStudent = {
-            username: "test",
-            password: "test",
-            email: "test"
+        if (student1Socket.connected) {
+            student1Socket.disconnect();
+            student1Socket.off()
         }
+        if (teacher1Socket.connected) {
+            teacher1Socket.disconnect();
+            teacher1Socket.off()
+        }
+        if (student2Socket.connected) {
+            student2Socket.disconnect();
+            student2Socket.off()
+        }
+    })
 
-        it("Should return no students error", async() => {
-            const resp = await request(app)
-            .get('/students')
-            .expect(404)
-    
-            expect(resp.body.Error).toBe('There are no students')
-        })
-    
-        it("Should create a new student", async() => {
-            const resp = await request(app)
-            .post('/students/register')
-            .send(newStudent)
-            .expect(201)
-    
-            expect(resp.body.username).toEqual(newStudent.username)
-        })
+    // beforeEach(() => {
+    //     clientSocket1 = ioClient(`http://localhost:${process.env.TEST_PORT}`, ioOptions);        
+    //     // clientSocket2 = ioClient(`http://localhost:${process.env.TEST_PORT}`, ioOptions);        
 
-        // it("Should give error if register with duplicate username", async() => {
-    //     const resp = await request(app)
-    //     .post('/students/register')
-    //     .send(newStudent)
-    //     .expect(500)
 
-    //     expect(resp.body.Error).toBe(`duplicate key value violates unique constraint \"users_username_key\"`)
     // })
 
-        it("Should give error if log in with wrong details", async() => {
-            const resp =  await request(app)
-            .post('/students/login')
-            .send({
-                username: "test",
-                password: "1",
-                email: "1"
-            })
-            .expect(403)
-            expect(resp.body.Error).toBe("Incorrect credentials")
-        })
-    
-        it("Should login with correct details", async() => {
-            const resp = await request(app)
-            .post('/students/login')
-            .send(newStudent)
-            .expect(200)
-    
-            expect(resp.body.username).toEqual(newStudent.username)
-        })
+    afterEach(() => {
+        student1Socket.off()
+        student2Socket.off()
+        teacher1Socket.off()
     })
+
+    test('data fetching has the correct properties for student', (done) => {
+        student1Socket.on("username", data => {
+            expect(data).toHaveProperty("friends");
+            expect(data).toHaveProperty("friend_requests");
+            expect(data).toHaveProperty("messages");
+            expect(data).toHaveProperty("notifications");
+            expect(data).toHaveProperty("assignments");
+            done()
+        })
+
+        student1Socket.emit("username", {"username":"student1", "role":"student"});
+    })
+
+    test('data fetching has the correct properties for teacher', (done) => {
+        teacher1Socket.on("username", data => {
+            expect(data).toHaveProperty("friends");
+            expect(data).toHaveProperty("friend_requests");
+            expect(data).toHaveProperty("messages");
+            expect(data).toHaveProperty("notifications");
+            expect(data).toHaveProperty("assignments");
+            done()
+        })
+
+        teacher1Socket.emit("username", {"username":"teacher1", "role":"teacher"});
+    })
+
+    test('Message sender recieves message', (done) => {
+        student1Socket.on("message", msg => {
+            expect(msg.recipient).toBe("student2");
+            expect(msg.content).toBe("Hello student2");
+            done()
+        })
+
+        student1Socket.emit("message", {"sender":"student1", "recipient":"student2", "type":"msg", "content":"Hello student2"});
+    })
+
+    test('Message recipient recieves message', (done) => {
+        // This is a big work around until I can get two sockets working simultaneously in the test itself (works fine in production).
+        student2Socket.on("message", msg => {
+            expect(msg.recipient).toBe("student2");
+            expect(msg.content).toBe("Hello student2");
+            done()
+        })
+
+        student2Socket.emit("username", {"username":"student2", "role":"student"});
+        student1Socket.emit("message", {"sender":"student1", "recipient":"student2", "type":"msg", "content":"Hello student2"});
+    })
+
+    test('Message recipient recieves notification', (done) => {
+        student2Socket.on("notification", noti => {
+            expect(noti).toHaveProperty("message");
+            expect(noti.message).toBe("student1 has sent you a message.");
+            done()
+        })
+        student1Socket.emit("message", {"sender":"student1", "recipient":"student2", "type":"msg", "content":"Hello student2"});
+    })
+
+    test('Friend request sender recieves the friend request', (done) => {
+        student1Socket.on("friend_req", req => {
+            expect(req).toHaveProperty("request_id")
+            expect(req).toHaveProperty("sender")
+            expect(req).toHaveProperty("recipient")
+            expect(req).toHaveProperty("time_sent")
+            expect(req.sender).toBe("student1")
+            done()
+        })
+        student1Socket.emit("friend_req", {"sender":"student1", "recipient":"student2"});
+    })
+
+    test('Friend request recipient recieves the friend request', (done) => {
+        student2Socket.on("friend_req", req => {
+            expect(req).toHaveProperty("request_id")
+            expect(req).toHaveProperty("sender")
+            expect(req).toHaveProperty("recipient")
+            expect(req).toHaveProperty("time_sent")
+            expect(req.recipient).toBe("student2")
+            done()
+        })
+        student1Socket.emit("friend_req", {"sender":"student1", "recipient":"student2"});
+    })
+
+    test('Friend request recipient recieves the friend request', (done) => {
+        student1Socket.on("notification", noti => {
+            expect(noti.message).toBe("student2 has sent you a friend request.")
+            done()
+        })
+        student2Socket.emit("friend_req", {"sender":"student2", "recipient":"student1"});
+    })
+
+    // test('Accepted friend request adds friend to request sender', (done) => {
+    //     student2Socket.on("add_friend", friend => {
+    //         expect(friend).toHaveProperty("friend_id");
+    //         // expect(friend.user1).toBe("student2") || expect(friend.user1).toBe("student2");
+    //         done();
+    //     })
+    // })
+
+
+
+    
 })

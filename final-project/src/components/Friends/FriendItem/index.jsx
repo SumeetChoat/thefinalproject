@@ -8,10 +8,12 @@ function FriendItem({friend, trash, message, setShowMessages}){
 
     function deleteFriend(friend){
          if (confirm(`Are you sure you want to remove ${friend.username} as a friend?`)==true) {
+            const id = friends.filter(f => f.user1 === friend.username || f.user2 === friend.username)[0].friend_id;
             setFriends(
-                friends.filter(f => f.username != friend.username)
+                friends.filter(f => f.friend_id !== id)
             )
-            socket.emit("delete_friend", 1)
+        
+            socket.emit("delete_friend", id)
          }
     }
 

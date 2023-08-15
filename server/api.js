@@ -31,4 +31,4 @@ api.use('/teachers', teacherRouter);
 
 socketController(io);
 
-module.exports = {server}; //will likely need to export some things for testing but unsure, hence the need for brackets.
+module.exports = {server, api, io}; //will likely need to export some things for testing but unsure, hence the need for brackets.
