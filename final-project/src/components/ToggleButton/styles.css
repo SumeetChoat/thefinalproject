@@ -1,54 +1,78 @@
-.switch {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #5e41dee2;
-  color: #fff;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.button-cover,
+.knobs,
+.layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
-.mic-on,
-.mic-off {
+.button {
+  position: relative;
+  top: 50%;
+  width: 74px;
+  height: 36px;
+  margin: -20px auto 0 auto;
+  overflow: hidden;
+}
+
+.button.r,
+.button.r .layer {
+  border-radius: 100px;
+}
+.checkbox {
+  position: relative;
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s ease-in-out;
-}
-
-.mic-on {
-  z-index: 4;
-}
-
-.mic-off {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
+  padding: 0;
+  margin: 0;
   opacity: 0;
+  cursor: pointer;
+  z-index: 3;
 }
 
-.switch:hover {
-  background-color: #5e41de98;
+.knobs {
+  z-index: 2;
 }
 
-#checkbox {
-  display: none;
+.layer {
+  width: 100%;
+  background-color: #ecfceb;
+  transition: 0.3s ease all;
+  z-index: 1;
 }
 
-#checkbox:checked + .switch {
-  background-color: red;
+#button-1 .knobs:before {
+  content: "ON";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 20px;
+  height: 10px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1;
+  padding: 9px 4px;
+  background-color: #56de6f;
+  border-radius: 50%;
+  transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
 }
 
-#checkbox:checked + .switch .mic-off {
-  opacity: 1;
+#button-1 .checkbox:checked + .knobs:before {
+  content: "OFF";
+  left: 42px;
+  background-color: #f44336;
 }
 
-#checkbox:active + .switch {
-  scale: 1.2;
+#button-1 .checkbox:checked ~ .layer {
+  background-color: #fcebeb;
+}
+
+#button-1 .knobs,
+#button-1 .knobs:before,
+#button-1 .layer {
+  transition: 0.3s ease all;
 }

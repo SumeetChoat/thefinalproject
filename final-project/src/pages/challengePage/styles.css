@@ -71,15 +71,16 @@
   width: 100%;
 }
 .mic-setting-section {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 10px;
   grid-area: mic-toggle;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1.8rem 3.6rem;
   background-color: rgba(255, 255, 255, 0.211);
   border-radius: 20px;
-  width: 80%;
+  width: 50%;
   transition: all 0.3s;
 }
 .mic-setting-section:hover {

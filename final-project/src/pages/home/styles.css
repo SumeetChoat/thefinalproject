@@ -4,7 +4,7 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.255);
+  background-color: rgba(101, 101, 101, 0.517);
 }
 .home-nav {
   margin: 0 5rem;
@@ -54,16 +54,17 @@
   width: 80px;
 }
 .home-login-button {
-  outline: 2px solid var(--secondary-red);
-  background-color: rgba(255, 255, 255, 0.124);
+  outline: 3px solid var(--primary-purple);
+  background-color: rgba(0, 0, 0, 0.641);
   padding: 1rem;
-  border-radius: 20px;
-  color: var(--secondary-red);
+  border-radius: 50px;
+  color: white;
   padding-inline: 2rem;
   transition: all 0.5s;
 }
 .home-login-button:hover {
   background-color: var(--secondary-red);
+  outline: 3px solid var(--secondary-red);
   color: white;
 }
 .home-slogan {

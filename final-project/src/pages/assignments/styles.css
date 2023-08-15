@@ -30,6 +30,11 @@
 .assignment-row-play-button {
   padding: 1rem;
   cursor: pointer;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--secondary-red);
+  color: white;
+  font-size: 1rem;
 }
 .span-2 {
   grid-column: span 2;
