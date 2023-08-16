@@ -1,6 +1,6 @@
 import { useRequests, useAuth, useFriends } from "../../contexts";
 import FriendRequest from "./FriendRequest";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { socket } from "../../socket";
 
 function FriendRequests({ accept, decline, pending, add }) {
@@ -15,6 +15,7 @@ function FriendRequests({ accept, decline, pending, add }) {
   }
 
   async function addFriend(searchText) {
+    setTextFilter("");
     const options = {
       method: "GET",
       headers: {
