@@ -1,8 +1,8 @@
 .profile-container {
   display: flex;
   padding: 10px;
-  margin: 0 auto;
   width: auto;
+  justify-content: space-evenly;
 }
 
 .profile-left {
@@ -13,6 +13,15 @@
 .profile-right {
   display: block;
   align-items: flex-end;
+}
+
+.container-title{
+  font-weight: bold;
+  padding: 5px;
+}
+
+.container-subtitle{
+  padding: 5px;
 }
 
 .friends-list, .assignments-list, .friend-requests-list, .message-container, .leaderboard-list{
@@ -35,12 +44,24 @@
     box-shadow: 0 8px 20px rgb(210, 210, 210);
 }
 
-.connections-container, .friend-requests-container{
-  height: 100px;
+.lb-item{
+  color: black;
+  border-radius: 25px;
+  margin: 5px auto;
+  justify-content: space-between;
+  box-shadow: 0 8px 20px rgb(210, 210, 210);
 }
 
-.assignments-container, .assignments-item, .messages-modal, .leaderboard-container{
-  height: 200px;
+.lb-item span{
+  padding: 5px;
+}
+
+.connections-container, .friend-requests-container{
+  height: 205px;
+}
+
+.assignments-container, .leaderboard-container{
+  height: 500px;
 }
 
 .assignments-completed, .assignments-incomplete{
@@ -69,14 +90,15 @@
 }
 
 
-.connections-container, .assignments-container, .friend-requests-container {
-    display: grid;
-
+.connections-container, .assignments-container, .friend-requests-container, .leaderboard-container {
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-.leaderboard-container{
-  display: grid;
-  justify-content: center;
+.connections-container, .friend-requests-container{
+  display: block;
 }
 
 .lb-item{
@@ -90,13 +112,12 @@
 
 
 .assignment-btn, .friends-btn, .friend-requests-btn{
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+  display: inline-flex;
+  align-items: center;
 }
 
 .friends-item, .friend-requests-item, .lb-item{
-    justify-content: space-around;
+    /* justify-content: space-around; */
     width: 100%;
     align-items: center;
 }
@@ -133,6 +154,7 @@
     background-color: transparent;
     border: none;
     font-size: 20px;
+    padding-left: 10px;
 }
 
 .edit-btn:hover .svg-icon path{
@@ -192,8 +214,8 @@
 .messages-modal {
   position: absolute;
   cursor: pointer;
-  bottom: 0;
-  right: 0;
+  bottom: 2%;
+  right: 2%;
   padding: 50px;
   background-color: rgb(149, 119, 215);
   font-size: 20px;
@@ -238,6 +260,7 @@
 
 .lb-username{
   justify-content: flex-start;
+  font-weight: bold;
 }
 
 .lb-points{
@@ -249,9 +272,9 @@
 }
 
 .lb-other{
-  background-color: pink;
+  background-color: white;
 }
 
 .lb-self{
-  background-color: purple;
+  background-color: pink;
 }
