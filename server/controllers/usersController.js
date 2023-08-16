@@ -40,9 +40,9 @@ class UserController {
 
   }
 
-  static async getAll(req,res) {
+  static async getStudentsPoints(req,res) {
     try{
-      const resp = await Users.getAll()
+      const resp = await Users.getStudentsPoints()
       res.status(200).send(resp)
     } catch (err) {
       res.status(500).json({"error": err.message})
