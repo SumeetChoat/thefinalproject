@@ -1,50 +1,49 @@
 .profile-container {
-  display: flex;
+  display: grid;
   padding: 10px;
-  width: auto;
+  grid-template-columns: 2fr 4fr 2fr;
   justify-content: space-evenly;
 }
 
-.profile-left {
-  display: block;
-  align-items: flex-start;
-}
-
-.profile-right {
-  display: block;
-  align-items: flex-end;
-}
-
-.container-title{
+.container-title {
   font-weight: bold;
   padding: 5px;
+  font-size: 1.5rem;
 }
 
-.container-subtitle{
+.container-subtitle {
   padding: 5px;
 }
 
-.friends-list, .assignments-list, .friend-requests-list, .message-container, .leaderboard-list{
-    list-style-type: none;
+.friends-list,
+.assignments-list,
+.friend-requests-list,
+.message-container,
+.leaderboard-list {
+  list-style-type: none;
 }
-.friends-item, .assignments-item, .friend-requests-item, .lb-item{
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-}
-
-.connections-container, .assignments-container, .assignments-item, .friend-requests-container, .messages-modal, .leaderboard-container{
-    justify-items: center;
-    padding: 20px 0;
-    justify-content: space-around;
-    color: black;
-    border-radius: 25px;
-    margin: 25px auto;
-    padding: 30px;
-    box-shadow: 0 8px 20px rgb(210, 210, 210);
+.friends-item,
+.assignments-item,
+.friend-requests-item,
+.lb-item {
+  padding: 5px;
+  display: flex;
+  width: 90%;
+  justify-content: center;
 }
 
-.lb-item{
+.connections-container,
+.assignments-container,
+.assignments-item,
+.messages-modal,
+.leaderboard-container {
+  color: black;
+  border-radius: 25px;
+  padding: 30px;
+  box-shadow: 0 8px 20px rgb(210, 210, 210);
+}
+
+.lb-item {
   color: black;
   border-radius: 25px;
   margin: 5px auto;
@@ -52,95 +51,105 @@
   box-shadow: 0 8px 20px rgb(210, 210, 210);
 }
 
-.lb-item span{
+.lb-item span {
   padding: 5px;
 }
 
-.connections-container, .friend-requests-container{
-  height: 205px;
+.connections-container {
+  min-height: 205px;
+  position: relative;
 }
 
-.assignments-container, .leaderboard-container{
-  height: 500px;
+.assignments-container,
+.leaderboard-container {
+  height: 75vh;
+  width: 78%;
+  margin: 0 auto;
 }
 
-.assignments-completed, .assignments-incomplete{
-  width: 300px;
+.connections-container,
+.assignments-container,
+.chat-container,
+.leaderboard-container {
+  background-color: #c8acfc;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  margin: 0 auto;
 }
 
-.connections-container, .assignments-container, .friend-requests-container, .chat-container, .leaderboard-container {
-    max-height: 800px;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-}
-
-.chat-container{
+.chat-container {
   max-height: 500px;
 }
 
-.delete-btn, .message-btn, .add-btn, .accept-btn, .decline-btn, .search-btn {
-    cursor: pointer;
-    padding-left: 5px;
-    padding-right: 5px;
-
+.delete-btn,
+.message-btn,
+.add-btn,
+.accept-btn,
+.decline-btn,
+.search-btn {
+  cursor: pointer;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .assignments-item p {
   padding: 1px;
 }
 
-
-.connections-container, .assignments-container, .friend-requests-container, .leaderboard-container {
-  display: inline-block;
-  justify-content: center;
-  align-items: center;
+.connections-container,
+.assignments-container,
+.friend-requests-container,
+.leaderboard-container {
   text-align: center;
 }
 
-.connections-container, .friend-requests-container{
+.connections-container,
+.friend-requests-container {
   display: block;
 }
 
-.lb-item{
+.lb-item {
   display: inline-flex;
 }
 
-.assignments-lists {
-  display: flex;
-  justify-content: space-around;
-}
-
-
-.assignment-btn, .friends-btn, .friend-requests-btn{
+.assignment-btn,
+.friends-btn,
+.friend-requests-btn {
   display: inline-flex;
   align-items: center;
 }
 
-.friends-item, .friend-requests-item, .lb-item{
-    /* justify-content: space-around; */
-    width: 100%;
-    align-items: center;
+.friends-item,
+.friend-requests-item,
+.lb-item {
+  width: 100%;
+  align-items: center;
+  margin: 0.5rem 0;
 }
 
-.assignment-btn button, .friends-btn button, .friend-requests-btn button{
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    padding-top: 5px;
-    width: 80%;
+.assignment-btn button,
+.friends-btn button,
+.friend-requests-btn button {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  padding-top: 5px;
+  width: 80%;
 }
 
-.close-modal-btn, .send-btn{
+.close-modal-btn,
+.send-btn {
   background-color: transparent;
   border: none;
   font-size: 20px;
 }
 
-.add-btn, .search-btn{
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    padding-top: 5px; 
+.add-btn,
+.search-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  padding-top: 5px;
 }
 .add-btn {
   background-color: transparent;
@@ -149,17 +158,15 @@
   padding-top: 5px;
 }
 
-
 .pending-icon button {
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    padding-left: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  padding-left: 10px;
 }
 
-.edit-btn:hover .svg-icon path{
-    fill: purple
-
+.edit-btn:hover .svg-icon path {
+  fill: purple;
 }
 
 .delete-btn:hover .svg-icon path {
@@ -179,35 +186,35 @@
 }
 
 .search-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .accept-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .decline-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .pending-btn:hover .svg-icon path {
-    fill: purple
+  fill: purple;
 }
 
 .send-btn:hover .svg-icon path {
-    fill: white
+  fill: white;
 }
 
 .close-modal-btn:hover .svg-icon path {
-  fill: white
+  fill: white;
 }
-
 
 .search-row {
   display: flex;
   align-items: center;
   justify-items: center;
   width: 100%;
+  gap: 10px;
   justify-content: space-around;
 }
 
@@ -222,31 +229,32 @@
 }
 
 .display-none {
-    display: none;
+  display: none;
 }
 .display-block {
-    display: block;
+  display: block;
 }
 
-.message-container li{
+.message-container li {
   overflow: hidden;
   display: flex;
 }
 
-.messages-header .close-modal-btn, .send-btn{
+.messages-header .close-modal-btn,
+.send-btn {
   float: right;
 }
 
-.chat-container{
+.chat-container {
   background-color: white;
 }
 
-.message-container .sent-message{
+.message-container .sent-message {
   display: flex;
   justify-content: flex-end;
 }
 
-.msg-content{
+.msg-content {
   min-width: fit-content;
   padding: 5px;
   background-color: rgb(169, 120, 169);
@@ -258,12 +266,12 @@
   margin: 0 0 0.2rem 0;
 }
 
-.lb-username{
+.lb-username {
   justify-content: flex-start;
   font-weight: bold;
 }
 
-.lb-points{
+.lb-points {
   justify-content: flex-end;
 }
 
@@ -271,10 +279,55 @@
   border-radius: 10px;
 }
 
-.lb-other{
+.lb-other {
   background-color: white;
 }
 
-.lb-self{
-  background-color: pink;
+.lb-self {
+  background-color: var(--secondary-red);
+  color: white;
+}
+.assignment-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  text-align: left;
+}
+
+.assignment {
+  margin: 2rem 0;
+  box-shadow: 0 8px 20px #937ebb;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background-color: rgb(255, 255, 255);
+  color: rgb(154, 154, 154);
+}
+.assignments-container {
+  background-color: #c8acfc;
+}
+
+.friend-requests-container {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 80%;
+}
+.friend-request-input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid grey;
+  padding: 0.5rem;
+  flex: 1;
+}
+.friend-request-username {
+  flex: 1;
+  text-align: left;
+}
+.friend-request-pending-status {
+  font-size: 0.8rem;
+  color: grey;
+}
+.no-friend-reminder {
+  margin: 1rem 0;
 }
