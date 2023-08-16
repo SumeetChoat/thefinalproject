@@ -4,7 +4,7 @@ const teacherController = require("../controllers/teachers");
 
 const teacherRouter = Router();
 
-// teacherRouter.use(authenticator)
+teacherRouter.use(authenticator)
 
 teacherRouter.post("/assignment", teacherController.createAssignment);
 teacherRouter.patch("/assignment", teacherController.updateAssignment);

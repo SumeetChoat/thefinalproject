@@ -14,7 +14,7 @@ studentRouter.get('/assignment/',studentController.getAssignmentByID)
 studentRouter.patch('/assignment/update', studentController.updateAssignment)
 studentRouter.patch('/assignment/complete', studentController.completeAssignment)
 
-studentRouter.patch('/teacher', studentController.assignTeacher)
+studentRouter.post('/teacher', studentController.assignTeacher)
 
 studentRouter.delete('/delete', studentController.deleteStudent)
 

@@ -54,7 +54,6 @@ function controller(io) {
 
         socket.on("message", async (message) => {
             // message needs to have: sender, recipient, type, content
-            console.log(message);
             // Adds message to db.
             const msg = await Messages.create(message);
 
@@ -71,10 +70,8 @@ function controller(io) {
 
         socket.on("friend_req", async (req) => {
             // req needs to have: sender, recipient.
-            console.log(req);
             // Creates friend request.
             const request = await Friend_Requests.create(req);
-            console.log(request);
 
             // Created notification.
             const noti = await Notifications.create_friend_req_received(req.sender, req.recipient);
@@ -104,11 +101,13 @@ function controller(io) {
                 io.to(users[resp.recipient]).emit("add_friend", friend); // Sends new friendship to recipient.
             }
 
+            io.to(users[resp.sender]).emit("delete_req", friend_req.request_id)
+            io.to(users[resp.recipient]).emit("delete_req", friend_req.request_id)
+
             // Creates notification
             const noti = await Notifications.create_friend_req_response(resp.sender, resp.recipient, resp.status);
-
             // Sends notification to sender
-            io.to(users[resp.recipient]).emit("notification", noti);
+            io.to(users[noti.username]).emit("notification", noti);
             
         })
 
@@ -128,25 +127,25 @@ function controller(io) {
             // Send student reminder to complete assignment
             const response = await Notifications.create_assignment_reminder(obj.sender, obj.recipient);
 
-            io.to(users[obj.recipient]).emit(response);
+            io.to(users[obj.recipient]).emit("notification", response);
         })
 
         socket.on("add_assignment", async (obj) => {
-            console.log(obj);
             const response = await Notifications.create_assignment_added(obj.teacher_user, obj.student_user);
 
-            io.to(users[obj.recipient]).emit("notification", response);
-            io.to(users[obj.recipient]).emit("add_assignment", obj);
+            io.to(users[obj.student_user]).emit("notification", response);
+            io.to(users[obj.student_user]).emit("add_assignment", obj);
         })
 
-        socket.on('delete_noti', async (noti) => {
-            // Need to decide whether its a case of delete all, or delete one at a time.
+        socket.on('delete_noti', async (username) => {
+            await Notifications.delete(username);
+            io.to(users[username]).emit("delete_noti", username);
         })
         
         socket.on('disconnect', () => {
             delete users[socket.username]
-            // console.log(`Socket disconnected`);
-            // console.log(users)
+            console.log(`Socket disconnected`);
+            console.log(users)
         })
     })
 }
