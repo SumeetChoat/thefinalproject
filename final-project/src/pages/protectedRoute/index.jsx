@@ -188,7 +188,7 @@ function ProtectedRoute() {
             <NavLink onClick={() => {
               notifModal ? closeNotifications() : openNotifications()
             }}>
-              <div className="btn-icon" dangerouslySetInnerHTML={{__html: bell}}/>
+              <div className="bell-icon" dangerouslySetInnerHTML={{__html: bell}}/>
             </NavLink>
           </li>
         </ul>

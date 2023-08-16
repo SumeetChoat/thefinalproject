@@ -25,7 +25,10 @@ function FriendRequests({accept, decline, pending, add}) {
           }
         const resp = await fetch(`http://localhost:3000/users/${searchText}`,options)
         const data = await resp.json()
-        if (resp.ok && (!friends.find((f) => f.user1 == searchText || f.user2 == searchText)) && searchText!==user.username && searchText.length>0) {
+        console.log("requests: ",sentRequests)
+        console.log("find: ",sentRequests.find((r) => r.recipient !== searchText || r.sender !== searchText))
+        if (resp.ok && (!friends.find((f) => f.user1 == searchText || f.user2 == searchText)) && searchText!==user.username && searchText.length>0
+        && (!sentRequests.find((r) => r.recipient == searchText || r.sender == searchText))) {
             console.log(data)
             socket.emit("friend_req", {"sender":user.username, "recipient":searchText});
 
@@ -34,6 +37,10 @@ function FriendRequests({accept, decline, pending, add}) {
             alert('You are already friends with this user.')
         } else if (searchText == user.username){
             alert ('You can\'t send a friend request to yourself!')
+        } else if (sentRequests.find((r) => r.recipient == searchText)){
+            alert (`You have already sent a request to ${searchText}.`)
+        } else if (sentRequests.find((r) => r.sender == searchText)){
+            alert(`The user ${searchText} has already sent you a request.`)
         } else {
             alert('There is no user with this username.')
         }
