@@ -4,6 +4,7 @@ import {
     useMessages,
     useFriends
 } from "../../contexts";
+import {socket} from '../../socket';
 
 function MessagesModal({handleClose, decline, envelope}) {
     const {messages, friendRecipient} = useMessages()
@@ -18,7 +19,7 @@ function MessagesModal({handleClose, decline, envelope}) {
 
     function filterMessages() {
         setFriendsMessages(messages.map((m) => {
-            if(m.sender == user.username || m.sender == friendRecipient.username || m.recipient == friendRecipient.username){
+            if((m.sender == user.username && m.recipient == friendRecipient.username) || (m.sender == friendRecipient.username && m.recipient == user.username)){
                 return m
             }
         }))     
@@ -28,11 +29,13 @@ function MessagesModal({handleClose, decline, envelope}) {
         if(user && messages && friendRecipient){
             filterMessages()
         }
-    },[messages])
+    },[messages, friendRecipient])
 
 
     function sendMessage() {
         console.log('sending ',content)
+        socket.emit("message", {"sender":user.username, "recipient":friendRecipient.username, "type":"msg", "content":content});
+        
     }
 
     return(
