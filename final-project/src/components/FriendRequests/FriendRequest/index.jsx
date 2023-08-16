@@ -1,15 +1,16 @@
 import { useAuth } from "../../../contexts"
+import {socket} from '../../../socket';
 
 function FriendRequest({request, type, accept, decline, pending}) {
     const {user} = useAuth()
     console.log(request,type)
 
     function acceptRequest(request){
-
+        socket.emit("friend_req_resp", {"sender":request.sender, "recipient":request.recipient, "status":"accepted"})
     }
 
     function declineRequest(request){
-
+        socket.emit("friend_req_resp", {"sender":request.sender, "recipient":request.recipient, "status":"rejected"})
     }
 
     return (

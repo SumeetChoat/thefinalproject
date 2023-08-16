@@ -96,22 +96,27 @@ function ProtectedRoute() {
 
       socket.on("message", (msg) => {
         // Update message context here
-        setMessages([...messages, msg]);
+        setMessages((messages) => [...messages, msg]);
       });
 
       socket.on("friend_req", (req) => {
         // Update friend request context here
-        setSentRequests([...sentRequests, req]);
+        setSentRequests((sentRequests) => [...sentRequests, req]);
       });
 
       socket.on("add_friend", (friend) => {
         // Update friends context here
-        setFriends([...friends, friend]);
+        setFriends((friends) => [...friends, friend]);
       });
+
+      socket.on("delete_req", id => {
+        console.log("TEST: ", id);
+        setSentRequests((sentRequests) => sentRequests.filter(req => id !== req.request_id));
+      })
 
       socket.on("notification", (noti) => {
         // Update notifications list
-        setNotifications([...notifications, noti]);
+        setNotifications((notifications) => [...notifications, noti]);
       });
 
       socket.on("delete_friend", id => {

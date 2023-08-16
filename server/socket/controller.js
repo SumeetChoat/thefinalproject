@@ -101,6 +101,9 @@ function controller(io) {
                 io.to(users[resp.recipient]).emit("add_friend", friend); // Sends new friendship to recipient.
             }
 
+            io.to(users[resp.sender]).emit("delete_req", friend_req.request_id)
+            io.to(users[resp.recipient]).emit("delete_req", friend_req.request_id)
+
             // Creates notification
             const noti = await Notifications.create_friend_req_response(resp.sender, resp.recipient, resp.status);
             // Sends notification to sender
