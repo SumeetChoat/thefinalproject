@@ -150,6 +150,20 @@ function ProtectedRoute() {
       console.log(error);
     }
   }, [user]);
+
+
+  useEffect(() => {
+    console.log("MESSAGES: ", messages)
+  }, [messages])
+
+  useEffect(() => {
+    console.log("Friend_REQ: ", sentRequests)
+  }, [sentRequests])
+
+  useEffect(() => {
+    console.log("FRIENDS: ", friends)
+  }, [friends])
+
   return (
     <div className="body-container">
       <nav className="app-nav">

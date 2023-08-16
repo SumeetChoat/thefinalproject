@@ -144,8 +144,8 @@ function controller(io) {
         
         socket.on('disconnect', () => {
             delete users[socket.username]
-            // console.log(`Socket disconnected`);
-            // console.log(users)
+            console.log(`Socket disconnected`);
+            console.log(users)
         })
     })
 }
