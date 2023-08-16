@@ -31,7 +31,7 @@ function ChallengePage() {
   const [form, setForm] = useState({
     lowNote: "C",
     lowOctave: 4,
-    highNote: "G",
+    highNote: "C",
     highOctave: 4,
     clef: "bass",
     randomNote: false,
@@ -39,7 +39,7 @@ function ChallengePage() {
     key: "C",
     pattern: {
       l2p1: true,
-      l2p2: true,
+      l2p2: false,
       l2p3: false,
       l2p4: false,
       l2p5: false,
@@ -97,7 +97,7 @@ function ChallengePage() {
       setForm({
         lowNote: "C",
         lowOctave: 4,
-        highNote: "G",
+        highNote: "C",
         highOctave: 4,
         clef: "bass",
         randomNote: false,
@@ -105,7 +105,7 @@ function ChallengePage() {
         key: "C",
         pattern: {
           l2p1: true,
-          l2p2: true,
+          l2p2: false,
           l2p3: false,
           l2p4: false,
           l2p5: false,
@@ -317,7 +317,7 @@ function ChallengePage() {
     } else {
       if (audioContext !== null) {
         audioContext.close();
-        mediaStreamSource.stop()
+        mediaStreamSource.stop();
       }
     }
   }, [challenge, mic]);

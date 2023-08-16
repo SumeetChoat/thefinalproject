@@ -13,7 +13,10 @@ INSERT INTO users (username, password, email, first_name, last_name, role) VALUE
 ('teacher1','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonychan1211@gmail.com', 'teacher1', 'chan', 'teacher'),
 ('teacher2','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'teacher2', 'chan', 'teacher'),
 ('student1','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'student1', 'chan', 'student'),
-('student2','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'student2', 'chan', 'student');
+('student2','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'student2', 'chan', 'student'),
+('anthony_chan','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'anthony', 'chan', 'teacher'),
+('sumeet_choat','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'sumeet', 'choat', 'student'),
+('oliver_thomas','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'oliver', 'thomas', 'student');
 
 CREATE TABLE students (
     username VARCHAR REFERENCES users(username) PRIMARY KEY,
