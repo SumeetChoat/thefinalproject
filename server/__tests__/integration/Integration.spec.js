@@ -335,7 +335,7 @@ describe("Testing API", () => {
     // })
 
     // test('Successful /users/getUserByToken', async () => {
-    //     const res = await request(api).get('/users/getUserByToken').send({"token":token});
+    //     const res = await request(api).get('/users/getUserByToken').set({"token":token}).send({"token":token});
     //     console.log("Second one: ", res.body)
     //     expect(res.statusCode).toBe(200);
     // })
