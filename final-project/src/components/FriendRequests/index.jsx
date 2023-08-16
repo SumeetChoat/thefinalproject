@@ -3,16 +3,17 @@ import FriendRequest from "./FriendRequest";
 import { useState, useEffect } from "react";
 import { socket } from "../../socket";
 
-function FriendRequests({accept, decline, pending, add}) {
-    const {user} = useAuth()
-    const {sentRequests} = useRequests()
-    const {friends} = useFriends()
-    const token = useAuth().token || localStorage.getItem('token')
-    const [textFilter,setTextFilter] = useState('')
+function FriendRequests({ accept, decline, pending, add }) {
+  const { user } = useAuth();
+  const { sentRequests } = useRequests();
+  const { friends } = useFriends();
+  const token = useAuth().token || localStorage.getItem("token");
+  const [textFilter, setTextFilter] = useState("");
 
-    function updateTextFilter(e) {
-        setTextFilter(e.target.value)
-    }
+  function updateTextFilter(e) {
+    setTextFilter(e.target.value);
+  }
+
 
     async function addFriend(searchText) {
         const options = {
@@ -44,46 +45,71 @@ function FriendRequests({accept, decline, pending, add}) {
         } else {
             alert('There is no user with this username.')
         }
+
     }
+  }
 
+  return (
+    <>
+      <div className="search-row">
+        <input
+          className="friend-request-input"
+          type="text"
+          placeholder="Add friends with username"
+          value={textFilter}
+          onChange={updateTextFilter}
+        />
+        <button className="add-btn" onClick={() => addFriend(textFilter)}>
+          <div className="btn-icon" dangerouslySetInnerHTML={{ __html: add }} />
+        </button>
+      </div>
 
-    return (
-        <>
-        <div className="search-row">
-            <input type="text" placeholder="Search a username" value={textFilter} onChange={updateTextFilter} />
-            <button className="add-btn" onClick={()=>addFriend(textFilter)}>
-                <div className="btn-icon" dangerouslySetInnerHTML={{ __html: add}}/>
-            </button>
-        </div>
-        
-        <div className="friend-requests-list">
-            {sentRequests && sentRequests.length > 0 ?
-                <div className="received-requests">
-                    {/* <hr></hr> */}
-                    {sentRequests.map((r) => {
-                        return (r.sender !== user.username ?
-                        <FriendRequest request={r} type='r' key={r.request_id} accept={accept} decline={decline} pending={pending}/>
-                        : "")
-                    })
-                    }
-                </div>
-                : ""
-            }
-            {sentRequests && sentRequests.length > 0 ? 
-                <div className="sent-requests">
-                    {/* <hr></hr> */}
-                    {sentRequests.map((r) => {
-                        return (r.sender == user.username ?
-                        <FriendRequest request={r} type='s' key={r.request_id} accept={accept} decline={decline} pending={pending}/>
-                        : "")
-                    })
-                    }
-                </div>
-                : ""
-            }
-        </div>
-        </>
-    )
+      <div className="friend-requests-list">
+        {sentRequests && sentRequests.length > 0 ? (
+          <div className="received-requests">
+            {/* <hr></hr> */}
+            {sentRequests.map((r) => {
+              return r.sender !== user.username ? (
+                <FriendRequest
+                  request={r}
+                  type="r"
+                  key={r.request_id}
+                  accept={accept}
+                  decline={decline}
+                  pending={pending}
+                />
+              ) : (
+                ""
+              );
+            })}
+          </div>
+        ) : (
+          ""
+        )}
+        {sentRequests && sentRequests.length > 0 ? (
+          <div className="sent-requests">
+            {/* <hr></hr> */}
+            {sentRequests.map((r) => {
+              return r.sender == user.username ? (
+                <FriendRequest
+                  request={r}
+                  type="s"
+                  key={r.request_id}
+                  accept={accept}
+                  decline={decline}
+                  pending={pending}
+                />
+              ) : (
+                ""
+              );
+            })}
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    </>
+  );
 }
 
-export default FriendRequests
+export default FriendRequests;
