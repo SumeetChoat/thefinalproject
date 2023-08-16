@@ -34,12 +34,13 @@ class Users {
     }
   }
 
-  static async getAll(){
-    const resp = await db.query('SELECT * FROM users')
+  static async getStudentsPoints(){
+    const resp = await db.query('SELECT users.username,first_name,last_name,students.points FROM users JOIN students ON users.username = students.username ORDER BY students.points DESC')
     if (resp.rows.length == 0){
       throw new Error('No users found.')
     } else {
-      return resp.rows.map((u) => new Users(u))
+      resp.rows.map((u) => new Users(u))
+      return resp.rows.map((u) => u)
     }
   }
 
