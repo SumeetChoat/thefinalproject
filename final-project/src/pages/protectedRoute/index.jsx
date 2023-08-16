@@ -11,6 +11,7 @@ import {
   useMessages,
   useNotifications,
 } from "../../contexts";
+import { Notifications } from "../../components";
 
 function ProtectedRoute() {
   const { user, setUser } = useAuth();
@@ -24,6 +25,7 @@ function ProtectedRoute() {
   const { assignmentList, setAssignmentList } = useAssignmentList();
 
   const [notifModal, setNotifModal] = useState(false)
+
   const bell = '<svg class=svg-icon xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"/></svg>'
 
   async function logout() {
@@ -46,6 +48,12 @@ function ProtectedRoute() {
   function openNotifications() {
     setNotifModal(true)
   }
+
+  function closeNotifications() {
+    setNotifModal(false)
+  }
+
+  const notif_class = notifModal && user ? "notification-modal display:block": "notification-modal display:none"
 
   useEffect(() => {
     async function getUserDataWithToken() {
@@ -103,27 +111,59 @@ function ProtectedRoute() {
 
       socket.on("message", (msg) => {
         // Update message context here
-        setMessages([...messages, msg]);
+        setMessages((messages) => [...messages, msg]);
       });
 
       socket.on("friend_req", (req) => {
         // Update friend request context here
-        setSentRequests([...sentRequests, req]);
+        setSentRequests((sentRequests) => [...sentRequests, req]);
       });
 
       socket.on("add_friend", (friend) => {
         // Update friends context here
-        setFriends([...friends, friend]);
+        setFriends((friends) => [...friends, friend]);
       });
+
+      socket.on("delete_req", id => {
+        console.log("TEST: ", id);
+        setSentRequests((sentRequests) => sentRequests.filter(req => id !== req.request_id));
+      })
 
       socket.on("notification", (noti) => {
         // Update notifications list
-        setNotifications([...notifications, noti]);
+        setNotifications((notifications) => [...notifications, noti]);
       });
+
+      socket.on("delete_friend", id => {
+        setFriends((friends) => friends.filter(f => f.friend_id !== id));
+      })
+
+      socket.on("add_assignment", obj => {
+        setAssignmentList(assignmentList => [...assignmentList, obj]);
+      })
+
+      socket.on("delet_noti", username => {
+        setNotifications([]);
+      })
+
     } catch (error) {
       console.log(error);
     }
   }, [user]);
+
+
+  useEffect(() => {
+    console.log("MESSAGES: ", messages)
+  }, [messages])
+
+  useEffect(() => {
+    console.log("Friend_REQ: ", sentRequests)
+  }, [sentRequests])
+
+  useEffect(() => {
+    console.log("FRIENDS: ", friends)
+  }, [friends])
+
   return (
     <div className="body-container">
       <nav className="app-nav">
@@ -143,11 +183,21 @@ function ProtectedRoute() {
           <li>
             <NavLink to="/account">Account</NavLink>
           </li>
-          {user ? <NavLink onClick={() => logout()}>Logout</NavLink> : <p></p>}
-          {user ? <NavLink onClick={() => openNotifications()}>
-            <div className="btn-icon" dangerouslySetInnerHTML={{__html: bell}}/></NavLink> : ""}
+          {user ? <li><NavLink onClick={() => logout()}>Logout</NavLink></li> : <p></p>}
+          <li>
+            <NavLink onClick={() => {
+              notifModal ? closeNotifications() : openNotifications()
+            }}>
+              <div className="bell-icon" dangerouslySetInnerHTML={{__html: bell}}/>
+            </NavLink>
+          </li>
         </ul>
       </nav>
+      {notifModal ?
+        <div className={notif_class}>
+          {<Notifications handleClose={closeNotifications}/>}
+        </div>
+      : "" }
       <Outlet />
     </div>
   );

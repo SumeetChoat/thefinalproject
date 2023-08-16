@@ -29,13 +29,13 @@ class StudentTeacher {
                 throw new Error('Something went wrong.')
             }
             return new StudentTeacher(resp.rows[0])
-        } else {
-            const resp = await db.query('UPDATE student_teacher SET teacher_user = $1, student_user=$2 RETURNING *',[teacher_user,student_user])
-            if (resp.rows.length === 0){
-                throw new Error('Something went wrong.')
-            }
-            return new StudentTeacher(resp.rows[0])
-        }
+        }// } else {
+        //     const resp = await db.query('UPDATE student_teacher SET teacher_user = $1, student_user=$2 RETURNING *',[teacher_user,student_user])
+        //     if (resp.rows.length === 0){
+        //         throw new Error('Something went wrong.')
+        //     }
+        //     return new StudentTeacher(resp.rows[0])
+        // }
     }
 
     static async removeStudent(teacher_user,student_user) {

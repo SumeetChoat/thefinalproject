@@ -315,7 +315,10 @@ function ChallengePage() {
     if (mic) {
       startPitchDetect();
     } else {
-      if (audioContext !== null) audioContext.close();
+      if (audioContext !== null) {
+        audioContext.close();
+        mediaStreamSource.stop()
+      }
     }
   }, [challenge, mic]);
   return (

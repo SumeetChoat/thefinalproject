@@ -44,41 +44,32 @@ function Friends({
     setTextFilter(e.target.value);
   }
 
-  async function addFriend(searchText) {
-    const options = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        token: token,
-      },
-    };
-    const resp = await fetch(
-      `http://localhost:3000/users/${searchText}`,
-      options
-    );
-    const data = await resp.json();
-    if (
-      resp.ok &&
-      !friendUsernames.find((f) => f.username == searchText) &&
-      searchText !== user.username &&
-      searchText.length > 0
-    ) {
-      console.log(data);
-      socket.emit("friend_req", {
-        sender: user.username,
-        recipient: searchText,
-      });
 
-      alert(`You have sent a friend request to user ${searchText}`);
-    } else if (friendUsernames.find((f) => f.username == searchText)) {
-      alert("You are already friends with this user.");
-    } else if (searchText == user.username) {
-      alert("You can't send a friend request to yourself!");
-    } else {
-      alert("There is no user with this username.");
-    }
-  }
+    // async function addFriend(searchText) {
+    //     const options = {
+    //         method: "GET",
+    //         headers: {
+    //           Accept: "application/json",
+    //           "Content-Type": "application/json",
+    //           token: token
+    //         },
+    //       }
+    //     const resp = await fetch(`http://localhost:3000/users/${searchText}`,options)
+    //     const data = await resp.json()
+    //     if (resp.ok && (!friendUsernames.find((f) => f.username == searchText)) && searchText!==user.username && searchText.length>0) {
+    //         console.log(data)
+    //         socket.emit("friend_req", {"sender":user.username, "recipient":searchText});
+
+    //         alert(`You have sent a friend request to user ${searchText}`)
+    //     } else if (friendUsernames.find((f) => f.username == searchText)){
+    //         alert('You are already friends with this user.')
+    //     } else if (searchText == user.username){
+    //         alert ('You can\'t send a friend request to yourself!')
+    //     } else {
+    //         alert('There is no user with this username.')
+    //     }
+    // }
+
 
   return (
     <>

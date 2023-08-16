@@ -1,13 +1,19 @@
-/* eslint-disable react/prop-types */
-import { useAuth } from "../../../contexts";
+
+import { useAuth } from "../../../contexts"
+import {socket} from '../../../socket';
+
 
 function FriendRequest({ request, type, accept, decline, pending }) {
   const { user } = useAuth();
   console.log(request, type);
 
-  function acceptRequest(request) {}
+    function acceptRequest(request){
+        socket.emit("friend_req_resp", {"sender":request.sender, "recipient":request.recipient, "status":"accepted"})
+    }
 
-  function declineRequest(request) {}
+    function declineRequest(request){
+        socket.emit("friend_req_resp", {"sender":request.sender, "recipient":request.recipient, "status":"rejected"})
+    }
 
   return (
     <div className="friend-requests-item">
