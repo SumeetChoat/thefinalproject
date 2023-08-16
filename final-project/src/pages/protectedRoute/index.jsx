@@ -39,6 +39,8 @@ function ProtectedRoute() {
     const data = await resp.json();
     if (resp.ok) {
       localStorage.removeItem("token");
+      socket.off()
+      socket.disconnect()
       navigate("/login");
     } else {
       console.log(data);
@@ -121,6 +123,7 @@ function ProtectedRoute() {
 
       socket.on("add_friend", (friend) => {
         // Update friends context here
+        console.log("ADD FRIEND CALLED");
         setFriends((friends) => [...friends, friend]);
       });
 
