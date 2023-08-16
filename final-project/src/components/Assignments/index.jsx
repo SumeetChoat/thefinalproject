@@ -9,7 +9,7 @@ function AssignmentsList({start,edit,trash}) {
     
     return (
         <div className="assignments-lists">
-        <div className="assignments-list-container">
+        <div className="assignments-list-container assignments-completed">
             <p>Completed</p>
             {user && assignmentList && assignmentList.filter(a => a.completed).length !== 0 ?
                 <ul className="assignments-list">
@@ -22,7 +22,7 @@ function AssignmentsList({start,edit,trash}) {
             }
         </div>
 
-        <div className="assignments-list-container">
+        <div className="assignments-list-container assignments-incomplete">
             <p>Incomplete</p>
             {user && assignmentList && assignmentList.filter(a=>!a.completed).length !== 0 ? 
                 <ul className="assignments-list">

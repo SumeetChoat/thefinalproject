@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAuth } from "../../contexts"
-import {Friends, Assignments, FriendRequests, MessagesModal} from "../../components"
+import {Friends, Assignments, FriendRequests, MessagesModal, LeaderBoard} from "../../components"
 import './styles.css'
 
 function ProfilePage () {
@@ -42,11 +42,8 @@ function ProfilePage () {
 
             <div className="profile-left">
                 <div className="leaderboard-container">
-                        {user && user.role=='student'?
-                            <p>LeaderBoard</p>
-                        :
-                            <p>My Students</p>
-                        }
+                    LeaderBoard
+                    {<LeaderBoard />}
                 </div>
             </div>
 
