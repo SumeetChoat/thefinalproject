@@ -20,6 +20,7 @@ import ToggleButton from "../../components/ToggleButton";
 function ChallengePage() {
   const { currentAssignment, setCurrentAssignment } = useAssignments();
   const { user } = useAuth();
+  const [noteCount, setNoteCount] = useState(0);
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [round, setRound] = useState(null);
@@ -200,12 +201,10 @@ function ChallengePage() {
     } else {
       let pitch = ac;
       var note = noteFromPitch(pitch);
-      console.log(note);
       if (
         note == challenge[currentIndex].note &&
         challenge[currentIndex].isCorrect !== true
       ) {
-        console.log(note);
         const newState = [...challenge];
         newState[currentIndex].isCorrect = true;
         setChallenge(newState);
@@ -292,7 +291,7 @@ function ChallengePage() {
         }
       }
     }
-
+    setNoteCount((prev) => prev + newChallenge.length);
     setChallenge(newChallenge);
     setCurrentIndex(0);
   }
@@ -312,7 +311,6 @@ function ChallengePage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
-
   useEffect(() => {
     if (mic) {
       startPitchDetect();
@@ -448,6 +446,7 @@ function ChallengePage() {
             showFinishAssignmentModal={showFinishAssignmentModal}
             setShowFinishAssignmentModal={setShowFinishAssignmentModal}
             time={time}
+            noteCount={noteCount}
           />
         </div>
       </div>
