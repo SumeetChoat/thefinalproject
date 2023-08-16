@@ -15,16 +15,16 @@
   align-items: flex-end;
 }
 
-.friends-list, .assignments-list, .friend-requests-list, .message-container{
+.friends-list, .assignments-list, .friend-requests-list, .message-container, .leaderboard-list{
     list-style-type: none;
 }
-.friends-item, .assignments-item, .friend-requests-item{
+.friends-item, .assignments-item, .friend-requests-item, .lb-item{
     padding: 5px;
     display: flex;
     justify-content: center;
 }
 
-.connections-container, .assignments-container, .assignments-item, .friend-requests-container, .messages-modal{
+.connections-container, .assignments-container, .assignments-item, .friend-requests-container, .messages-modal, .leaderboard-container{
     justify-items: center;
     padding: 20px 0;
     justify-content: space-around;
@@ -35,7 +35,19 @@
     box-shadow: 0 8px 20px rgb(210, 210, 210);
 }
 
-.connections-container, .assignments-container, .friend-requests-container, .chat-container {
+.connections-container, .friend-requests-container{
+  height: 100px;
+}
+
+.assignments-container, .assignments-item, .messages-modal, .leaderboard-container{
+  height: 200px;
+}
+
+.assignments-completed, .assignments-incomplete{
+  width: 300px;
+}
+
+.connections-container, .assignments-container, .friend-requests-container, .chat-container, .leaderboard-container {
     max-height: 800px;
     overflow-y: scroll;
     scroll-behavior: smooth;
@@ -62,6 +74,15 @@
 
 }
 
+.leaderboard-container{
+  display: grid;
+  justify-content: center;
+}
+
+.lb-item{
+  display: inline-flex;
+}
+
 .assignments-lists {
   display: flex;
   justify-content: space-around;
@@ -74,7 +95,7 @@
     justify-content: space-evenly;
 }
 
-.friends-item, .friend-requests-item{
+.friends-item, .friend-requests-item, .lb-item{
     justify-content: space-around;
     width: 100%;
     align-items: center;
@@ -215,3 +236,22 @@
   margin: 0 0 0.2rem 0;
 }
 
+.lb-username{
+  justify-content: flex-start;
+}
+
+.lb-points{
+  justify-content: flex-end;
+}
+
+.lb-item {
+  border-radius: 10px;
+}
+
+.lb-other{
+  background-color: pink;
+}
+
+.lb-self{
+  background-color: purple;
+}
