@@ -35,7 +35,7 @@ class Users {
   }
 
   static async getStudentsPoints(){
-    const resp = await db.query('SELECT users.username,first_name,last_name,students.points FROM users JOIN students ON users.username = students.username')
+    const resp = await db.query('SELECT users.username,first_name,last_name,students.points FROM users JOIN students ON users.username = students.username ORDER BY students.points DESC')
     if (resp.rows.length == 0){
       throw new Error('No users found.')
     } else {
