@@ -42,27 +42,27 @@ function ProfilePage () {
 
             <div className="profile-left">
                 <div className="leaderboard-container">
-                    LeaderBoard
+                    <p className="container-title">Leader Board</p>
                     {<LeaderBoard />}
                 </div>
             </div>
 
             <div className="profile-middle">
                 <div className="assignments-container">
-                    Assignments
+                    <p className="container-title">Assignments</p>
                     {<Assignments trash={trash} start={start} edit={edit}/>}
                 </div>
             </div>  
 
             <div className="profile-right">
-                <div className="friend-requests-container">
-                    Friend Requests
-                    {<FriendRequests accept={accept} decline={decline} pending={pending} add={add}/>}
-                </div>
                 <div className="connections-container">
-                    {user && user.role === 'student' ? <p>Friends</p> : <p>Connections</p>}
+                    <p className="container-title">Connections</p>
                     {<Friends trash={trash} message={message} search={search} setShowMessages={setShowMessages}/>} 
                 </div> 
+                <div className="friend-requests-container">
+                    <p className="container-title">Connection Requests</p>
+                    {<FriendRequests accept={accept} decline={decline} pending={pending} add={add}/>}
+                </div>
             </div>  
 
             <div className={showHideClassName}>

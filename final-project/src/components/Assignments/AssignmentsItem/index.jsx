@@ -25,8 +25,8 @@ function AssignmentsItem({assignment, trash, start, edit}) {
             <p>
                 Date:{" "}
                 <span className="assignment-row-data-span">
-                {a.assigned_date}
-                </span>
+                    {a.date_assigned.slice(0, 10)}
+                  </span>
             </p>
                 {role == 'student' ? 
                 <p>Teacher:{" "}
@@ -63,11 +63,12 @@ function AssignmentsItem({assignment, trash, start, edit}) {
                 </button>
             </div>
             : 
-            <div className="assignment-btn">
-                <button className='start-btn'>
-                    <div className="btn-icon" dangerouslySetInnerHTML={{ __html: start}}/>
-                </button>
-            </div>
+            // <div className="assignment-btn">
+            //     <button className='start-btn'>
+            //         <div className="btn-icon" dangerouslySetInnerHTML={{ __html: start}}/>
+            //     </button>
+            // </div>
+            ""
             }
         </div>
         );
