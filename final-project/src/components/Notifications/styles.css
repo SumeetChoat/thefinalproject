@@ -1,0 +1,59 @@
+.notification-modal{
+    border-radius: 10px;
+
+    justify-items: center;
+    padding: 20px 0;
+    justify-content: space-around;
+    color: black;
+    border-radius: 25px;
+    box-shadow: 0 8px 20px rgb(210, 210, 210);
+
+    padding: 30px;
+    position: absolute;
+    top: 10%;
+    right: 2%;
+    background-color: rgb(149, 119, 215);
+    font-size: 20px;
+
+    max-height: 200px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.notification-modal .close-modal-btn{
+float: right;
+}
+
+.notification-header{
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.notification-list{
+    list-style-type: none;
+    width: fit-content;
+    display: grid;
+}
+
+.notification-item{
+    padding: 5px;
+    justify-content: space-between;
+}
+
+.notification-item span{
+    padding: 5px;
+}
+
+.notification-item button{
+    float: right;
+}
+
+.notification-modal .delete-btn, .notification-modal .close-modal-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+}
+.notification-modal .delete-btn:hover .svg-icon path {
+    fill: white;
+}
