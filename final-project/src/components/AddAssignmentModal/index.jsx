@@ -1,9 +1,7 @@
 import { useEffect, useRef } from "react";
 import { patternArr } from "../../assets/pattern";
-
-import { useAuth } from "../../contexts";
 import { socket } from "../../socket";
-// import "./styles.css";
+import "./styles.css";
 
 /* eslint-disable react/prop-types */
 function AddAssignmentModal({
@@ -14,7 +12,6 @@ function AddAssignmentModal({
   handleAddAssignment,
 }) {
   const dialogRef = useRef();
-  const {user} = useAuth();
 
   useEffect(() => {
     if (toggleChallengeConfigModal) {
@@ -34,9 +31,9 @@ function AddAssignmentModal({
   }
 
   return (
-    <dialog ref={dialogRef}>
-      <h1 className="challenge-config-modal-title">Challenge Configuration</h1>
-      <div className="challenge-config-modal-input-group">
+    <dialog ref={dialogRef} className="add-assignment-dialog">
+      <h1 className="add-assignment-dialog-modal-title">Create Assignment</h1>
+      <div className="add-assignment-dialog-modal-input-group">
         <label htmlFor="studentUsername">Student Username:</label>
         <input
           type="text"
@@ -47,7 +44,7 @@ function AddAssignmentModal({
           }
         />
       </div>
-      <div className="challenge-config-modal-input-group">
+      <div className="add-assignment-dialog-modal-input-group">
         <label htmlFor="range">Range: </label>
         <select
           name="range-low-name"
@@ -114,7 +111,7 @@ function AddAssignmentModal({
         </select>
       </div>
 
-      <div className="challenge-config-modal-input-group">
+      <div className="add-assignment-dialog-modal-input-group">
         <label htmlFor="clef">Clef:</label>
         <input
           type="radio"
@@ -135,7 +132,7 @@ function AddAssignmentModal({
         />
         <label htmlFor="bass-clef">Bass Clef</label>
       </div>
-      <div className="challenge-config-modal-input-group">
+      <div className="add-assignment-dialog-modal-input-group">
         <label htmlFor="rounds">Number of Rounds:</label>
         <input
           type="number"
@@ -146,7 +143,7 @@ function AddAssignmentModal({
           }
         />
       </div>
-      <div className="challenge-config-modal-input-group">
+      <div className="add-assignment-dialog-modal-input-group">
         <label htmlFor="">Pattern:</label>
         <div className="pattern-config-modal-random-section">
           <div className="checkbox-group">
@@ -160,7 +157,7 @@ function AddAssignmentModal({
             />
             <label htmlFor="random">Random Note(s)</label>
           </div>
-          <div className="challenge-config-modal-input-group">
+          <div className="add-assignment-dialog-modal-input-group">
             <label htmlFor="length">Length:</label>
             <select
               name="length"
@@ -258,32 +255,33 @@ function AddAssignmentModal({
           </div>
         </div>
       </div>
-
-      <button
-        className="pattern-config-modal-button"
-        onClick={() => {
-          setToggleChallengeConfigModal(!toggleChallengeConfigModal);
-        }}
-      >
-        Cancel
-      </button>
-      <button
-        className="pattern-config-modal-button"
-        onClick={async () => {
-          if (
-            Array.from(
-              dialogRef.current.querySelectorAll("input[type='checkbox']")
-            ).some((el) => el.checked)
-          ) {
-            const newAssignment = await handleAddAssignment(form);
-            socket.emit("add_assignment", newAssignment);
-          } else {
-            alert("Please check at least 1 checkbox.");
-          }
-        }}
-      >
-        Save
-      </button>
+      <div className="add-assignment-dialog-modal-button-section">
+        <button
+          className="add-assignment-dialog-modal-button cancel-button"
+          onClick={() => {
+            setToggleChallengeConfigModal(!toggleChallengeConfigModal);
+          }}
+        >
+          Cancel
+        </button>
+        <button
+          className="add-assignment-dialog-modal-button save-button"
+          onClick={async () => {
+            if (
+              Array.from(
+                dialogRef.current.querySelectorAll("input[type='checkbox']")
+              ).some((el) => el.checked)
+            ) {
+              const newAssignment = await handleAddAssignment(form);
+              socket.emit("add_assignment", newAssignment);
+            } else {
+              alert("Please check at least 1 checkbox.");
+            }
+          }}
+        >
+          Save
+        </button>
+      </div>
     </dialog>
   );
 }

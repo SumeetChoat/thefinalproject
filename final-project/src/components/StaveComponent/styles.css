@@ -1,17 +1,23 @@
 .svg-container {
   margin: 0;
+  margin-left: 2rem;
   padding: 30px;
   height: 80%;
   overflow: hidden;
+  box-shadow: 0 10px 20px #9a83c8;
+  border-radius: 5rem;
+  background-color: rgb(240, 231, 219);
 }
 .svg-container svg {
-  scale: 2;
-  translate: 50% 50%;
+  scale: 1.8;
+  padding: 6vw;
+  padding-top: 6vw;
+  padding-left: 7vw;
   display: block;
   height: 100%;
+  width: 100% !important;
 }
 @media screen and (max-width: 900px) {
-
   .svg-container svg {
     scale: 1.4;
     translate: 11% 0;

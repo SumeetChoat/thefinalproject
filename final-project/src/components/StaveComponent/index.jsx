@@ -73,7 +73,6 @@ function StaveComponent({ challenge, form }) {
     const line = new StaveConnector(stave1, stave2);
     connector.setType("brace");
     connector.setContext(context);
-    connector.setText("Piano");
     line.setType("single");
     connector.setContext(context);
     line.setContext(context);

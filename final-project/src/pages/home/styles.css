@@ -4,10 +4,20 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.255);
+  background-color: rgba(101, 101, 101, 0.517);
 }
 .home-nav {
   margin: 0 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.home-nav ul {
+  list-style: none;
+}
+.home-nav a {
+  text-decoration: none;
 }
 .background-video {
   position: absolute;
@@ -25,8 +35,8 @@
   padding: 1.3rem 3rem;
   border-radius: 50px;
   border: 4px solid var(--primary-purple);
-  color: var(--primary-purple);
-  background-color: rgba(0, 0, 0, 0.425);
+  color: rgb(194, 194, 194);
+  background-color: rgba(0, 0, 0, 0.641);
   cursor: pointer;
   transition: all 0.5s;
 }
@@ -44,16 +54,17 @@
   width: 80px;
 }
 .home-login-button {
-  outline: 2px solid var(--secondary-red);
-  background-color: rgba(255, 255, 255, 0.124);
+  outline: 3px solid var(--primary-purple);
+  background-color: rgba(0, 0, 0, 0.641);
   padding: 1rem;
-  border-radius: 20px;
-  color: var(--secondary-red);
+  border-radius: 50px;
+  color: white;
   padding-inline: 2rem;
   transition: all 0.5s;
 }
 .home-login-button:hover {
   background-color: var(--secondary-red);
+  outline: 3px solid var(--secondary-red);
   color: white;
 }
 .home-slogan {

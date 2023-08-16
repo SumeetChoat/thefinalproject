@@ -83,57 +83,49 @@ export default function RegisterForm({
 
   return (
     <form onSubmit={handleSubmit} className="register-form">
-      <div className="login-input-group">
-        <label>
-          First Name:{" "}
-          <input
-            type="text"
-            className="login-text-input"
-            name="firstName"
-            value={newUser.firstName}
-            onChange={(e) => handleChange(e)}
-          />
-        </label>
+      <div className="register-input-group">
+        <label>First Name: </label>
+        <input
+          type="text"
+          className="register-text-input"
+          name="firstName"
+          value={newUser.firstName}
+          onChange={(e) => handleChange(e)}
+        />
       </div>
-      <div className="login-input-group">
-        <label>
-          Last Name:{" "}
-          <input
-            type="text"
-            className="login-text-input"
-            name="lastName"
-            value={newUser.lastName}
-            onChange={(e) => handleChange(e)}
-          />
-        </label>
+      <div className="register-input-group">
+        <label>Last Name: </label>
+        <input
+          type="text"
+          className="register-text-input"
+          name="lastName"
+          value={newUser.lastName}
+          onChange={(e) => handleChange(e)}
+        />
       </div>
-      <div className="login-input-group">
-        <label>
-          Email:{" "}
-          <input
-            type="email"
-            className="login-text-input"
-            name="email"
-            value={newUser.email}
-            onChange={(e) => handleChange(e)}
-          />
-        </label>
+      <div className="register-input-group">
+        <label>Email: </label>
+        <input
+          type="email"
+          className="register-text-input"
+          name="email"
+          value={newUser.email}
+          onChange={(e) => handleChange(e)}
+        />
       </div>
-      <div className="login-input-group">
-        <label>
-          Username:{" "}
-          <input
-            type="text"
-            className="login-text-input"
-            name="username"
-            value={newUser.username}
-            onChange={(e) => handleChange(e)}
-          />
-        </label>
+      <div className="register-input-group">
+        <label>Username: </label>
+        <input
+          type="text"
+          className="register-text-input"
+          name="username"
+          value={newUser.username}
+          onChange={(e) => handleChange(e)}
+        />
       </div>
-      <div className="login-input-group">
-        <label>
-          Role:{" "}
+      <div className="register-input-group">
+        <label>Role: </label>
+        <div className="">
           <input
             type="radio"
             name="role"
@@ -150,19 +142,17 @@ export default function RegisterForm({
             onChange={() => setNewUser({ ...newUser, role: "teacher" })}
           />
           <label htmlFor="teacher">Teacher</label>
-        </label>
+        </div>
       </div>
-      <div className="login-input-group ">
-        <label>
-          Password:{" "}
-          <input
-            type="password"
-            name="password"
-            value={newUser.password}
-            onChange={(e) => handleChange(e)}
-            className="login-text-input"
-          />
-        </label>
+      <div className="register-input-group ">
+        <label>Password: </label>
+        <input
+          type="password"
+          name="password"
+          value={newUser.password}
+          onChange={(e) => handleChange(e)}
+          className="register-text-input"
+        />
       </div>
       <input type="submit" value="Register" className="login-submit" />
       <p className="login-register-switch">

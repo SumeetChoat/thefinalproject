@@ -23,7 +23,7 @@ function Home() {
       </nav>
       <div className="home-body-container">
         <div className="home-center-section">
-          <h1 className="home-slogan">Play the notes, Master the music!</h1>
+          <h1 className="home-slogan">Play the notes, master the music!</h1>
           <button className="try-it-button">Learn More</button>
         </div>
       </div>

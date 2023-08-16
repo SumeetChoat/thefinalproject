@@ -41,6 +41,15 @@ class UserController {
 
   }
 
+  static async getAll(req,res) {
+    try{
+      const resp = await Users.getAll()
+      res.status(200).send(resp)
+    } catch (err) {
+      res.status(500).json({"error": err.message})
+    }
+  }
+
   static async login(req, res) {
     try {
       const data = req.body;

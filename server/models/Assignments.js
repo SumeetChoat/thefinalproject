@@ -129,6 +129,7 @@ class Assignments {
   static async updateAssignment(assignment_id, data) {
     const current = await Assignments.getOneByID(assignment_id);
     const { range, pattern, completed, score, clef, key } = data;
+    console.log(current);
     const resp = await db.query(
       `UPDATE assignments 
         SET range=$1, pattern=$2, completed=$3, score=$4, clef=$5, key=$6

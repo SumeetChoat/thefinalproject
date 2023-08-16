@@ -1,0 +1,18 @@
+.finish-assignment-modal {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 4rem;
+  border: none;
+  border-radius: 5rem;
+}
+.finish-assignment-modal-button {
+  padding: 1rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: var(--secondary-red);
+  color: white;
+  font-size: 1.2rem;
+  margin: 2rem;
+  cursor: pointer;
+}

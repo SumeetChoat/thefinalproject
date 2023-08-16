@@ -10,7 +10,8 @@ userRouter.post("/getUserByToken", usersController.getUserByToken);
 
 userRouter.use(authenticator);
 
-userRouter.get('/:username', usersController.getByUsername)
+userRouter.get('/', usersController.getAll)
+userRouter.get('/:username',usersController.getByUsername)
 
 userRouter.patch("/update", usersController.updateDetails);
 
