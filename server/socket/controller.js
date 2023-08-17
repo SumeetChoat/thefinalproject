@@ -61,8 +61,8 @@ function controller(io) {
             const noti = await Notifications.create_message_received(message.sender, message.recipient);
 
             // Need to send message back to sender and recipient.
-            io.to(socket.id).emit("message", message); // back to sender
-            io.to(users[message.recipient]).emit("message", message); // to recipient
+            io.to(socket.id).emit("message", msg); // back to sender
+            io.to(users[message.recipient]).emit("message", msg); // to recipient
 
             // Need to send recipient the notification
             io.to(users[message.recipient]).emit("notification", noti);
