@@ -155,7 +155,7 @@ function controller(io) {
     socket.on("complete_assignment", async (data) => {
         // Needs to contain sender(student name), recipient(teacher name), time
         const noti = await Notifications.create_assignment_completed(data.recipient, data.sender, data.time/100);
-        io.to(users[data.recipient]).emit("completed_assignment", msg);
+        io.to(users[data.recipient]).emit("completed_assignment", noti);
     })
 
     socket.on("delete_noti", async (username) => {
