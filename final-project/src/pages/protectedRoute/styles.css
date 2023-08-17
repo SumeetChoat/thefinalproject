@@ -48,8 +48,15 @@
   background: var(--secondary-red);
 }
 
-.bell-btn{
+.bell-btn {
   background-color: transparent;
   border: none;
   font-size: 1.2rem;
+}
+.notification-reminder {
+  height: 10px;
+  width: 10px;
+  background-color: var(--secondary-red);
+  border-radius: 50%;
+  float: right;
 }
