@@ -160,7 +160,8 @@ function ProtectedRoute() {
         setAssignmentList((assignmentList) => [...assignmentList, obj]);
       });
 
-      socket.on("delet_noti", (username) => {
+      socket.on("delete_noti", username => {
+        "DELETE_NOTI EVENT FIRING"
         setNotifications([]);
       });
     } catch (error) {
@@ -169,16 +170,8 @@ function ProtectedRoute() {
   }, [user]);
 
   useEffect(() => {
-    console.log("MESSAGES: ", messages);
-  }, [messages]);
-
-  useEffect(() => {
-    console.log("Friend_REQ: ", sentRequests);
-  }, [sentRequests]);
-
-  useEffect(() => {
-    console.log("FRIENDS: ", friends);
-  }, [friends]);
+    console.log("NOTIFICATIONS: ", notifications)
+  }, [notifications])
 
   return (
     <div className="body-container">

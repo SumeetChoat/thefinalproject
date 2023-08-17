@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useRef, useEffect, useState } from "react";
 import "./styles.css";
-import { useAssignments } from "../../contexts";
+import { useAssignments, useAuth } from "../../contexts";
+import {socket} from '../../socket';
+
 function FinishAssignmentModal({
   showFinishAssignmentModal,
   setShowFinishAssignmentModal,
@@ -14,6 +16,7 @@ function FinishAssignmentModal({
   console.log(currentAssignment);
   const minutes = Math.floor((time % 360000) / 6000);
   const seconds = Math.floor((time % 6000) / 100);
+  const {user} = useAuth();
 
   useEffect(() => {
     if (showFinishAssignmentModal) {
@@ -82,8 +85,9 @@ function FinishAssignmentModal({
       }
     );
     if (res.ok) {
+      socket.emit("complete_assignment", {"sender":user.username, "recipient":currentAssignment.teacher_user, "time":time});
       setShowFinishAssignmentModal(false);
-      setCurrentAssignment(null);
+      setCurrentAssignment(null);    
     } else {
       console.log("something went wrong");
     }

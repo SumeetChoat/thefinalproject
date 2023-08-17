@@ -1,6 +1,7 @@
 import { useNotifications, useAuth } from "../../contexts";
 import "./styles.css";
 import Notification from "./Notification";
+import {socket} from '../../socket';
 
 function Notifications({ handleClose }) {
   const { user } = useAuth();
@@ -14,6 +15,8 @@ function Notifications({ handleClose }) {
 
   function deleteAll() {
     console.log("deleting all notifications");
+    socket.emit("delete_noti", user.username);
+
   }
 
   return (

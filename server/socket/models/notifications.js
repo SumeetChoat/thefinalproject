@@ -49,9 +49,9 @@ class Notifications {
         return new Notifications(response.rows[0]);
     }
 
-    static async create_assignment_completed(teacher, student) {
+    static async create_assignment_completed(teacher, student, time_taken) {
         const time = new Date();
-        const message = `${student} has completed an assignment.`
+        const message = `${student} has completed an assignment in ${time_taken}s.`
         const response = await db.query('INSERT INTO notifications(username, message, time_sent) VALUES ($1, $2, $3) RETURNING *', [teacher, message, time]);
         return new Notifications(response.rows[0]);
     }
