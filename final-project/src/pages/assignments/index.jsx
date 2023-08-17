@@ -8,7 +8,7 @@ import { socket } from "../../socket";
 
 function Assignments() {
   const { setCurrentAssignment } = useAssignments();
-  const { assignmentList } = useAssignmentList();
+  const { assignmentList, setAssignmentList } = useAssignmentList();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
@@ -61,6 +61,7 @@ function Assignments() {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        token: localStorage.getItem("token"),
       },
       body: JSON.stringify({
         range,
@@ -77,7 +78,10 @@ function Assignments() {
       const assignment = await res.json();
       alert("Assignment added");
       setToggleChallengeConfigModal(!toggleChallengeConfigModal);
+      setAssignmentList([...assignmentList, assignment]);
       return assignment;
+    } else {
+      console.log("something went wrong");
     }
   }
 
