@@ -27,12 +27,14 @@ function FinishAssignmentModal({
       setScore(
         Math.ceil(
           Math.max(
-            (currentAssignment.range[0] - currentAssignment.range[1]) % 10,
+            (((currentAssignment.range[1] - currentAssignment.range[0]) % 10) *
+              4) /
+              15,
             1
           ) *
             Math.max(
               Math.min(
-                (5 * Math.pow(noteCount, 2)) / ((2 * time) / 100),
+                (5 * Math.pow(noteCount, 2)) / (time / 100),
                 5 * noteCount
               ),
               noteCount
@@ -44,12 +46,15 @@ function FinishAssignmentModal({
         Math.ceil(
           1.5 *
             Math.max(
-              (currentAssignment.range[0] - currentAssignment.range[1]) % 10,
+              (((currentAssignment.range[1] - currentAssignment.range[0]) %
+                10) *
+                4) /
+                15,
               1
             ) *
             Math.max(
               Math.min(
-                (5 * Math.pow(noteCount, 2)) / ((2 * time) / 100),
+                (5 * Math.pow(noteCount, 2)) / (time / 100),
                 5 * noteCount
               ),
               noteCount
