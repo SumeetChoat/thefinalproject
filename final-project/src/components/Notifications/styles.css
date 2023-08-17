@@ -52,7 +52,7 @@
   font-size: 20px;
 }
 .notification-modal .delete-btn:hover .svg-icon path {
-  fill: white;
+  fill: pink;
 }
 
 .delete-all-btn {

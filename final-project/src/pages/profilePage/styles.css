@@ -211,7 +211,7 @@
 }
 
 .close-modal-btn:hover .svg-icon path {
-  fill: white;
+  fill: var(--secondary-red);
 }
 
 .search-row {
