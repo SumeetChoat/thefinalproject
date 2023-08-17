@@ -33,6 +33,17 @@ class Users {
       return resp.rows[0];
     }
   }
+
+  static async getStudentsPoints(){
+    const resp = await db.query('SELECT users.username,first_name,last_name,students.points FROM users JOIN students ON users.username = students.username ORDER BY students.points DESC')
+    if (resp.rows.length == 0){
+      throw new Error('No users found.')
+    } else {
+      resp.rows.map((u) => new Users(u))
+      return resp.rows.map((u) => u)
+    }
+  }
+
   static async register(data) {
     const { username, password, first_name, last_name, email, role, title } =
       data;

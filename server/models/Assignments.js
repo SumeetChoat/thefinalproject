@@ -15,6 +15,8 @@ class Assignments {
     date_assigned,
     date_completed,
     time_taken,
+    is_random,
+    random_length
   }) {
     this.assignment_id = assignment_id;
     this.student_user = student_user;
@@ -29,6 +31,8 @@ class Assignments {
     this.date_assigned = date_assigned;
     this.date_completed = date_completed;
     this.time_taken = time_taken;
+    this.is_random = is_random;
+    this.random_length = random_length;
   }
 
   static async getStudentsAssignments(student_user) {
@@ -125,6 +129,7 @@ class Assignments {
   static async updateAssignment(assignment_id, data) {
     const current = await Assignments.getOneByID(assignment_id);
     const { range, pattern, completed, score, clef, key } = data;
+    console.log(current);
     const resp = await db.query(
       `UPDATE assignments 
         SET range=$1, pattern=$2, completed=$3, score=$4, clef=$5, key=$6
@@ -150,8 +155,8 @@ class Assignments {
     const { assignment_id, score, date_completed, time_taken } = data;
     const resp = await db.query(
       `UPDATE assignments
-        SET completed=$1,score=$2, completed=$3,time_taken=$4,date_completed=$5
-        WHERE assignment_id = $6
+        SET completed=$1,score=$2,time_taken=$3,date_completed=$4
+        WHERE assignment_id = $5
         RETURNING assignment_id`,
       [true, score, time_taken, date_completed, assignment_id]
     );

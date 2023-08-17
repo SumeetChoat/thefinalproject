@@ -7,10 +7,9 @@ import { useNavigate } from "react-router-dom";
 import AddAssignmentModal from "../../components/AddAssignmentModal";
 import { socket } from "../../socket";
 
-
 function Assignments() {
   const { setCurrentAssignment } = useAssignments();
-  const { assignmentList } = useAssignmentList();
+  const { assignmentList, setAssignmentList } = useAssignmentList();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
@@ -59,11 +58,11 @@ function Assignments() {
     let range = [];
     range[0] = noteStrings.indexOf(form.lowNote) + (form.lowOctave + 1) * 12;
     range[1] = noteStrings.indexOf(form.highNote) + (form.highOctave + 1) * 12;
-    console.log(range);
     const res = await fetch("http://localhost:3000/teachers/assignment", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        token: localStorage.getItem("token"),
       },
       body: JSON.stringify({
         range,
@@ -80,12 +79,20 @@ function Assignments() {
       const assignment = await res.json();
       alert("Assignment added");
       setToggleChallengeConfigModal(!toggleChallengeConfigModal);
-      return assignment
+      setAssignmentList([...assignmentList, assignment]);
+      return assignment;
+    } else {
+      console.log("something went wrong");
     }
   }
 
   return (
     <div className="assignment-wrapper">
+      <img
+        src="content-background3.JPG"
+        alt="content-background"
+        className="assignment-content-background"
+      />
       {
         <AddAssignmentModal
           toggleChallengeConfigModal={toggleChallengeConfigModal}
@@ -119,12 +126,13 @@ function Assignments() {
             const highOctave =
               a.range[1] < 24 ? 0 : Math.floor((a.range[1] - 24) / 12) + 1;
             const highNoteName = a.range[1] % 12;
+
             return (
               <div className="assignment-row" key={i}>
                 <p>
                   Date:{" "}
                   <span className="assignment-row-data-span">
-                    {a.assigned_date}
+                    {a.date_assigned.slice(0, 10)}
                   </span>
                 </p>
                 <p className="span-2">
@@ -171,7 +179,10 @@ function Assignments() {
                       if (a.completed) {
                         console.log(a);
                       } else {
-                        socket.emit("reminder", {"sender":a.teacher_user, "recipient":a.student_user});
+                        socket.emit("reminder", {
+                          sender: a.teacher_user,
+                          recipient: a.student_user,
+                        });
                       }
                     }}
                   >

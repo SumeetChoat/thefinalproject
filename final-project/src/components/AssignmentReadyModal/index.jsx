@@ -28,7 +28,6 @@ function AssignmentReadyModal({
     generateNewChallenge();
     setIsRunning(true);
   }
-  console.log(currentAssignment);
   return (
     <dialog className="assignment-ready-modal" ref={dialogRef}>
       <h1 className="assignment-ready-modal-title">Assignment</h1>
@@ -36,11 +35,14 @@ function AssignmentReadyModal({
         <tbody>
           <tr className="assignment-ready-modal-tr">
             <td>Date:</td>
-            <td>{currentAssignment.assigned_date}</td>
+            <td>{currentAssignment.date_assigned.slice(0, 10)}</td>
           </tr>
           <tr className="assignment-ready-modal-tr">
             <td>Clef:</td>
-            <td>{currentAssignment.clef}</td>
+            <td>
+              {currentAssignment.clef.charAt(0).toUpperCase() +
+                currentAssignment.clef.slice(1)}
+            </td>
           </tr>
           <tr className="assignment-ready-modal-tr">
             <td>Pattern:</td>
@@ -67,7 +69,7 @@ function AssignmentReadyModal({
       <div className="assignment-ready-modal-button-section">
         <button
           type="button"
-          className="assignment-ready-modal-button"
+          className="assignment-ready-modal-button cancel-button"
           onClick={() => {
             setCurrentAssignment(null);
             setShowAssignmentReadyModal(false);
@@ -77,7 +79,7 @@ function AssignmentReadyModal({
           Cancel
         </button>
         <button
-          className="assignment-ready-modal-button"
+          className="assignment-ready-modal-button save-button"
           onClick={handleStartAssignment}
         >
           Start Assignment

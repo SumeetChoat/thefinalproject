@@ -1,21 +1,42 @@
 .assignment-wrapper {
   width: 80%;
   margin: 0 auto;
+  padding: 3rem;
+  height: 70%;
+  border-radius: 5rem;
+  /* background-image: url("content-background3.JPG"); */
+  background-color: rgba(255, 255, 255, 0.158);
+  overflow: hidden;
+  position: relative;
 }
-
+.assignment-display-section {
+  overflow: scroll;
+  height: 80%;
+}
+.assignment-content-background {
+  z-index: -11;
+  position: absolute;
+  opacity: 0.6;
+  height: 120%;
+  width: 100%;
+  top: 0%;
+  left: 0%;
+  transform: translate(-50% -50%);
+}
 .assignment-row {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   align-items: center;
   padding: 20px 0;
-
+  text-align: center;
   justify-content: space-around;
   color: grey;
-
+  background-color: rgb(247, 244, 241);
   border-radius: 25px;
   margin: 25px auto;
   padding: 30px;
-  box-shadow: 0 8px 20px rgb(210, 210, 210);
+  width: 90%;
+  box-shadow: 0 10px 20px rgb(154, 132, 175);
 }
 
 .assignment-pattern-img {
@@ -30,6 +51,11 @@
 .assignment-row-play-button {
   padding: 1rem;
   cursor: pointer;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--secondary-red);
+  color: white;
+  font-size: 1rem;
 }
 .span-2 {
   grid-column: span 2;
@@ -38,9 +64,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 5rem 0 3rem 0;
+  margin: 1rem 2rem 2rem 2rem;
+  color: white;
+  position: sticky;
+  top: 0;
 }
 .add-assignment-button {
   padding: 1rem;
   height: fit-content;
+  background-color: var(--secondary-red);
+  border: none;
+  font-size: 1.2rem;
+  color: white;
+  border-radius: 1rem;
+  cursor: pointer;
 }

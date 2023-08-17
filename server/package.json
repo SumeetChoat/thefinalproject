@@ -5,7 +5,7 @@
     "dev": "nodemon -L index.js",
     "test": "jest --watchAll --detectOpenHandles",
     "coverage": "jest --coverage",
-    "ind_test": "jest __tests__/unit --watchAll --detectOpenHandles"
+    "ind_test": "jest __tests__/integration --watchAll --detectOpenHandles"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "jest": "^29.6.2",
+    "socket.io-client": "^4.7.2",
     "supertest": "^6.3.3"
   }
 }

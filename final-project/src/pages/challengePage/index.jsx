@@ -16,60 +16,23 @@ import AssignmentReadyModal from "../../components/AssignmentReadyModal";
 import { useAssignments, useAuth } from "../../contexts";
 import FinishAssignmentModal from "../../components/FinishAssignmentModal";
 import Stopwatch from "../../components/StopWatch";
+import ToggleButton from "../../components/ToggleButton";
 
 function ChallengePage() {
   const { currentAssignment, setCurrentAssignment } = useAssignments();
   const { user } = useAuth();
-  console.log(user);
+  const [noteCount, setNoteCount] = useState(0);
+  const [time, setTime] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
   const [round, setRound] = useState(null);
+  const [mic, setMic] = useState(false);
   const [showAssignmentReadyModal, setShowAssignmentReadyModal] =
     useState(false);
   const [showFinishAssignmentModal, setShowFinishAssignmentModal] = useState();
-  useEffect(() => {
-    if (currentAssignment) {
-      setRound(currentAssignment.round);
-      const lowOctave =
-        currentAssignment.range[0] < 24
-          ? 0
-          : Math.floor((currentAssignment.range[0] - 24) / 12) + 1;
-      const lowNoteName = currentAssignment.range[0] % 12;
-      const highOctave =
-        currentAssignment.range[1] < 24
-          ? 0
-          : Math.floor((currentAssignment.range[1] - 24) / 12) + 1;
-      const highNoteName = currentAssignment.range[1] % 12;
-      const newForm = {
-        ...form,
-        clef: currentAssignment.clef,
-        range: [`${lowNoteName}${lowOctave}`, `${highNoteName}${highOctave}`],
-        lowNote: lowNoteName,
-        lowOctave: lowOctave,
-        highNote: highNoteName,
-        highOctave: highOctave,
-        randomNote: currentAssignment.pattern.length === 0 ? true : false,
-      };
-      if (currentAssignment.pattern.length > 0) {
-        for (const pattern in newForm.pattern) {
-          if (currentAssignment.pattern.indexOf(pattern) !== -1) {
-            newForm.pattern[pattern] = true;
-          } else {
-            newForm.pattern[pattern] = false;
-          }
-        }
-      }
-      setForm(newForm);
-      setShowAssignmentReadyModal(true);
-    }
-  }, [currentAssignment]);
-  // state to store time
-  const [time, setTime] = useState(0);
-  // state to check stopwatch running or not
-  const [isRunning, setIsRunning] = useState(false);
-
   const [form, setForm] = useState({
     lowNote: "C",
     lowOctave: 4,
-    highNote: "G",
+    highNote: "C",
     highOctave: 4,
     clef: "bass",
     randomNote: false,
@@ -77,7 +40,7 @@ function ChallengePage() {
     key: "C",
     pattern: {
       l2p1: true,
-      l2p2: true,
+      l2p2: false,
       l2p3: false,
       l2p4: false,
       l2p5: false,
@@ -98,6 +61,82 @@ function ChallengePage() {
     },
   });
 
+  useEffect(() => {
+    if (currentAssignment) {
+      setRound(currentAssignment.round);
+      const lowOctave =
+        currentAssignment.range[0] < 24
+          ? 0
+          : Math.floor((currentAssignment.range[0] - 24) / 12) + 1;
+      const lowNoteName = currentAssignment.range[0] % 12;
+      const highOctave =
+        currentAssignment.range[1] < 24
+          ? 0
+          : Math.floor((currentAssignment.range[1] - 24) / 12) + 1;
+      const highNoteName = currentAssignment.range[1] % 12;
+      const newForm = {
+        ...form,
+        clef: currentAssignment.clef,
+        lowNote: noteStrings[lowNoteName],
+        lowOctave: lowOctave,
+        highNote: noteStrings[highNoteName],
+        highOctave: highOctave,
+        randomNote: currentAssignment.pattern.length === 0 ? true : false,
+      };
+      if (currentAssignment.pattern.length > 0) {
+        for (const pattern in newForm.pattern) {
+          if (currentAssignment.pattern.indexOf(pattern) !== -1) {
+            newForm.pattern[pattern] = true;
+          } else {
+            newForm.pattern[pattern] = false;
+          }
+        }
+      }
+      setForm(newForm);
+      setShowAssignmentReadyModal(true);
+    } else {
+      setForm({
+        lowNote: "C",
+        lowOctave: 4,
+        highNote: "C",
+        highOctave: 4,
+        clef: "bass",
+        randomNote: false,
+        randomNoteLength: 4,
+        key: "C",
+        pattern: {
+          l2p1: true,
+          l2p2: false,
+          l2p3: false,
+          l2p4: false,
+          l2p5: false,
+          l3p1: false,
+          l3p2: false,
+          l3p3: false,
+          l3p4: false,
+          l3p5: false,
+          l3p6: false,
+          l3p7: false,
+          l3p8: false,
+          l4p1: false,
+          l4p2: false,
+          l4p3: false,
+          l4p4: false,
+          l4p5: false,
+          l4p6: false,
+        },
+      });
+      setChallenge([
+        { note: 60, isCorrect: false },
+        { note: 62, isCorrect: false },
+        { note: 64, isCorrect: false },
+        { note: 65, isCorrect: false },
+      ]);
+      setRound(null);
+      generateNewChallenge();
+    }
+  }, [currentAssignment]);
+
   const [toggleChallengeConfigModal, setToggleChallengeConfigModal] =
     useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -115,7 +154,6 @@ function ChallengePage() {
   function startPitchDetect() {
     // grab an audio context
     audioContext = new AudioContext();
-
     // Attempt to get audio input
     navigator.mediaDevices
       .getUserMedia({
@@ -138,6 +176,7 @@ function ChallengePage() {
         analyser.fftSize = 2048;
         mediaStreamSource.connect(analyser);
         updatePitch();
+        return audioContext;
       })
       .catch((err) => {
         // always check for errors at the end.
@@ -163,7 +202,6 @@ function ChallengePage() {
     } else {
       let pitch = ac;
       var note = noteFromPitch(pitch);
-
       if (
         note == challenge[currentIndex].note &&
         challenge[currentIndex].isCorrect !== true
@@ -221,10 +259,7 @@ function ChallengePage() {
         form.key.length < 2
           ? majorArr.map((n) => 24 + noteStrings.indexOf(form.key) + n)
           : minorArr.map((n) => 24 + noteStrings.indexOf(form.key) + n);
-
       const indexInKey = scale.findIndex((n) => (randomNote - n) % 12 === 0);
-
-      console.log(randomPattern);
       if (indexInKey !== -1) {
         console.log(randomNote);
         console.log(indexInKey);
@@ -245,7 +280,6 @@ function ChallengePage() {
         const newIndexInKey = scale.findIndex(
           (n) => (newRandomNote - n) % 12 === 0
         );
-        console.log(newIndexInKey);
         for (let i = 0; i < randomPattern.length; i++) {
           const newNoteObj = {
             note:
@@ -258,7 +292,7 @@ function ChallengePage() {
         }
       }
     }
-
+    setNoteCount((prev) => prev + newChallenge.length);
     setChallenge(newChallenge);
     setCurrentIndex(0);
   }
@@ -268,6 +302,7 @@ function ChallengePage() {
         if (round && currentAssignment) {
           if (round === currentAssignment.rounds) {
             setShowFinishAssignmentModal(true);
+            setIsRunning(false);
             return;
           }
           setRound((prev) => prev + 1);
@@ -275,111 +310,146 @@ function ChallengePage() {
         generateNewChallenge();
       }, 800);
     }
-    if (currentIndex !== 0) startPitchDetect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
-
+  useEffect(() => {
+    if (mic) {
+      startPitchDetect();
+    } else {
+      if (audioContext !== null) {
+        audioContext.close();
+        mediaStreamSource.stop();
+      }
+    }
+  }, [challenge, mic]);
   return (
-    <div className="challenge-container">
-      {currentAssignment && (
-        <AssignmentReadyModal
-          showAssignmentReadyModal={showAssignmentReadyModal}
-          setShowAssignmentReadyModal={setShowAssignmentReadyModal}
-          generateNewChallenge={generateNewChallenge}
-          setRound={setRound}
-          setIsRunning={setIsRunning}
-        />
-      )}
+    <div className="challenge-wrapper">
+      <img
+        src="content-background3.JPG"
+        alt="background"
+        className="content-background"
+      />
 
-      <div className="challenge-left-section">
-        <h1 className="challenge-title">
-          Play the following. Remember to hit the start button.
-        </h1>
-        <StaveComponent challenge={challenge} form={form} />
-      </div>
-      <div className="challenge-right-section">
-        {round && (
-          <div className="assignment-detail">
-            <h1>Assignment</h1>
-            <h3>
-              Round {round}/{currentAssignment.rounds}
-            </h3>
-          </div>
-        )}
+      <div className="challenge-container">
         {currentAssignment && (
-          <Stopwatch
-            time={time}
-            setTime={setTime}
-            isRunning={isRunning}
+          <AssignmentReadyModal
+            showAssignmentReadyModal={showAssignmentReadyModal}
+            setShowAssignmentReadyModal={setShowAssignmentReadyModal}
+            generateNewChallenge={generateNewChallenge}
+            setRound={setRound}
             setIsRunning={setIsRunning}
           />
         )}
-        <button onClick={startPitchDetect} className="challenge-button">
-          Start
-        </button>
-        {round && currentAssignment && (
-          <button
-            className="challenge-button"
-            onClick={() => {
-              if (
-                confirm(
-                  "Are you sure you want to quit the current assignment? Your progress will not be saved."
-                )
-              ) {
-                setCurrentAssignment(null);
-                setRound(null);
-                setChallenge([
-                  { note: 60, isCorrect: false },
-                  { note: 62, isCorrect: false },
-                  { note: 64, isCorrect: false },
-                  { note: 65, isCorrect: false },
-                ]);
-                setIsRunning(false);
-                setTime(0);
-              } else {
-                return;
-              }
-            }}
-          >
-            Quit Assignment
-          </button>
-        )}
-        {!round && !currentAssignment && (
-          <>
+
+        <div className="challenge-left-section">
+          <StaveComponent challenge={challenge} form={form} />
+        </div>
+        <div className="challenge-right-section">
+          <div className="mic-setting-section" onClick={() => setMic(!mic)}>
+            <ToggleButton
+              mic={mic}
+              setMic={setMic}
+              startPitchDetect={startPitchDetect}
+            />
+            <label htmlFor="mic" className="mic-setting-section-text-label">
+              Mic
+            </label>
+          </div>
+          {!currentAssignment && (
             <button
-              type="button"
-              onClick={() =>
-                setToggleChallengeConfigModal(!toggleChallengeConfigModal)
-              }
-              className="challenge-button"
-            >
-              Challenge Configuration
-            </button>
-            <button
-              type="button"
-              className="challenge-button"
+              className="challenge-config-modal-button"
               onClick={() => {
-                if (round && currentAssignment) {
-                  setRound((prev) => prev + 1);
-                }
-                generateNewChallenge();
+                setToggleChallengeConfigModal(true);
               }}
             >
-              Next
+              <span className="challenge-config-modal-label">
+                Challenge Settings
+              </span>
             </button>
-          </>
-        )}
-        <ChallengeConfigModal
-          toggleChallengeConfigModal={toggleChallengeConfigModal}
-          setToggleChallengeConfigModal={setToggleChallengeConfigModal}
-          generateNewChallenge={generateNewChallenge}
-          form={form}
-          setForm={setForm}
-        />
-        <FinishAssignmentModal
-          showFinishAssignmentModal={showFinishAssignmentModal}
-          setShowFinishAssignmentModal={setShowFinishAssignmentModal}
-        />
+          )}
+          {currentAssignment ? (
+            <div className="assignment-detail">
+              <h1>Assignment</h1>
+              <h3>
+                Round {round}/{currentAssignment.rounds}
+              </h3>
+            </div>
+          ) : (
+            <div className="assignment-detail span-2 challenge-instruction">
+              <h1 className="challenge-title">Challenge Mode</h1>
+              <div className="">
+                <p>Activate your microphone</p>
+                <p>Configure the pattern on Challenge settings</p>
+                <p>Press Next Challenge if you wish to move on</p>
+              </div>
+            </div>
+          )}
+          {currentAssignment && (
+            <Stopwatch
+              time={time}
+              setTime={setTime}
+              isRunning={isRunning}
+              setIsRunning={setIsRunning}
+            />
+          )}
+
+          {round && currentAssignment && (
+            <button
+              className="challenge-button next-challenge-button"
+              onClick={() => {
+                if (
+                  confirm(
+                    "Are you sure you want to quit the current assignment? Your progress will not be saved."
+                  )
+                ) {
+                  setCurrentAssignment(null);
+                  setRound(null);
+                  setChallenge([
+                    { note: 60, isCorrect: false },
+                    { note: 62, isCorrect: false },
+                    { note: 64, isCorrect: false },
+                    { note: 65, isCorrect: false },
+                  ]);
+                  setIsRunning(false);
+                  setTime(0);
+                } else {
+                  return;
+                }
+              }}
+            >
+              Quit Assignment
+            </button>
+          )}
+          {!round && !currentAssignment && (
+            <>
+              <button
+                type="button"
+                className="challenge-button next-challenge-button"
+                onClick={() => {
+                  if (round && currentAssignment) {
+                    setRound((prev) => prev + 1);
+                  }
+                  generateNewChallenge();
+                }}
+              >
+                Next Challenge
+              </button>
+            </>
+          )}
+          <ChallengeConfigModal
+            toggleChallengeConfigModal={toggleChallengeConfigModal}
+            setToggleChallengeConfigModal={setToggleChallengeConfigModal}
+            generateNewChallenge={generateNewChallenge}
+            form={form}
+            setForm={setForm}
+          />
+          <FinishAssignmentModal
+            showFinishAssignmentModal={showFinishAssignmentModal}
+            setShowFinishAssignmentModal={setShowFinishAssignmentModal}
+            time={time}
+            noteCount={noteCount}
+          />
+        </div>
       </div>
     </div>
   );

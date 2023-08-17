@@ -21,6 +21,7 @@ class UserController {
   static async getUserByToken(req, res) {
     try {
       const { token } = req.body;
+      console.log("Token in controller:", token);
       const user = await Users.getUserByToken(token);
       const { password, ...userInfo } = user;
       res.status(200).send(userInfo);
@@ -40,11 +41,20 @@ class UserController {
 
   }
 
+  static async getStudentsPoints(req,res) {
+    try{
+      const resp = await Users.getStudentsPoints()
+      res.status(200).send(resp)
+    } catch (err) {
+      res.status(500).json({"error": err.message})
+    }
+  }
+
   static async login(req, res) {
     try {
       const data = req.body;
       const user = await Users.getByUsername(data.username);
-      const authenticated = bcrypt.compare(data["password"], user["password"]);
+      const authenticated = await bcrypt.compare(data["password"], user["password"]);
       if (!authenticated) {
         throw new Error("Wrong username or password");
       } else {
