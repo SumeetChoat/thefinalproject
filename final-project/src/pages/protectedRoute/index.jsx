@@ -196,7 +196,7 @@ function ProtectedRoute() {
             <button className="bell-btn" onClick={() => handleModal()}>
               Bulletin
             </button>
-            {messages && messages.length > 0 && (
+            {notifications && notifications.length > 0 && (
               <div className="notification-reminder"></div>
             )}
           </li>
