@@ -63,9 +63,9 @@ function controller(io) {
         message.recipient
       );
 
-            // Need to send message back to sender and recipient.
-            io.to(socket.id).emit("message", msg); // back to sender
-            io.to(users[message.recipient]).emit("message", msg); // to recipient
+      // Need to send message back to sender and recipient.
+      io.to(socket.id).emit("message", msg); // back to sender
+      io.to(users[message.recipient]).emit("message", msg); // to recipient
 
       // Need to send recipient the notification
       io.to(users[message.recipient]).emit("notification", noti);
@@ -168,7 +168,6 @@ function controller(io) {
       console.log(`Socket disconnected`);
       console.log(users);
     });
-
   });
 }
 

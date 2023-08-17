@@ -2,7 +2,7 @@
 import { useRef, useEffect, useState } from "react";
 import "./styles.css";
 import { useAssignments, useAuth } from "../../contexts";
-import {socket} from '../../socket';
+import { socket } from "../../socket";
 
 function FinishAssignmentModal({
   showFinishAssignmentModal,
@@ -16,7 +16,7 @@ function FinishAssignmentModal({
   console.log(currentAssignment);
   const minutes = Math.floor((time % 360000) / 6000);
   const seconds = Math.floor((time % 6000) / 100);
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (showFinishAssignmentModal) {
@@ -30,7 +30,9 @@ function FinishAssignmentModal({
       setScore(
         Math.ceil(
           Math.max(
-            (((currentAssignment.range[1] - currentAssignment.range[0]) % 10) *
+            (Math.floor(
+              (currentAssignment.range[1] - currentAssignment.range[0]) / 10
+            ) *
               4) /
               15,
             1
@@ -49,8 +51,9 @@ function FinishAssignmentModal({
         Math.ceil(
           1.5 *
             Math.max(
-              (((currentAssignment.range[1] - currentAssignment.range[0]) %
-                10) *
+              (Math.floor(
+                (currentAssignment.range[1] - currentAssignment.range[0]) / 10
+              ) *
                 4) /
                 15,
               1
@@ -85,9 +88,13 @@ function FinishAssignmentModal({
       }
     );
     if (res.ok) {
-      socket.emit("complete_assignment", {"sender":user.username, "recipient":currentAssignment.teacher_user, "time":time});
+      socket.emit("complete_assignment", {
+        sender: user.username,
+        recipient: currentAssignment.teacher_user,
+        time: time,
+      });
       setShowFinishAssignmentModal(false);
-      setCurrentAssignment(null);    
+      setCurrentAssignment(null);
     } else {
       console.log("something went wrong");
     }
@@ -95,11 +102,11 @@ function FinishAssignmentModal({
   return (
     <dialog ref={dialogRef} className="finish-assignment-modal">
       <h1>Congratulations! You have finished this assignment!</h1>
-      <h1>
+      <h1 className="finish-assignment-time">
         Your time is: {minutes.toString().padStart(2, "0")}:
         {seconds.toString().padStart(2, "0")}
       </h1>
-      <h1>Your gain {score} points!</h1>
+      <h1 className="finish-assignment-score">Your gain {score} points!</h1>
       <button
         className="finish-assignment-modal-button"
         onClick={() => {

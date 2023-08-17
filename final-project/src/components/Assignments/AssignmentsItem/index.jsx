@@ -66,29 +66,6 @@ function AssignmentsItem({ assignment, trash, edit }) {
             {a.completed ? "Completed" : "Incompleted"}
           </span>
         </p>
-        {role == "teacher" ? (
-          <div className="assignment-btn">
-            <button className="edit-btn" onClick={() => editAssignment(a)}>
-              <div
-                className="btn-icon"
-                dangerouslySetInnerHTML={{ __html: edit }}
-              />
-            </button>
-            <button className="delete-btn" onClick={() => deleteAssignment(a)}>
-              <div
-                className="btn-icon"
-                dangerouslySetInnerHTML={{ __html: trash }}
-              />
-            </button>
-          </div>
-        ) : (
-          // <div className="assignment-btn">
-          //     <button className='start-btn'>
-          //         <div className="btn-icon" dangerouslySetInnerHTML={{ __html: start}}/>
-          //     </button>
-          // </div>
-          ""
-        )}
       </div>
     );
   }

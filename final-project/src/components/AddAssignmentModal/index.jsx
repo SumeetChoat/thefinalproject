@@ -138,9 +138,10 @@ function AddAssignmentModal({
           type="number"
           name="rounds"
           id="rounds"
-          onChange={(e) =>
-            setForm({ ...form, rounds: parseInt(e.target.value) })
-          }
+          min={1}
+          onChange={(e) => {
+            setForm({ ...form, rounds: parseInt(e.target.value) });
+          }}
         />
       </div>
       <div className="add-assignment-dialog-modal-input-group">
@@ -270,10 +271,13 @@ function AddAssignmentModal({
             if (
               Array.from(
                 dialogRef.current.querySelectorAll("input[type='checkbox']")
-              ).some((el) => el.checked)
+              ).some((el) => el.checked) &&
+              form.rounds > 0
             ) {
               const newAssignment = await handleAddAssignment(form);
               socket.emit("add_assignment", newAssignment);
+            } else if (form.rounds <= 0) {
+              alert("Rounds has to be greater than 0");
             } else {
               alert("Please check at least 1 checkbox.");
             }
