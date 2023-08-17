@@ -4,18 +4,25 @@ import { screen, render, cleanup, fireEvent, getByTestId, getAllByRole, getByRol
 import userEvent from "@testing-library/user-event";
 import matchers from "@testing-library/jest-dom/matchers";
 expect.extend(matchers);
-import protectedRoute from '.';
+import LoginForm from '.';
+import {BrowserRouter as Router} from 'react-router-dom';
+import {AuthProvider} from '../../contexts'
 
-describe("protectedRoute", () => {
+describe("Login Form", () => {
+    const mockLoginForm = { username: "", password: "" };
     beforeEach(async () => {
         render (
-              <protectedRoute />
+            <Router>
+                <AuthProvider>
+              <LoginForm loginForm={mockLoginForm} />
+              </AuthProvider>
+            </Router>
         )
     })
     afterEach(() => {
         cleanup()
     })
-    it("should load the protectedRoute", () => {
+    it("should load the Login Form", () => {
     })
 
   });

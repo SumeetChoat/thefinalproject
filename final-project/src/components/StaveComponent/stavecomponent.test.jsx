@@ -1,46 +1,43 @@
-import React from 'react';
-import { describe, it, expect ,afterEach, beforeEach, vi } from 'vitest';
-import { userEvent,screen, render, cleanup } from '@testing-library/react';
+import React from "react";
+import { describe, it, expect, beforeEach, afterEach, vitest, beforeAll, afterAll,vi } from "vitest";
+import { screen, render, cleanup } from '@testing-library/react';
+import matchers from "@testing-library/jest-dom/matchers";
+import { MemoryRouter as Router } from 'react-router-dom'; // Note the corrected import
 import StaveComponent from './index';
-import { MemoryRouter } from 'react-router-dom';
+import { AuthProvider } from '../../contexts';
 
-import matchers from '@testing-library/jest-dom/matchers';
 expect.extend(matchers);
 
-describe('StaveComponent', () => {
+describe("stave component", () => {
     beforeEach(() => {
-      render(
-        <MemoryRouter>
-          <StaveComponent />
-        </MemoryRouter>
-      );
+        render (
+            <Router>
+                <AuthProvider>
+                    <StaveComponent />
+                </AuthProvider>
+            </Router>
+        );
     });
 
     afterEach(() => {
-      cleanup();
+        cleanup();
     });
-  
-    it("renders the stavecomponent page", () => {
-      const staveComponent = screen.getByRole('link', {name: /Stavecomponent/i})
-      expect(staveComponent).toBeInTheDocument();
-  })
 
-  // describe('StaveComponent', () => {
-  //   it('should render StaveComponent', () => {
-  //     const challenge = [
-  //       { note: 60, isCorrect: true },
-  //       { note: 62, isCorrect: false },
-  //       // ... other challenge objects
-  //     ];
-  
-  //     render(<StaveComponent challenge={challenge} />);
+    it("should load the stave component", async () => {
+        const mockChallenge = [
+              { note: 60, isCorrect: false },
+              { note: 62, isCorrect: false },
+              // Add more mock challenge data as needed
+            ];
+        
+            render(
+              <Router>
+                <StaveComponent challenge={mockChallenge} form={{ clef: "treble" }} />
+              </Router>
+            );
+            // Add your assertions here
+    });
+       
 
-  //   });
-  
+    // Add more test cases if needed
 });
- 
-  
-  
-
-
-

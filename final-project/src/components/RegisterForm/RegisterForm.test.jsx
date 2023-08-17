@@ -4,18 +4,21 @@ import { screen, render, cleanup, fireEvent, getByTestId, getAllByRole, getByRol
 import userEvent from "@testing-library/user-event";
 import matchers from "@testing-library/jest-dom/matchers";
 expect.extend(matchers);
-import protectedRoute from '.';
+import RegisterForm from '.';
+import {BrowserRouter as Router} from 'react-router-dom';
 
-describe("protectedRoute", () => {
+describe("Register Form", () => {
     beforeEach(async () => {
         render (
-              <protectedRoute />
+            <Router>
+              <RegisterForm />
+            </Router>
         )
     })
     afterEach(() => {
         cleanup()
     })
-    it("should load the protectedRoute", () => {
+    it("should load the Register Form", () => {
     })
 
   });

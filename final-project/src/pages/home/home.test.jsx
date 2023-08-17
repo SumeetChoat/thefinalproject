@@ -4,18 +4,18 @@ import { screen, render, cleanup, fireEvent, getByTestId, getAllByRole, getByRol
 import userEvent from "@testing-library/user-event";
 import matchers from "@testing-library/jest-dom/matchers";
 expect.extend(matchers);
-import protectedRoute from '.';
+import home from '.';
 
-describe("protectedRoute", () => {
+describe("home", () => {
     beforeEach(async () => {
         render (
-              <protectedRoute />
+              <home />
         )
     })
     afterEach(() => {
         cleanup()
     })
-    it("should load the protectedRoute", () => {
+    it("should load the home", () => {
     })
 
-  });
+});

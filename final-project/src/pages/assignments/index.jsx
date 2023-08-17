@@ -100,7 +100,7 @@ function Assignments() {
           {user && user.role === "student" && "My"} Assignments
         </h1>
         {user && user.role === "teacher" && (
-          <button
+          <button data-testid = 'add-button'
             className="add-assignment-button"
             onClick={() => {
               setToggleChallengeConfigModal(true);
