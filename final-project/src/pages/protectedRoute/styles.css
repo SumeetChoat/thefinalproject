@@ -20,7 +20,8 @@
   list-style: none;
   gap: 3vw;
 }
-.app-nav a {
+.app-nav .nav-link a,
+.app-nav .bell-btn {
   text-decoration: none;
   color: black;
   font-size: 1.2rem;
@@ -28,7 +29,8 @@
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: 700;
 }
-.app-nav li > a::after {
+.app-nav .nav-link > a::after,
+.bell-btn::after {
   content: "";
   display: block;
   margin: auto;
@@ -39,8 +41,15 @@
   transition: all 0.3s;
 }
 
-.app-nav li > a:hover::after,
-.app-nav li > a.active-nav::after {
+.app-nav .nav-link > a:hover::after,
+.app-nav .nav-link > a.active-nav::after,
+.bell-btn:hover::after {
   width: 100%;
   background: var(--secondary-red);
+}
+
+.bell-btn{
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
 }
