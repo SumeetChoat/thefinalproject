@@ -1,6 +1,6 @@
 .notification-modal {
   border-radius: 10px;
-
+  min-width: 15rem;
   justify-items: center;
   padding: 20px 0;
   justify-content: space-around;
@@ -63,6 +63,7 @@
   font-size: 0.5rem;
   background-color: white;
 }
+
 .delete-btn {
   text-decoration: underline;
   font-size: 1rem;
