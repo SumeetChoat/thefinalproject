@@ -64,17 +64,23 @@ function FinishAssignmentModal({
     }
   }, [noteCount, time]);
   async function handleCompleteAssignment() {
-    const res = await fetch("http://localhost:3000/teachers/assignment", {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        ...currentAssignment,
-        completed: true,
-        score,
-      }),
-    });
+    const res = await fetch(
+      "http://localhost:3000/students/assignment/complete",
+      {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+          token: localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          ...currentAssignment,
+          completed: true,
+          score,
+          time_taken: time,
+          date_completed: new Date(),
+        }),
+      }
+    );
     if (res.ok) {
       setShowFinishAssignmentModal(false);
       setCurrentAssignment(null);

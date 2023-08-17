@@ -46,13 +46,7 @@
   padding: 5px;
 }
 
-.notification-item button,
-.delete-all-btn {
-  /* float: right; */
-}
-
-.notification-modal .delete-btn,
-.notification-modal .close-modal-btn {
+.notification-modal .notification-modal .close-modal-btn {
   background-color: transparent;
   border: none;
   font-size: 20px;
@@ -66,7 +60,12 @@
   justify-content: flex-end;
   align-items: center;
   padding: 0.5rem;
+  font-size: 0.5rem;
+  background-color: white;
 }
 .delete-btn {
   text-decoration: underline;
+  font-size: 1rem;
+  background-color: white;
+  border: none;
 }
