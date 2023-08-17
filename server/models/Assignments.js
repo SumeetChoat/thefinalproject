@@ -1,4 +1,5 @@
 const db = require("../database/connect");
+const Students = require("./Students");
 
 class Assignments {
   constructor({
@@ -157,12 +158,13 @@ class Assignments {
       `UPDATE assignments
         SET completed=$1,score=$2,time_taken=$3,date_completed=$4
         WHERE assignment_id = $5
-        RETURNING assignment_id`,
+        RETURNING assignment_id, student_user`,
       [true, score, time_taken, date_completed, assignment_id]
     );
     const updatedAssignment = await Assignments.getOneByID(
       resp.rows[0].assignment_id
     );
+    const updatedStudent = await Students.updatePoints(score,resp.rows[0].student_user)
     return updatedAssignment;
   }
 
