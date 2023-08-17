@@ -152,6 +152,12 @@ function controller(io) {
       io.to(users[obj.student_user]).emit("add_assignment", obj);
     });
 
+    socket.on("complete_assignment", async (data) => {
+        // Needs to contain sender(student name), recipient(teacher name), time
+        const noti = await Notifications.create_assignment_completed(data.recipient, data.sender, data.time/100);
+        io.to(users[data.recipient]).emit("completed_assignment", msg);
+    })
+
     socket.on("delete_noti", async (username) => {
       await Notifications.delete(username);
       io.to(users[username]).emit("delete_noti", username);
@@ -162,6 +168,7 @@ function controller(io) {
       console.log(`Socket disconnected`);
       console.log(users);
     });
+
   });
 }
 

@@ -32,7 +32,6 @@ function Notifications({ handleClose }) {
       </div>
       {user && notifications && notifications.length > 0 ? (
         <div className="delete-all-btn">
-          {/* <span>Clear</span> */}
           <button className="delete-btn" onClick={() => deleteAll()}>
             Clear
           </button>

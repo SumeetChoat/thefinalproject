@@ -35,6 +35,17 @@ class Students {
         }
     }
 
+    static async updatePoints(points,username) {
+        const currentPoints = await db.query('SELECT points FROM students WHERE username = $1',[username])
+        const newPoints = currentPoints.rows[0].points + points
+        const response = await db.query('UPDATE students SET points = $1 WHERE username =$2 RETURNING username',[newPoints,username])
+        if (response.rows.length !== 0){
+            return Students.getOneByUsername(response.rows[0].username)
+        } else {
+            throw new Error('Student could not be updated.')
+        }
+    }
+
     async deleteStudent() {
         await db.query("DELETE FROM student_teacher WHERE student_user = $1",[this.username])
         await db.query("DELETE FROM tokens WHERE username = $1",[this.username])
