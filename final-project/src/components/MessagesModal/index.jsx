@@ -41,6 +41,7 @@ function MessagesModal({ handleClose, decline, envelope, sendButton }) {
       type: "msg",
       content: content,
     });
+    setContent("");
   }
 
   return (
@@ -61,7 +62,9 @@ function MessagesModal({ handleClose, decline, envelope, sendButton }) {
           <ul className="chat-history">
             {friendsMessages && user && friendsMessages.length > 0 ? (
               friendsMessages.map((msg, i) => {
+                console.log(msg);
                 if (msg) {
+                  console.log(msg);
                   return (
                     <div className="message-container" key={i}>
                       {i === 0 ||
