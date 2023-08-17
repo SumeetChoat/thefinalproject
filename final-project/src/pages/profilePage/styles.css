@@ -21,6 +21,7 @@
 .message-container,
 .leaderboard-list {
   list-style-type: none;
+  cursor: default;
 }
 .friends-item,
 .assignments-item,
@@ -145,6 +146,7 @@
   background-color: transparent;
   border: none;
   font-size: 20px;
+  cursor: pointer;
 }
 
 .add-btn,
@@ -230,6 +232,7 @@
   width: 300px;
   border-radius: 1rem;
   overflow: hidden;
+  max-height: 100%;
 }
 .friend-recipient-username {
   font-size: 1.2rem;
@@ -268,6 +271,8 @@
 .chat-container {
   background-color: white;
   padding: 1rem 0.5rem;
+  overflow: scroll;
+  height: 300px;
 }
 .time-sent {
   font-size: 0.8rem;
@@ -285,7 +290,6 @@
   background-color: var(--primary-purple);
 }
 .msg-content {
-  /* min-width: fit-content; */
   padding: 0.5rem 0.5rem;
   color: white;
   border-radius: 0.5rem;
@@ -371,6 +375,7 @@
   display: flex;
   width: 90%;
   gap: 1rem;
+  cursor: default;
 }
 .message-input {
   flex: 1;
