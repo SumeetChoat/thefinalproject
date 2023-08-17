@@ -29,7 +29,7 @@ function AssignmentsList({ start, edit, trash }) {
               })}
           </>
         ) : (
-          <p>No completed assignments</p>
+          ""
         )}
       </div>
 
@@ -53,7 +53,7 @@ function AssignmentsList({ start, edit, trash }) {
               })}
           </>
         ) : (
-          <p>No incomplete assignments</p>
+          ""
         )}
       </div>
     </div>

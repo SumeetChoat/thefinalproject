@@ -63,9 +63,9 @@ function controller(io) {
         message.recipient
       );
 
-            // Need to send message back to sender and recipient.
-            io.to(socket.id).emit("message", msg); // back to sender
-            io.to(users[message.recipient]).emit("message", msg); // to recipient
+      // Need to send message back to sender and recipient.
+      io.to(socket.id).emit("message", msg); // back to sender
+      io.to(users[message.recipient]).emit("message", msg); // to recipient
 
       // Need to send recipient the notification
       io.to(users[message.recipient]).emit("notification", noti);
@@ -153,10 +153,14 @@ function controller(io) {
     });
 
     socket.on("complete_assignment", async (data) => {
-        // Needs to contain sender(student name), recipient(teacher name), time
-        const noti = await Notifications.create_assignment_completed(data.recipient, data.sender, data.time/100);
-        io.to(users[data.recipient]).emit("completed_assignment", msg);
-    })
+      // Needs to contain sender(student name), recipient(teacher name), time
+      const noti = await Notifications.create_assignment_completed(
+        data.recipient,
+        data.sender,
+        data.time / 100
+      );
+      io.to(users[data.recipient]).emit("completed_assignment", noti);
+    });
 
     socket.on("delete_noti", async (username) => {
       await Notifications.delete(username);
@@ -168,7 +172,6 @@ function controller(io) {
       console.log(`Socket disconnected`);
       console.log(users);
     });
-
   });
 }
 

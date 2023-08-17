@@ -1,7 +1,7 @@
 .profile-container {
   display: grid;
   padding: 10px;
-  grid-template-columns: 2fr 4fr 2fr;
+  grid-template-columns: 2.5fr 4fr 2.5fr;
   justify-content: space-evenly;
 }
 
@@ -27,10 +27,12 @@
 .assignments-item,
 .friend-requests-item,
 .lb-item {
-  padding: 5px;
+  padding: 0.5rem;
   display: flex;
   width: 90%;
   justify-content: center;
+  background-color: rgb(254, 254, 254);
+  border-radius: 0.7rem;
 }
 .friend-username {
   flex: 1;
@@ -126,7 +128,7 @@
 .friends-item,
 .friend-requests-item,
 .lb-item {
-  width: 100%;
+  width: 95%;
   align-items: center;
   margin: 0.5rem 0;
 }
@@ -311,7 +313,7 @@
 }
 
 .lb-item {
-  border-radius: 10px;
+  border-radius: 0.8rem;
 }
 
 .lb-other {
@@ -359,6 +361,7 @@
   flex: 1;
   text-align: left;
 }
+
 .friend-request-pending-status {
   font-size: 0.8rem;
   color: grey;
