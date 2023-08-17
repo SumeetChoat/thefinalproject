@@ -12,7 +12,7 @@
   position: absolute;
   top: 10%;
   right: 2%;
-  background-color: rgb(149, 119, 215);
+  background-color: rgb(255, 255, 255);
   font-size: 20px;
   z-index: 99;
   max-height: 200px;
@@ -23,7 +23,9 @@
 .notification-modal .close-modal-btn {
   float: right;
 }
-
+.notification-msg {
+  font-size: 1rem;
+}
 .notification-header {
   font-size: 20px;
   font-weight: bold;
@@ -33,7 +35,6 @@
 .notification-list {
   list-style-type: none;
   width: fit-content;
-  display: grid;
 }
 
 .notification-item {
@@ -45,8 +46,9 @@
   padding: 5px;
 }
 
-.notification-item button, .delete-all-btn{
-  float: right;
+.notification-item button,
+.delete-all-btn {
+  /* float: right; */
 }
 
 .notification-modal .delete-btn,
@@ -63,4 +65,8 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  padding: 0.5rem;
+}
+.delete-btn {
+  text-decoration: underline;
 }
