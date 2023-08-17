@@ -45,7 +45,7 @@
   padding: 5px;
 }
 
-.notification-item button {
+.notification-item button, .delete-all-btn{
   float: right;
 }
 
@@ -57,4 +57,10 @@
 }
 .notification-modal .delete-btn:hover .svg-icon path {
   fill: white;
+}
+
+.delete-all-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

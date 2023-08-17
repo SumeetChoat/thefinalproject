@@ -7,9 +7,9 @@ function Notification({n, trash}) {
     return (
         <li className="notification-item">
             <span className="notification-msg">{n.message}</span>
-            <button className="delete-btn" onClick={()=>deleteNotification(n)}>
+            {/* <button className="delete-btn" onClick={()=>deleteNotification(n)}>
                 <div className="btn-icon" dangerouslySetInnerHTML={{ __html: trash}}/>
-            </button>
+            </button> */}
         </li>
     )
 }
