@@ -7,7 +7,7 @@ const api = express();
 const server = http.createServer(api)
 const io = new Server(server, {
     cors:{
-        origin:"https://sightreader.onrender.com/" //change to whatever the url is for frontend
+        origin:"https://sightreader.onrender.com" //change to whatever the url is for frontend
     }
 })
 
