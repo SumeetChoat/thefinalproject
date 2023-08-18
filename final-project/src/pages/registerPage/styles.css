@@ -1,0 +1,66 @@
+.register-inner-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 70%;
+  height: 80vh;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 4rem;
+  gap: 5rem;
+}
+.register-img-section {
+  border-radius: 5rem;
+  overflow: hidden;
+}
+.register-img-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.register-container h1 {
+  color: #000000;
+  font-size: 2em;
+  margin: 3rem;
+  text-align: center;
+}
+
+.register-text-input {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  /* margin: 1rem; */
+}
+.register-input-group input[type="radio"] {
+  margin: 0 5px;
+}
+.register-submit {
+  padding: 1rem;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  display: block;
+  margin: 1rem auto;
+  border: none;
+  background-color: var(--secondary-red);
+  color: white;
+  cursor: pointer;
+}
+
+.login-register-switch {
+  text-align: center;
+  margin: 2rem;
+}
+
+.register-input-group {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.register-logo {
+  width: 100px;
+  margin: 0 auto;
+  display: block;
+}

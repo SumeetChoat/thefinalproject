@@ -1,0 +1,187 @@
+.challenge-wrapper {
+  height: 80%;
+  background-color: rgba(255, 255, 255, 0.126);
+  border-radius: 100px;
+  margin: 3rem;
+  margin-top: 0;
+  overflow: hidden;
+  position: relative;
+}
+.content-background {
+  z-index: -11;
+  position: absolute;
+  opacity: 0.6;
+  height: 100%;
+  width: 100%;
+}
+.challenge-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 80%;
+  gap: 30px;
+  place-items: center;
+}
+.challenge-left-section {
+  margin: 5rem auto;
+}
+.challenge-title {
+  text-align: center;
+  margin: 2rem;
+  font-size: 2.5rem;
+  color: white;
+}
+.challenge-config-button {
+  background-color: transparent;
+  border: none;
+  transition: all 1s;
+}
+.challenge-config-button:hover {
+  transform: rotate(0.5turn);
+}
+.challenge-config-section {
+  display: flex;
+  align-items: center;
+}
+
+.challenge-right-section {
+  color: black;
+
+  align-items: center;
+  text-align: center;
+  align-self: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "assignment-details assignment-details"
+    "mic-toggle challenge-config"
+    "next-challenge-button next-challenge-button";
+}
+
+.challenge-timer {
+  font-size: 4rem;
+  padding: 1rem;
+}
+.challenge-button {
+  padding: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+  width: 100%;
+}
+.mic-setting-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 10px;
+  grid-area: mic-toggle;
+  margin: 0 auto;
+  padding: 1.8rem 3.6rem;
+  background-color: rgba(255, 255, 255, 0.211);
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgb(146, 125, 160);
+  width: 50%;
+  transition: all 0.3s;
+}
+.mic-setting-section:hover {
+  background-color: rgba(128, 128, 128, 0.381);
+  cursor: pointer;
+}
+.mic-setting-section-text-label {
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #5d41de;
+  letter-spacing: 1px;
+}
+.next-challenge-button {
+  grid-area: next-challenge-button;
+  width: 95%;
+  margin: 0 auto;
+  align-self: center;
+  height: 80px;
+  border: none;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  color: #5d41de;
+  background-color: rgba(255, 255, 255, 0.211);
+  transition: all 0.3s;
+  box-shadow: 0 10px 20px rgb(146, 125, 160);
+}
+.next-challenge-button:hover {
+  background-color: rgba(128, 128, 128, 0.381);
+}
+.challenge-instruction {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  text-align: left;
+  font-size: 1.2rem;
+  margin: 0 auto;
+  color: whitesmoke;
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgb(146, 125, 160);
+}
+.challenge-instruction {
+  background-color: rgba(255, 255, 255, 0.211);
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 20px;
+  width: 80%;
+}
+.challenge-instruction h1 {
+  padding-top: 2rem;
+}
+.challenge-instruction p {
+  padding: 1rem;
+}
+.challenge-instruction p:not(:last-child) {
+  border-bottom: 2px solid white;
+}
+.challenge-config-modal-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 6px 12px;
+  gap: 15px;
+  height: 80px;
+  width: 90%;
+  border: none;
+  background: #ffffff33;
+  border-radius: 20px;
+  cursor: pointer;
+  grid-area: challenge-config;
+  transition: all 0.3s;
+  box-shadow: 0 10px 20px rgb(146, 125, 160);
+}
+
+.challenge-config-modal-label {
+  line-height: 20px;
+  font-size: 1.3rem;
+  color: #5d41de;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+}
+.challenge-config-modal-button-svg-icon {
+  scale: 2;
+}
+.challenge-config-modal-button:hover {
+  background: #adacad4d;
+}
+
+.challenge-config-modal-button:hover .challenge-config-modal-button-svg-icon {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

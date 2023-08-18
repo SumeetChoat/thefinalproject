@@ -1,0 +1,34 @@
+.assignment-ready-modal {
+  padding: 2rem 4rem;
+  border-radius: 5rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+}
+
+.assignment-ready-modal-title {
+  margin: 1rem 0;
+}
+.assignment-ready-modal-button {
+  padding: 1rem;
+}
+.assignment-ready-pattern-img {
+  width: 150px;
+}
+td {
+  margin: 2rem 0;
+  padding: 2rem 0;
+  font-size: 1.2rem;
+}
+.assignment-ready-pattern-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.assignment-ready-modal-button-section {
+  text-align: center;
+}
+.assignment-ready-modal-button-section button {
+  margin: 0 1rem;
+  cursor: pointer;
+}

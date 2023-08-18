@@ -1,0 +1,26 @@
+{
+  "scripts": {
+    "setup-db": "node ./database/setup.js",
+    "setup-test-db": "node ./database/testDB_setup.sql",
+    "dev": "nodemon -L index.js",
+    "test": "jest --watchAll --detectOpenHandles",
+    "coverage": "jest --coverage",
+    "ind_test": "jest __tests__/integration --watchAll --detectOpenHandles"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jest": "^29.6.2",
+    "nodemon": "^3.0.1",
+    "pg": "^8.11.2",
+    "socket.io": "^4.7.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.6.2",
+    "socket.io-client": "^4.7.2",
+    "supertest": "^6.3.3"
+  }
+}

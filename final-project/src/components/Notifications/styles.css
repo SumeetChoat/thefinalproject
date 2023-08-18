@@ -1,0 +1,72 @@
+.notification-modal {
+  border-radius: 10px;
+  min-width: 15rem;
+  justify-items: center;
+  padding: 20px 0;
+  justify-content: space-around;
+  color: black;
+  border-radius: 25px;
+  box-shadow: 0 8px 20px rgb(210, 210, 210);
+
+  padding: 30px;
+  position: absolute;
+  top: 10%;
+  right: 2%;
+  background-color: rgb(255, 255, 255);
+  font-size: 20px;
+  z-index: 99;
+  max-height: 200px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+.notification-modal .close-modal-btn {
+  float: right;
+}
+.notification-msg {
+  font-size: 1rem;
+}
+.notification-header {
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.notification-list {
+  list-style-type: none;
+  width: fit-content;
+}
+
+.notification-item {
+  padding: 5px;
+  justify-content: space-between;
+}
+
+.notification-item span {
+  padding: 5px;
+}
+
+.notification-modal .notification-modal .close-modal-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+}
+.notification-modal .delete-btn:hover .svg-icon path {
+  fill: pink;
+}
+
+.delete-all-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.5rem;
+  font-size: 0.5rem;
+  background-color: white;
+}
+
+.delete-btn {
+  text-decoration: underline;
+  font-size: 1rem;
+  background-color: white;
+  border: none;
+}

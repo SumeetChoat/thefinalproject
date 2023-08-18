@@ -1,0 +1,59 @@
+.add-assignment-dialog {
+  border-radius: 3rem;
+  padding: 2rem 3rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.add-assignment-dialog-modal-input-group {
+  margin: 1.2rem 0;
+}
+.add-assignment-dialog-modal-input-group label {
+  font-size: 1.2rem;
+}
+.add-assignment-dialog input[type="text"],
+.add-assignment-dialog input[type="number"] {
+  padding: 5px;
+  font-size: 1.2rem;
+  margin: 0 1rem;
+  border-radius: 10px;
+  border: 1px solid grey;
+  padding: 10px;
+}
+
+.add-assignment-dialog select {
+  padding: 5px;
+  font-size: 1.2rem;
+  margin: 0 5px;
+}
+
+.add-assignment-dialog input[type="radio"] {
+  margin: 0 5px 0 20px;
+}
+.add-assignment-dialog input[type="checkbox"] {
+  margin: 0 10px;
+}
+.add-assignment-dialog-modal-button-section {
+  width: 100%;
+  text-align: center;
+}
+.add-assignment-dialog-modal-button {
+  padding: 1rem;
+  text-align: center;
+  margin: 0 1rem;
+  cursor: pointer;
+}
+.cancel-button {
+  background-color: transparent;
+  border: 2px solid var(--primary-purple);
+  border-radius: 1rem;
+  color: var(--primary-purple);
+  font-size: 1.2rem;
+}
+.save-button {
+  font-size: 1.2rem;
+  background-color: var(--secondary-red);
+  border: none;
+  border-radius: 1rem;
+  color: white;
+}
