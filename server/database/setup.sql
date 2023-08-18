@@ -10,13 +10,13 @@ CREATE TABLE users (
     title VARCHAR
 );
 INSERT INTO users (username, password, email, first_name, last_name, role) VALUES
-('teacher1','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonychan1211@gmail.com', 'teacher1', 'chan', 'teacher'),
-('teacher2','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'teacher2', 'chan', 'teacher'),
-('student1','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'student1', 'chan', 'student'),
-('student2','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'student2', 'chan', 'student'),
+
 ('anthony_chan','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'anthony', 'chan', 'teacher'),
 ('sumeet_choat','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'sumeet', 'choat', 'student'),
-('oliver_thomas','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'oliver', 'thomas', 'student');
+('oliver_thomas','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'oliver', 'thomas', 'student'),
+('zeinab_roumieh','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'zeinab', 'roumieh', 'student'),
+('santhi_addanki','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'santhi', 'addanki', 'student'),
+('matilda_smith','$2b$10$tAjZ69EPEjR0jiQq3885OehITkaILgNK4pJK/RkL6L4MRDPeQN4.i', 'anthonytestcode@yahoo.com', 'matilda', 'smith', 'student');
 
 CREATE TABLE students (
     username VARCHAR REFERENCES users(username) PRIMARY KEY,
@@ -24,8 +24,11 @@ CREATE TABLE students (
 );
 
 INSERT INTO students(username, points) VALUES
-('student1', 0),
-('student2', 0);
+('sumeet_choat', 0),
+('oliver_thomas', 0),
+('santhi_addanki', 0),
+('zeinab_roumieh', 0),
+('matilda_smith', 0);
 
 CREATE TABLE teachers (
     username VARCHAR REFERENCES users(username) PRIMARY KEY,
@@ -33,8 +36,8 @@ CREATE TABLE teachers (
 );
 
 INSERT INTO teachers (username, title)VALUES
-('teacher1', 'Ms.'),
-('teacher2', 'Mr.');
+('anthony_chan', 'Mr.');
+
 
 CREATE TABLE student_teacher (
     student_user VARCHAR REFERENCES students(username),
@@ -42,8 +45,12 @@ CREATE TABLE student_teacher (
 );
 
 INSERT INTO student_teacher(student_user, teacher_user) VALUES
-('student1', 'teacher1'),
-('student2', 'teacher2');
+('sumeet_choat', 'anthony_chan'),
+('oliver_thomas', 'anthony_chan'),
+('zeinab_roumieh', 'anthony_chan'),
+('santhi_addanki', 'anthony_chan'),
+('matilda_smith', 'anthony_chan');
+
 
 CREATE TABLE assignments (
     assignment_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -64,8 +71,8 @@ CREATE TABLE assignments (
 );
 
 INSERT INTO assignments (student_user, teacher_user, range, is_random,pattern, completed, score, clef, key, rounds) VALUES
-('student1', 'teacher1', ARRAY[48, 60], false, ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10),
-('student2', 'teacher2', ARRAY[60, 72], false, ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'treble', 'C', 10);
+('matilda_smith', 'anthony_chan', ARRAY[48, 60], false, ARRAY['l2p1', 'l2p2','l2p3'], false, 0, 'bass', 'C', 2);
+
 
 CREATE TABLE tokens (
     token_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -79,6 +86,12 @@ CREATE TABLE friends (
     user2 VARCHAR REFERENCES users(username) NOT NULL
 );
 
+INSERT INTO friends (user1, user2) VALUES 
+('matilda_smith', 'anthony_chan'),
+('matilda_smith', 'sumeet_choat'),
+('matilda_smith', 'oliver_thomas'),
+('matilda_smith', 'zeinab_roumieh'),
+('matilda_smith', 'santhi_addanki');
 CREATE TABLE friend_requests (
     request_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     sender VARCHAR REFERENCES users(username) NOT NULL,
