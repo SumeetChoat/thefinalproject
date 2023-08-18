@@ -14,7 +14,7 @@ function LeaderBoard(){
                 "Content-Type": "application/json",
             }
         }
-        const resp = await fetch('http://localhost:3000/users/points',options)
+        const resp = await fetch('https://sightreader.onrender.com/users/points',options)
         const data = await resp.json()
         if (resp.ok) {
             console.log(data)

@@ -41,7 +41,7 @@ function ProtectedRoute() {
         token: token || localStorage.getItem("token"),
       },
     };
-    const resp = await fetch("http://localhost:3000/users/logout", options);
+    const resp = await fetch("https://sightreader.onrender.com/users/logout", options);
     const data = await resp.json();
     if (resp.ok) {
       localStorage.removeItem("token");
@@ -74,7 +74,7 @@ function ProtectedRoute() {
     async function getUserDataWithToken() {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:3000/users/getUserByToken", {
+      const res = await fetch("https://sightreader.onrender.com/users/getUserByToken", {
         method: "POST",
         headers: {
           "content-type": "application/json",
