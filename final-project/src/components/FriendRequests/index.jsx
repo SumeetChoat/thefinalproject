@@ -25,7 +25,7 @@ function FriendRequests({ accept, decline, pending, add }) {
       },
     };
     const resp = await fetch(
-      `https://sightreader.onrender.com/users/${searchText}`,
+      `https://sight-reader-api.onrender.com/users/${searchText}`,
       options
     );
     const data = await resp.json();

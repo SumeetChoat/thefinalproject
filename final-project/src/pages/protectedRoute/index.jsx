@@ -74,7 +74,7 @@ function ProtectedRoute() {
     async function getUserDataWithToken() {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("https://sightreader.onrender.com/users/getUserByToken", {
+      const res = await fetch("https://sight-reader-api.onrender.com/users/getUserByToken", {
         method: "POST",
         headers: {
           "content-type": "application/json",

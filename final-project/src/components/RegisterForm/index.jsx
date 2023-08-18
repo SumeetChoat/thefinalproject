@@ -24,7 +24,7 @@ export default function RegisterForm({
       newUser.email.length > 0 &&
       newUser.password.length > 0
     ) {
-      fetch("http://localhost:3000/users/register", {
+      fetch("https://sight-reader-api.onrender.com/users/register", {
         method: "POST",
         body: JSON.stringify({
           first_name: newUser.firstName,

@@ -57,7 +57,7 @@ function Assignments() {
     let range = [];
     range[0] = noteStrings.indexOf(form.lowNote) + (form.lowOctave + 1) * 12;
     range[1] = noteStrings.indexOf(form.highNote) + (form.highOctave + 1) * 12;
-    const res = await fetch("https://sightreader.onrender.com/teachers/assignment", {
+    const res = await fetch("https://sight-reader-api.onrender.com/teachers/assignment", {
       method: "POST",
       headers: {
         "content-type": "application/json",
