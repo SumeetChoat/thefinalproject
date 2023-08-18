@@ -16,7 +16,7 @@ export default function LoginForm({
     localStorage.clear(); //?
 
     if (loginForm.username.length > 0 && loginForm.password.length > 0) {
-      fetch("https://sightreader.onrender.com/users/login", {
+      fetch("https://sight-reader-api.onrender.com/users/login", {
         method: "POST",
         body: JSON.stringify({
           username: loginForm.username,

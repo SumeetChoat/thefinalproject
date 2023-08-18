@@ -53,7 +53,7 @@ function Friends({
   //           token: token
   //         },
   //       }
-  //     const resp = await fetch(`https://sightreader.onrender.com/users/${searchText}`,options)
+  //     const resp = await fetch(`https://sight-reader-api.onrender.com/users/${searchText}`,options)
   //     const data = await resp.json()
   //     if (resp.ok && (!friendUsernames.find((f) => f.username == searchText)) && searchText!==user.username && searchText.length>0) {
   //         console.log(data)

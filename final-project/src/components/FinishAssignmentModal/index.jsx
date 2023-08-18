@@ -71,7 +71,7 @@ function FinishAssignmentModal({
   }, [noteCount, time]);
   async function handleCompleteAssignment() {
     const res = await fetch(
-      "https://sightreader.onrender.com/students/assignment/complete",
+      "https://sight-reader-api.onrender.com/students/assignment/complete",
       {
         method: "PATCH",
         headers: {

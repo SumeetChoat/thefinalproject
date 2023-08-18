@@ -41,7 +41,7 @@ function ProtectedRoute() {
         token: token || localStorage.getItem("token"),
       },
     };
-    const resp = await fetch("https://sightreader.onrender.com/users/logout", options);
+    const resp = await fetch("https://sight-reader-api.onrender.com/users/logout", options);
     const data = await resp.json();
     if (resp.ok) {
       localStorage.removeItem("token");
