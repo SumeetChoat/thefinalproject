@@ -15,7 +15,7 @@ function MessagesModal({ handleClose, decline, envelope, sendButton }) {
 
   function filterMessages() {
     setFriendsMessages(
-      messages.map((m) => {
+      messages.filter((m) => {
         if (
           (m.sender == user.username &&
             m.recipient == friendRecipient.username) ||
